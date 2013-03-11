@@ -4,7 +4,7 @@ title: "Things I Wish Someone Had Told Me About Go"
 ---
 
 <h3>&quot;Pointers&quot;</h3>
-<p>Somehow I got it in my mind that Go had first-class support for pointers. Certainly, if you're coming from a language like Java or Ruby, pointers in Go have greater visibility. But, without pointer arithmetics or, despite many claims, pass-by-reference, Go's "pointers" feels like a more flexible form of Java/Ruby/Python/Node/....</p>
+<p>Somehow I got it in my mind that Go had first-class support for pointers. Certainly, if you're coming from a language like Java or Ruby, pointers in Go have greater visibility. But, without pointer arithmetics or, despite many claims, pass-by-reference, Go's "pointers" feel like a more flexible form of Java/Ruby/Python/Node/....</p>
 
 <p>Consider the following code which prints "Leto" twice:</p>
 
@@ -57,7 +57,7 @@ func Modify(u User) {
   ...
 }</pre>
 
-<p>Why is <code>req</code> passed as a reference, but <code>res</code> passed as a value? Why, I wondered, are they making me pay the performance penalty of passing a copy of an object?! That's not what's happening though. <code>http.ResponseWriter</code> is an interface and either a value-type or a reference type can satisfy an interface. So, technically, you don't know whether the value being passed is a copy of a pointer or a copy of a value, but it's probably the former.</p>
+<p>Why is <code>req</code> passed as a reference, but <code>res</code> passed as a value? Why, I wondered, are they making me pay the performance penalty of passing a copy of an object?! That's not what's happening though. <code>http.ResponseWriter</code> is an interface and either a value-type or a reference-type can satisfy an interface. So, technically, you don't know whether the value being passed is a copy of a pointer or a copy of a value, but it's probably the former.</p>
 
 <p>Given an interface:</p>
 
@@ -95,8 +95,8 @@ func Store(item CacheItem) {
 <p>So, as far as I know, you'll never see a pointer to an interface (i.e. <code>item *CacheItem</code>). I used to think the common Java pattern of a postfixing <code>Impl</code> or C#'s prefixing <code>I</code> was silly...now I'm not so sure.</p>
 
 <h3>Implicit Interfaces Lead To Good Design</h3>
-<p>Interface's in Go are implicitly bound. The above <code>User</code> type had only to implement the <code>GetId() string</code> function in order to implement <code>CacheItem</code>. It's a cool feature and it's not nearly as superficial as I first thought.</p>
+<p>Interface's in Go are implicitly bound. The above <code>User</code> only had to implement the <code>GetId() string</code> function in order to implement <code>CacheItem</code>. It's a cool feature. And it isn't as superficial as you (or I) might think.</p>
 
-<p>Instead of having huge interfaces like in Java, Go's interfaces tend to promote small and cohesive behavior. It's quite common to see interfaces with a single method. This is quite handy when dealing with Go library interfaces. Want to write to your own type from any <code>io.Reader</code>? Simply implement the <code>Write(p []byte) (n int, err error)</code> function and you can use <code>io.Copy</code>.</p>
+<p>Go's interfaces tend to promote small and cohesive behavior. It's quite common to see interfaces with a single method. This is quite handy when dealing with Go library interfaces. Want to write to your own type from any <code>io.Reader</code>? Simply implement the <code>Write(p []byte) (n int, err error)</code> function and you can use <code>io.Copy</code>.</p>
 
 <p>You should use this techniques for your own types and functions. Passing a focused interface to a function helps ensure that you aren't doing too much. It's one of the best tools I've seen that reduces the amount of refactoring you have to do after the fact.</p>
