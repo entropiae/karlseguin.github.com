@@ -40,6 +40,21 @@ func Modify(u User) {
   u.Name = "Duncan"
 }</pre>
 
+<p><strong>update</strong></p>
+<p>As has been pointed out, the above is possible in Go by doing:</p>
+<pre data-language=go>func main() {
+  u := &User{Name: "Leto"}
+  fmt.Println(u.Name)
+  Modify(&u)
+  fmt.Println(u.Name)
+}
+
+func Modify(u **User) {
+ *u = &User{Name: "Bob"}
+}</pre>
+
+<p>This is still not pass-by-reference. But, since you are able to dereference, you can achieve the same thing.</p>
+
 <h3>The GoWay or The Highway</h3>
 <p>I imagine a lot of newcomers are going to try to bend Go into their own vision of a properly organized system. The sooner you forget virtualenv, node_package or rubies, the quicker you can be productive. Set your $GOROOT and $GOPATH and create the <a href=http://golang.org/doc/code.html>recommended src/pkg/bin folders</a> under $GOPATH. Feels weird? Use symlinks to make it all transparent with how you probably organize the rest of your code.</p>
 
