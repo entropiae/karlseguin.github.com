@@ -23,7 +23,7 @@ func Modify(u *User) {
   u = &User{Name: "Paul"}
 }</pre>
 
-<p>(Since everyone has missed the point here, let me clarify. I'm saying that in a language that does pass by reference, the above *would* print Paul. I realize this isn't the norm, but it also isn't uncommong (C#). I had been under the impression that Go had taken this uncommon approach.)</p>
+<p>(Since everyone has missed the point here, let me clarify. I'm saying that in a language that does pass by reference, the above *would* print Paul. I realize this isn't the norm, but it also isn't uncommon (C#). I had been under the impression that Go had taken this uncommon approach.)</p>
 
 <p>This is what wikipedia calls <em>call by sharing</em>. The main difference I can see that Go offers is the ability to <em>Call by Value</em>, which can be used to ensure immutability. This slightly modified example (note that we're now passing a copy of the value, rather than a copy of the pointer) will also print "Leto" twice:</p>
 
