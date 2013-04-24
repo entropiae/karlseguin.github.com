@@ -8,6 +8,6 @@ First, we ask how you'd find whether a number was in an array? Most people's fir
 
 Then we ask for another option. Again, most people will answer that you could sort and do a binary search. (some will suggest putting it into a hashtable, which is fine, but we'll get them to give us the sort+binary search answer anyways).
 
-Next comes the big question: *What factors influence which approach, between a linear scan and a sort+binary search, you should pick?*
+Next comes the big question: *What factors influence which approach, between a linear scan and a sort+binary search, you should pick for an unsorted array?*
 
 Can you guess what most people answer? What's the correct answer (there's more than 1 factor)?
