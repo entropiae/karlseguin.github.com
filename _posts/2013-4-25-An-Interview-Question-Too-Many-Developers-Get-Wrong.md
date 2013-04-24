@@ -2,7 +2,6 @@
 layout: post
 title: "An Interview Question Too Many Developers Get Wrong"
 ---
-# An Interview Question Too Many Developers Get Wrong
 Since we do spend some of our time writing and tweaking data structures, I don't think it's too unbecoming of us to ask applicants some basic questions about them. There's one question that seems to throw almost everyone off, here's how we get to it.
 
 First, we ask how you'd find whether a number was in an array? Most people's first answer is to iterate through the array. (I find it funny that most are embarassed by this answer and we often have to pull it out of them, even though they clearly know it). 
