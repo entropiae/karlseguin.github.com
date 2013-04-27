@@ -7,7 +7,7 @@ title: "Introduction To Go: Buffered Channels"
 <p>Let's start with a meaningless example:</p>
 
 <pre data-language=go>
-var c = make(chan int, 1)
+var c = make(chan int, 5)
 
 func main() {
   go worker(1)
