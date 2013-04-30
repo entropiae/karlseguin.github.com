@@ -14,6 +14,19 @@
 <div id=content>
   <h2>{{ page.title }}</h2>
   {{ content }}
+  <div id="comments">
+  <div id="disqus_thread"></div>
+    <a href="http://disqus.com" class="dsq-brlink attribution">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+  <script>
+  var disqus_identifier = '{{ page.url }}';
+  (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = 'http://karlseguin.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=karlseguin">comments powered by Disqus.</a></noscript>
 </div>
 <div id=menu>
   <h1><a href=/scaling-viki/>Scaling Viki</a></h1>
