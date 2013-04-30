@@ -15,7 +15,7 @@ pre{width:95%;margin:5px 0 10px;padding:10px;color:#000;overflow-x:scroll;font-s
 #content a{color:#185DC5;text-decoration:underline;}
 #content a:hover{color:#444;}
 #content {border-right:1px solid #000;background:#f0f0f0;margin:0 360px 0 20px;padding-left:20px;}
-#comments {margin-top:50px;}
+#comments {margin-top:50px;width:95%;}
 #menu{width:350px;color:#fff;position:fixed;top:0;right:0;}
 #menu h2{margin:15px 0 3px;font-size:100%;padding:0;font-weight:normal;}
 #dl a{padding-right:20px;}
