@@ -6,11 +6,12 @@ p{margin:20px 0;}
 #home:hover{background:#ddd;}
 
 #quote{width:960px;margin:0 auto;line-height:46px;font-size:26px;padding:50px;}
-#quote:first-letter{font-size:75px;}
+#quote:first-letter{font-size:45px;}
 #attribution{font-style:italic;color:#888;text-align:right;}
 #attribution:before{content:'-';}
 
-#dark{background:#333 url(/assets/back.png);color:#eee;}
+#dark{background:#222;color:#eee;}
 #dark #home{background:#444;color:#ddd;border-radius:4px;}
 #dark #home:hover;{background:#666;}
 #dark #quote{border-color:#444;}
+#dark p{text-shadow:1px 1px 1px #000;}
