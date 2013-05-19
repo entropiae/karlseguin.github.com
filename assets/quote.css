@@ -15,3 +15,8 @@ p{margin:20px 0;}
 #dark #home:hover;{background:#666;}
 #dark #quote{border-color:#444;}
 #dark p{text-shadow:1px 1px 1px #000;}
+
+#creative {padding:15px;width:150px;height:100%;position:fixed;top:0;right:0;background:#111;border-left:1px solid #333;}
+#creative li{float:left;list-style:none;}
+#creative a{display:inline-block;padding:10px;color:#555;}
+#creative a:hover{color:#999;}
