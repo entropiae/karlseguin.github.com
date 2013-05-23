@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Redis' slowlog and DEL's surprisingly bad performance"
+description: "Using redis' slowlog to find slow queries and DEL's surprisingly poor performance"
 ---
 
 <p>Redis has a useful slowlog facility which, as you can probably guess, lets you inspect slow running queries. Slowlog will log the last X queries that took more than Y microseconds to run. X and Y can be specified in either <code>redis.conf</code> or, at runtime, via the <code>CONFIG</code> command:</p>

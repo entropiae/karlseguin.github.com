@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Lua's JSON turns empty arrays into empty hashes"
+description: "Beware of Lua's JSON handling since it can't always tell whether an empty table should be converted to an empty hash or an empty array"
 ---
 
 <p>We recently ran into an issue that took us a while to figure out. Basically, a return value would go from being an empty array:</p>
