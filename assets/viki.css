@@ -18,6 +18,7 @@ pre{width:95%;margin:5px 0 10px;padding:10px;color:#000;overflow-x:scroll;font-s
 #comments {margin-top:50px;width:95%;}
 #menu{width:350px;color:#fff;position:fixed;top:0;right:0;}
 #menu h2{margin:15px 0 3px;font-size:100%;padding:0;font-weight:normal;}
+#menu h3{margin:0 0 10px;font-size:90%;padding:0;font-weight:normal;}
 #dl a{padding-right:20px;}
 #menu p{padding-left:0;line-height:20px;}
 #soon p {color:#bbb;line-height:20px;}
