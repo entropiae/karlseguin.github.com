@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Introduction To Go: Buffered Channels"
+description: "Go's channels support buffering, which allows multiple values to be read from and written to a channel concurrently"
 ---
 <p>In previous posts, we've seen some simple and not so simple examples of using channels. So far, our experimentations have been limited to unbuffered channels. Unbuffered channels block receivers until data is available on the channel and senders until a receiver is available. As you might be able to guess from the name, buffered channels will only block a sender once the buffer fills up.</p>
 
