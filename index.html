@@ -18,5 +18,5 @@ li {color:#888;font-size:80%;border-bottom:1px solid #eee;}
 li a{color:#047;font-size:15px;width:550px;padding:18px;display:inline-block;}
 </style>
 <h1>Hello.</h1>
-<ul>{% for post in site.posts %}{% if post.category != 'creative' %}<li><a href={{ post.url | replace_first: '/', ''}}>{{ post.title | escape}}</a> {{ post.date | date_to_string | replace: '01 ', '1 ' | replace: '02 ', '2 ' | replace: '03 ', '3 ' | replace: '04 ', '4 ' | replace: '05 ', '5 ' | replace: '06 ', '6 ' | replace: '07 ', '7 ' | replace: '08 ', '8 ' | replace: '09 ', '9 ' }}{% endif %}{% endfor %}</ul>
+<ul>{% for post in site.posts %}<li><a href={{ post.url | replace_first: '/', ''}}>{{ post.title | escape}}</a> {{ post.date | date_to_string | replace: '01 ', '1 ' | replace: '02 ', '2 ' | replace: '03 ', '3 ' | replace: '04 ', '4 ' | replace: '05 ', '5 ' | replace: '06 ', '6 ' | replace: '07 ', '7 ' | replace: '08 ', '8 ' | replace: '09 ', '9 ' }}{% endfor %}</ul>
 <p><a href="{{site.categories.creative.first.url}}">creative</a><a href=mailto:karl@openmymind.net>email</a><a href=//twitter.com/karlseguin>twitter</a><a href=atom.xml>rss</a></p>
