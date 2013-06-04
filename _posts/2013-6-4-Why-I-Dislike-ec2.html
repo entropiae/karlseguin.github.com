@@ -11,7 +11,7 @@ description: "AWS is great if you need per-hour billing and instance provisionin
 
 <p>To me, AWS is to performance, what Microsoft was to security (pre Bill Gate's Trustworthy Computing memo). I don't feel bad about using EC2 and AWS interchangeably: the former is at the core of the latter.</p>
 
-<p>Not only is EC2 slow and expensive, it's actually getting as faster processors and hard drives come to market. The new EBS-only M3 generation didn't come close to closing the gap.</p>
+<p>Not only is EC2 slow and expensive, it's getting worse as faster processors and hard drives come to market. The new EBS-only M3 generation didn't come close to closing the gap.</p>
 
 <p>We use 3 different unmanaged dedicated providers in 4 different locations. At our most expensive location, we get 64GB ECC RAM, 4x1TB RAID 10 (hardware), Dual E5-2620 and 4 1Gbps adapters (bonded, 2x public, 2x private) for around 60% the price of an M3-2XLarge. That's more than twice the RAM, 4 more cores (+12 HT, and all of the cores are noticeably faster than the EC2 ones), much faster and predictable storage, and better networking (a private dedicated network adapter (let alone 2) is great). And that's the more expensive provider. We have some machines that are less than 1/4 the price and run circles around EC2.</p>
 
