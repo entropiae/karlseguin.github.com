@@ -4,14 +4,14 @@ title: "Why I Dislike EC2"
 description: "AWS is great if you need per-hour billing and instance provisioning. For everyone else, which is most, it's just really expensive and slow hardware."
 ---
 
-<p>Every now and again I tweet about my dislike for EC2. People always ask why. In reality I think Amazon is doing a great job, especially compared to other cloud providers, which are only failing further behind. But I do have one major and insurmountable issue.</p>
+<p>Every now and again I tweet about my dislike for EC2. People always ask why. In reality I think Amazon is doing a great job, especially compared to other cloud providers, which are only falling further behind. But I do have one major and insurmountable issue.</p>
 
 <h2>Price / Performance</h2>
-<p>I've been hesitant to write about it because it feels like beating a dead horse, but so many people seem surprised by it, what harm can it do?  Every synthetic and real-world benchmark that we've run are consistent with what virtually everyone else has observed. <strong>Amazon's price-to-performance ratio is horrible</strong>. Although this is particularly noticeable with EC2, which can be anywhere from 1-4x more expensive and 2-10x slower, it's true of AWS in general (s3, cloudfront, route53 aren't the fastest options available).</p>
+<p>I've been hesitant to write about it because it feels like beating a dead horse, but so many people seem surprised by it, what harm can it do?  Every synthetic and real-world benchmark that we've run are consistent with what virtually everyone else has observed. <strong>EC2's price-to-performance ratio is horrible</strong>. Although this is particularly noticeable with EC2, which can be anywhere from 1-5x more expensive and 2-8x slower, it's true of AWS in general (s3, cloudfront, route53 aren't the fastest options available).</p>
 
 <p>To me, AWS is to performance, what Microsoft was to security (pre Bill Gate's Trustworthy Computing memo). I don't feel bad about using EC2 and AWS interchangeably: the former is at the core of the latter.</p>
 
-<p>Not only is EC2 slow and expensive, it's actually getting worse each year as faster processors and hard drives come to market. The new EBS-only M3 generation didn't come close to closing the gap.</p>
+<p>Not only is EC2 slow and expensive, it's actually getting as faster processors and hard drives come to market. The new EBS-only M3 generation didn't come close to closing the gap.</p>
 
 <p>We use 3 different unmanaged dedicated providers in 4 different locations. At our most expensive location, we get 64GB ECC RAM, 4x1TB RAID 10 (hardware), Dual E5-2620 and 4 1Gbps adapters (bonded, 2x public, 2x private) for around 60% the price of an M3-2XLarge. That's more than twice the RAM, 4 more cores (+12 HT, and all of the cores are noticeably faster than the EC2 ones), much faster and predictable storage, and better networking (a private dedicated network adapter (let alone 2) is great). And that's the more expensive provider. We have some machines that are less than 1/4 the price and run circles around EC2.</p>
 
@@ -33,6 +33,6 @@ description: "AWS is great if you need per-hour billing and instance provisionin
 <p>We should also talk about Netflix. I'm in awe of what Netflix has done. But if you spend time reading the Netflix blog (and you should), you'll see that, at-scale, <a href="http://techblog.netflix.com/2010/12/5-lessons-weve-learned-using-aws.html">succeeding on the cloud isn't easy</a>. They have hundreds of engineers designing specifically for the cloud. I have no problem taking Netflix' word that, in the end, the benefits outweighed the cost. But it's a huge leap that simply isn't right for most of us. (Have to also point out that, when it comes to the most important part of Netflix' infrastructure, CDN, they're building their own).</p>
 
 <h2>Conclusion</h2>
-<p>AWS dominates the cloud (but not hosting) business. For good reason too. They are far ahead and others are just falling further behind. But EC2 performance in particular, (and AWS to a lesser extent in general) is horrible. It also feels like a lot of services are stuck at version 1.0, lacking that polish and continual improvement (lack of logs, limited set of apis, ...) - something competitors should be capitalizing on.</p>
+<p>AWS dominates the cloud (but not hosting) business. For good reason too. But EC2 performance in particular, (and AWS to a lesser extent in general) is horrible. It also feels like a lot of services are stuck at version 1.0, lacking that polish and continual improvement (lack of logs, limited set of apis, ...) - something competitors should be capitalizing on.</p>
 
 <p>Unless you are constantly shutting down and starting up instances, EC2 is probably the wrong choice for you. Even if you are, consider a hybrid approach of dedicated/collocated + spot instances.</p>
