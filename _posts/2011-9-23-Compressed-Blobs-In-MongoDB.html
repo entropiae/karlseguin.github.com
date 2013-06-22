@@ -16,7 +16,7 @@ disqus_id: 103
 <p>Blobs aren't new. Many relational database offer first class clob/blob support. Relational databases normally provide this feature as a means of storing unstructured data. One could think of it as a rich man's schemaless database. Also, NoSQL solutions which don't support secondary indexes (Redis, Riak, ...) more or less fit this pattern. One day, MongoDB will hopefully <a href="https://jira.mongodb.org/browse/SERVER-164">have this feature</a> built-in. When you know exactly how your data is going to get queried, I think Mongo's mix of secondary indexes and schemaless design can really work well with blob values.</p>
 
 <h4>Initial Design</h4>
-<p>Without a blob, a MongoWatch document would look something like:</p>
+<p>Without a blog, a MongoWatch document would look something like:</p>
 <pre data-language="javascript">
 {account: 1231232, server: 'linode1', latest: 'Sep 23 2011', data: [
   {virtual: 1887, mapped: 849, uptime: 8179298, hit: 100, date: 'Sep 20 2011'},
