@@ -4,9 +4,9 @@ title: "Shard Your Hash Table To Reduce Write Locks"
 description: "By sharding a hashtable we can reduce the scope of write locks for improved concurrency"
 ---
 
-<p>I always visualize write locks as a funnel where concurrent execution is forced into a serial mode. You can build an awesome system capable of sustaining tens of thousands of concurrent processes, and badly thought out lock can bring the entire system to a grinding halt. Maybe a highway reduced to a single lane, is a better analogy...</p>
+<p>I always visualize write locks as a funnel where concurrent execution is forced into a serial mode. You can build an awesome system capable of sustaining tens of thousands of concurrent processes, yet have a badly thought out lock that brings the entire system to a grind. Think of a highway reduced to a single lane.</p>
 
-<p>If you want concurrent access to a hash table, there's one simple trick you can use to minimize the impact of a write lock: shard it. Before we look at the solution, let's look at the problem. Imagine you're building a simple cache backed by a map It might look like:</p>
+<p>If you want concurrent access to a hash table, there's one simple trick you can use to minimize the impact of a write lock: shard it. Before we look at the solution, let's look at the problem. Imagine you're building a simple cache backed by a map:</p>
 
 <pre data-language=go>
 import (
@@ -38,7 +38,7 @@ func (c *Cache) Set(key string, data []byte) {
 }
 </pre>
 
-<p>The problem with the above code is that any call to <code>Set</code> because serialize - due to the exclusive write lock. In this case, that's pretty trivial, but in reality, you might need to do more than just setting a value, like checking for and freeing up sufficient space.</p>
+<p>The problem with the above code is that any call to <code>Set</code> is not only serialized, but also blocks calls to <code>Get</code>. In this case, that might seem trivial. With real code though, you might need to do more than set a value, like checking for and freeing up sufficient space.</p>
 
 <p>The solution to this problem is to shard our hash table. This is implemented by using a hashtable of hashtables, where each inner hash table has its own lock and represents a more granular space:</p>
 
@@ -109,7 +109,7 @@ func (c *Cache) GetShard(key string, create bool) (shard *CacheShard, ok bool) {
 }
 </pre>
 
-<p>By evenly distributing our keys across 256 shards (16^2) we effectively unclog our bottleneck. The only time we hold a global write lock is when the shard itself doesn't exist. Over time, this will be 0. As a matter of fact, since we now the all the possible shard buckets ahead of time, we can do some pre-allocation and completely eliminate the need for the outer-most lock (since we'll only ever read from it). This not only improve performance, it also makes the code much simpler:</p>
+<p>By evenly distributing our keys across 256 shards (16^2) we effectively unclog our bottleneck. The only time we hold a global write lock is when the shard itself doesn't exist. Over time, this will be 0. As a matter of fact, since we know all possible shard keys ahead of time, we can do pre-allocate shards and eliminate the need for the outer-most lock (since we'll only ever read from it). This not only improve performance, it also makes the code much simpler:</p>
 
 <pre data-language=go>
 import (
@@ -157,4 +157,6 @@ func (c Cache) GetShard(key string) (shard *CacheShard) {
   return c[shardKey]
 }</pre>
 
-<p>It's worth pointing out that some libraries, like Java's ConcurrentHashMap, does this type of sharding internally. Also, in this case we're exchanging raw performance for better concurrency. You'll need to decide if the extra complexity, the extra memory overhead and the SHA1 calculation is worth it. What you're doing while locked as well as how often you'll be locking, will be major factors. Though, to be honest, I think in most cases, the concurrency gains will outweigh any raw throughput concerns.</p>
+<p>It's worth pointing out that some libraries, like Java's <code>ConcurrentHashMap</code>, does this internally already.</p>
+
+<p>You'll need to decide if the extra complexity, the extra memory overhead and the SHA1 calculation is worth it. What you're doing while locked as well as how often you'll be locking, will be major factors. Though, to be honest, I think in most cases, the concurrency gains will outweigh any raw throughput concerns.</p>
