@@ -128,7 +128,7 @@ type CacheShard struct {
 func New() Cache {
   c := make(Cache, 256)
   for i := 0; i &lt; 256; i++ {
-    c[fmt.Sprintf("%x", i)] = &amp;CacheShard{
+    c[fmt.Sprintf("%02x", i)] = &amp;CacheShard{
       items: make(map[string][]byte, 2048),
       lock: new(sync.RWMutex),
     }
