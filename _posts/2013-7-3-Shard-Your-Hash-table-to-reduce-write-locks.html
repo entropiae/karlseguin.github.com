@@ -109,7 +109,7 @@ func (c *Cache) GetShard(key string, create bool) (shard *CacheShard, ok bool) {
 }
 </pre>
 
-<p>By evenly distributing our keys across 256 shards (16^2) we effectively unclog our bottleneck. The only time we hold a global write lock is when the shard itself doesn't exist. Over time, this will be 0. As a matter of fact, since we know all possible shard keys ahead of time, we can do pre-allocate shards and eliminate the need for the outer-most lock (since we'll only ever read from it). This not only improve performance, it also makes the code much simpler:</p>
+<p>By evenly distributing our keys across 256 shards (16^2) we effectively unclog our bottleneck. The only time we hold a global write lock is when the shard itself doesn't exist. Over time, this will be 0. As a matter of fact, since we know all possible shard keys ahead of time, we can pre-allocate shards and eliminate the need for the outer-most lock (since we'll only ever read from it). This not only improve performance, it also makes the code much simpler:</p>
 
 <pre data-language=go>
 import (
