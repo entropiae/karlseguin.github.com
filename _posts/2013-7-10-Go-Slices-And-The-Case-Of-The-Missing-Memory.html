@@ -52,20 +52,11 @@ body := buffer.Bytes()
 <h3>Solutions</h3>
 <p>If you're dealing with short lived objects, none of this is going to be an issue. However, for long-lived objects, there are a couple simple solution. First and foremost, if you need to track how much memory's actually used (say you're building an LRU cache that keeps itself nice and trim) use <code>cap</code> instead of <code>len</code>. But that doesn't solve the problem of wasted space.</p>
 
-<p>When you know the size of the data, like in the above case with a <code>ContentLength</code>, you can read it yourself: </p>
+<p>When you know the size of the data, like in the above case with a <code>ContentLength</code>, you should use the <code>io.ReadFull</code>: </p>
 
 <pre data-language=go>
-func read(length int64, reader io.Reader) ([]byte, error) {
-  if length == 0 { return nil, nil } 
-  body := make([]byte, length)
-  position := 0
-  for {
-    read, err := reader.Read(body[position:])
-    if err == io.EOF { return body, nil }
-    if err != nil { return nil, err }
-    position += read
-  }
-}
+body := make([]byte, 0, resp.ContentLength)
+_, err := io.ReadFull(res.Body, body)
 </pre>
 
 <p>Otherwise, you'll have to first read it into a growing buffer and then copy it back into a fixed-length array. You'll need to decide if the saved memory is worth the extra CPU. We use something like:</p>
