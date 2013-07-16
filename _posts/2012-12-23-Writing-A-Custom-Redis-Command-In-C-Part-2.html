@@ -70,8 +70,10 @@ title: "Writing a Custom Redis Command In C - Part 2"
 
 <pre data-language="c">
 #include "redis.h"
+zskiplistNode* zslGetElementByRank(zskiplist *zsl, unsigned long rank);
+
 void xdiffCommand(redisClient *c) {
-  long offset, count, found = 0, added = 0;
+  long offset, count, added = 0;
   robj *zobj, *sobj;
   zset *zset;
   dict *diff;
