@@ -3,6 +3,8 @@ layout: post
 title: "Writing a Custom Redis Command In C - Part 2"
 ---
 
+<p><strong>update:</strong> By relying on <code>dictFind</code>, this implementation makes an assumption that you'll be storing strings in your set. This'll crash if the set is encoded as an <code>intSet</code>. Open up <code>t_set.c</code> and look at <code>setTypeIsMember</code>. You should either call this directly, or use it for inspiration.</p>
+
 <p>In <a href="/Writing-A-Custom-Redis-Command-In-C-Part-1">part 1</a> we set up our <code>xfind</code> method and hooked it into Redis. Now it's time to write the actual implementation. As a reminder, our goal is to take a sorted set, subtract a set from it, and providing paging (offset/count).</p>
 
 <p>The <code>lookupKeyReadOrReply</code> function we used returned a redis object (<code>robj</code>), which we briefly described. <code>robj</code> has one other member which is of interest to us: <code>encoding</code>. You see, most data structures in Redis have multiple possible implementation. A sorted set, for example, can be either be a skiplist or a ziplist. Based on the data being stored (the type of values or the number of values), Redis will pick one implementation instead of another. It'll also take care of converting one implementation into another as needed.</p>
