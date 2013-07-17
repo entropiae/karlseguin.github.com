@@ -30,8 +30,8 @@ if (buffer.indexOf('END') != -1) {
 <p>The above code scans the string 3 times. The string might be tens of thousands of characters long and as code that's meant to parse memcache replies, I think it's reasonable for this code to focus on performance at the cost of readability:</p>
 
 <pre data-language=javascript>
-first_line_len = -1
-end_indicator_start = -1
+var first_line_len = -1
+var end_indicator_start = -1
 for (var i = 1, length = buffer.length; i &lt; length; ++i) {
   var c = buffer[i]
   if (c == '\n') {
