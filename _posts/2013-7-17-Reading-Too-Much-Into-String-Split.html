@@ -38,7 +38,7 @@ for (var i = 1, length = buffer.length; i &lt; length; ++i) {
     if (first_line_len == -1 &amp;&amp; buffer[i-1] == '\r') { 
       first_line_len = i + 1
     }
-  //JS returns undefined when accessing negative indexes
+  //JS returns undefined when accessing out of bound indexes
   } else if (c == 'D' &amp;&amp; buffer[i-1] == 'N' &amp;&amp; buffer[i-2] == 'E' &amp;&amp; end_indicator_start == -1) {
     end_indicator_start = i - 2
   }
