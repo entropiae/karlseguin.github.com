@@ -32,15 +32,14 @@ if (buffer.indexOf('END') != -1) {
 <pre data-language=javascript>
 var first_line_len = -1
 var end_indicator_start = -1
-for (var i = 1, length = buffer.length; i &lt; length; ++i) {
+for (var i = 1, length = buffer.length; i < length; ++i) {
   var c = buffer[i]
-  if (c == '\n') {
-    if (first_line_len == -1 &amp;&amp; buffer[i-1] == '\r') { 
-      first_line_len = i + 1
+  if (c == '\r') {
+    if (first_line_len == -1 && buffer[i+1] == '\n') { 
+      first_line_len = i + 2
     }
-  //JS returns undefined when accessing out of bound indexes
-  } else if (c == 'D' &amp;&amp; buffer[i-1] == 'N' &amp;&amp; buffer[i-2] == 'E' &amp;&amp; end_indicator_start == -1) {
-    end_indicator_start = i - 2
+  } else if (c == 'E' && buffer[i+1] == 'N' && buffer[i+2] == 'D' && end_indicator_start == -1) {
+    end_indicator_start = i
   }
 }
 </pre>
