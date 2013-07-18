@@ -32,7 +32,7 @@ if (buffer.indexOf('END') != -1) {
 <pre data-language=javascript>
 var first_line_len = -1
 var end_indicator_start = -1
-for (var i = 1, length = buffer.length; i < length; ++i) {
+for (var i = 0, length = buffer.length; i < length; ++i) {
   var c = buffer[i]
   if (c == '\r') {
     if (first_line_len == -1 && buffer[i+1] == '\n') { 
@@ -40,6 +40,7 @@ for (var i = 1, length = buffer.length; i < length; ++i) {
     }
   } else if (c == 'E' && buffer[i+1] == 'N' && buffer[i+2] == 'D' && end_indicator_start == -1) {
     end_indicator_start = i
+    ...
   }
 }
 </pre>
