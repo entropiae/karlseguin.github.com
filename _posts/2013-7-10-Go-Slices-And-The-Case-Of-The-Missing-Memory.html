@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Go Slices And The Case Of The Missing Memory"
-description: "Is that a byte array or a slice holding a reference to a much larger (and wasted) by array? GoLang"
+description: "Is that a byte array or a slice holding a reference to a much larger (and wasted) array? GoLang"
 ---
 
 <p>Slices in Go are an efficient way to represent a portion of an array. What makes slices so useful, besides the fact that <a href="http://golang.org/pkg/reflect/#SliceHeader">they require very little overhead</a>, is that they can always be transparently substituted with an actual array:</p>
