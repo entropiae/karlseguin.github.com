@@ -5,7 +5,7 @@ description: "Despite all the architectural patterns to help you scale, raw perf
 ---
 <p>When web developers talk about scale, we're typically talking about supporting a greater number of users and requests. To achieve this, we want <em>more</em> threads, processes or hardware. Ideally, this type of horizontal scaling should allow you to grow linearly. If a single server can handle 5K requests per second, then two servers should be able to handle 10K requests per second. In other words, scale has become synonymous with the idea that we need <em>more</em>.</p>
 
-<p>While <em>more</em> is good, <em>less</em> is even better. Consider a request that takes 100ms to process. In a single threaded application, we can handle 10 requests per second. One way to support 40 requests per second, is to use more threads. Specifically, we'd need 4 more threads.</p>
+<p>While <em>more</em> is good, <em>less</em> is even better. Consider a request that takes 100ms to process. In a single threaded application, we can handle 10 requests per second. One way to support 40 requests per second, is to use more threads. Specifically, we'd need 3 more threads.</p>
 
 <p>As an alternative to adding <em>more</em> threads, we could also make our request take <em>less</em> time. To achieve the same 40 requests per second using our original thread, we's need to cut the response time to 25ms.</p>
 
