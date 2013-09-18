@@ -5,13 +5,13 @@ description: "By leveraging functions are fist class citizens and access to priv
 ---
 <p>The worst kept secret about unit testing in general, and TDD specifically, is that it's primarily a design activity with future correctness as a side effect. Unit tests don't uncover all design problems, but they are effective with respect to cohesion and coupling issues and the rather significant principals that relate to these.</p>
 
-<p>One thing I've noticed from programmers who've spent most of their lives with dynamic languages is that, even after years, they've rarely learned the basic design lessons unit testing teaches. Why? Because the very nature of dynamic languages mean that decoupling is a language facility as opposed to a design concern. Why go through the hassle of using various inversion of control approaches and frameworks when you can easily rewrite the behavior of any thing, at any time.</p>
+<p>One thing I've noticed from programmers who've spent most of their lives with dynamic languages is that, even after years, they've rarely learned the basic design lessons unit testing teaches. Why? Because the very nature of dynamic languages mean that decoupling is a language facility as opposed to a design concern. Why go through the hassle of using various inversion of control approaches and frameworks when you can rewrite the behavior of any thing, at any time.</p>
 
 <p>I'm no fan of the ceremony surrounding Inversion of Control and the impact some of the most popular types, like Dependency Injection, has on production code. But, having never learned the cost of low cohesion and tight coupling from unit testing, dynamic programmers often violate sound design.</p>
 
 <p>Since I've already learned the tough love lessons that C# and Java have to teach, I've always been weary of going back to a static language. Just because I think it's important to learn and feel, doesn't mean I ever want to go back to that hell. Despite this weariness, most of my time is now spent in Go; which begs the question, how does Go approach the problem?</p>
 
-<p>First, I'm not sure if this is considered idiomatic Go, but it's definitely what feels the most natural to me. It all comes down to two important facts. First, functions are first class citizens. Second, tests have access to the internal package members. Combined, we can keep our production code relatively lightweight, while letting our tests actually focus on a unit.</p>
+<p>First, I'm not sure if this is considered idiomatic Go, but it's definitely what feels the most natural to me. It all comes down to two important facts. First, functions are first class citizens. Second, tests have access to the internal package members. Combined, we can keep our production code relatively lightweight, while letting our tests focus on the unit.</p>
 
 <p>Consider the following banality:</p>
 
@@ -34,7 +34,7 @@ func getVolumes(symbol string, day time.Time) ([]float64, error) {
 }
 </pre>
 
-<p>Whatever language you are using, <code>AverageVolume</code> is tightly coupled to a web service. In a dynamic language, you could simply mock the call to <code>getVolume</code>, or <code>http.Get</code> (which doesn't make it any less tightly coupled, it just makes the coupling less of a painful reality). In a static language, you'd find a way (e.g. DI) to make <code>AverageVolume</code> work against an interface, which could be swapped out when testing.</p>
+<p>Whatever language you are using, <code>AverageVolume</code> is tightly coupled to a web service. In a dynamic language, you could mock the call to <code>getVolume</code>, or <code>http.Get</code> (which doesn't make it any less tightly coupled, it just makes the coupling less of a painful reality). In a static language, you'd find a way (e.g. DI) to make <code>AverageVolume</code> work against an interface, which could be swapped out when testing.</p>
 
 <p>In Go, you can change how <code>getVolumes</code> is defined:</p>
 
@@ -45,7 +45,7 @@ var getVolumes = func(symbol string, day time.Time) ([]float64, error) {
 }
 </pre>
 
-<p>As-is, in production, this code works the same. Your testing code can simply change the private <code>getVolumes</code>:</p>
+<p>As-is, in production, this code works the same. Your testing code can change the private <code>getVolumes</code>:</p>
 
 <pre data-language=go>
 // Note, this is more verbose than it needs to be
@@ -81,6 +81,6 @@ func TestReturnsTheAverage(t *testing.T) {
 }
 </pre>
 
-<p>The above is possible in any language where functions are first class citizens (of note, lambdas make it particularly cleaner). However, by giving test packages access to private members, Go makes it a little cleaner and less intrusive.</p>
+<p>The above is possible in any language where functions are first class citizens (of note, lambdas make it cleaner). However, by giving test packages access to private members, Go makes it a little cleaner and less intrusive.</p>
 
 <p>I find this approach strikes a balance between the typical extremes of the dynamic and static worlds. It's much less involved than what you typically see in Java/C#, but it isn't free either. There's enough pain to make bad design smell. It isn't a perfect balance, but for now, I'm anxious to see how far we can take it.</p>
