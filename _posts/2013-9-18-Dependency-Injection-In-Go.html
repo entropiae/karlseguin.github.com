@@ -3,9 +3,9 @@ layout: post
 title: '"Dependency Injection" in Go'
 description: "By leveraging functions are fist class citizens and access to private member's, what passes for dependency injection in Golang is a nice compromise"
 ---
-<p>The worst kept secret about unit testing in general, and TDD specifically, is that it's primarily a design activity with future correctness as a side effect. Unit tests don't uncover all design problems, but they are key with respect to cohesion and coupling and the rather significant principals that relate to these.</p>
+<p>The worst kept secret about unit testing in general, and TDD specifically, is that it's primarily a design activity with future correctness as a side effect. Unit tests don't uncover all design problems, but they are effective with respect to cohesion and coupling issues and the rather significant principals that relate to these.</p>
 
-<p>One thing I've noticed from programmers who've spent most of their lives with dynamic languages is that, even after years, they've rarely learned the basic design lessons unit testing teaches. Why? Because the very nature of dynamic languages mean that decoupling is a language facility as opposed to a design concern. Why go through the hassle of using various inversion of control approaches and frameworks when you can easily rewrite the behavior of anything, at any time.</p>
+<p>One thing I've noticed from programmers who've spent most of their lives with dynamic languages is that, even after years, they've rarely learned the basic design lessons unit testing teaches. Why? Because the very nature of dynamic languages mean that decoupling is a language facility as opposed to a design concern. Why go through the hassle of using various inversion of control approaches and frameworks when you can easily rewrite the behavior of any thing, at any time.</p>
 
 <p>I'm no fan of the ceremony surrounding Inversion of Control and the impact some of the most popular types, like Dependency Injection, has on production code. But, having never learned the cost of low cohesion and tight coupling from unit testing, dynamic programmers often violate sound design.</p>
 
