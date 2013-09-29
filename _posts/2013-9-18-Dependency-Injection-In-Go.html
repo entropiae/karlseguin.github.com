@@ -45,7 +45,7 @@ var getVolumes = func(symbol string, day time.Time) ([]float64, error) {
 }
 </pre>
 
-<p>As-is, in production, this code works the same. Your testing code can change the private <code>getVolumes</code>:</p>
+<p>In production, this code just works. For tests, you can now change the private <code>getVolumes</code>:</p>
 
 <pre data-language=go>
 // Note, this is more verbose than it needs to be
