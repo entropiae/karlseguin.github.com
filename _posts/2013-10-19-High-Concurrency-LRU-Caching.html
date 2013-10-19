@@ -2,7 +2,6 @@
 layout: post
 title: High Concurrency LRU Caching
 description: "Exploring ways to reduce lock contention in an LRU cache"
-published: false
 ---
 
 <h2>LRU Cache Introduction</h2>
@@ -136,38 +135,25 @@ func (c *Cache) promoter() {
 
 <pre data-language=go>
 func (c *Cache) promoter() {
-  gcDelay = time.Second * 30
-  nextGC = time.Now().Add(gcDelay)
+  ms := new(runtime.MemStats)
   for {
     item := <- c.promotables
     c.list.MoveToFront(item.element)
-
-    now := time.Now()
-    if now.After(nextGC) && c.gc() {
-      nextGC = now.Add(gcDelay)
+    runtime.ReadMemStats(ms)
+    if ms.HeapAlloc < c.maxSize {
+      c.gc()
     }
   }
 }
 
-// return true if we have enough memory
-// return false if we don't and should run
-// another sweep
-func (c *Cache) gc() bool {
-  ms := new(runtime.MemStats)
-  runtime.ReadMemStats(ms)
-  if ms.HeapAlloc < c.maxSize {
-    return true
-  }
+func (c *Cache) gc() {
   //walk the tail of the list and start freeing memory
   //without having to lock the list, since this is the
   //only thread accessing it
-
-  runtime.ReadMemStats(ms)
-  return ms.HeapAlloc < c.maxSize
 }
 </pre>
 
-<p>I <em>really</em> like this approach. However, we're leaning heavily on our channel's buffer. If the garbage collection takes long, our <code>promotable</code> channel will fill up, and our <code>promote</code> method will block.</p>
+<p>I like this approach. However, we're leaning heavily on our channel's buffer. If the garbage collection takes long, our <code>promotable</code> channel will fill up, and our <code>promote</code> method will block.</p>
 
 <p>A small improvement would be to make <code>promote</code> non blocking:</p>
 
@@ -202,10 +188,41 @@ func (c *Cache) promote(item *Item) {
 <h4>Intrusive List</h4>
 <p>What if you aren't comfortable running the promoter and garbage collector in the same thread, for fear of dropping promote requests? Are you back to a coarse lock across the list?</p>
 
-<p>The beauty of a linked list is that it isn't an atomic data structure. When you're promoting an item to the head, you can also safely manipulate the tail, as long as they aren't the same item (or siblings of the item). In other words, synchronizing a linked list can happen at the node-level.</p>
+<p>The beauty of a linked list is that it isn't an atomic data structure. When you're promoting an item to the head, you can also safely manipulate the tail, as long as they aren't the same item (or siblings of the item). In other words, synchronizing a linked list can happen at the node level.</p>
 
-<p>(As an aside, the key benefit of a skiplist is exactly this. The ability to lock only those nodes which participate directly in a modification, makes it a concurrent friendly data structure. Implementations that leave concurrency to the consumer are missing the point.)</p>
+<p>(As an aside, a key benefit of a skiplist is exactly this. The ability to lock only those nodes which participate directly in a modification, makes it a concurrent friendly data structure.)</p>
 
 <p>What we want to do is build a linked list with nodes that can be synchronized. Our <code>Item</code> structure already has a mutex (to synchronize access its <code>promoted</code> field). So the ideal solution is to build a linked list with <code>Item</code> as the element. This is called an intrusive linked list since the data and <code>next/prev</code> pointers sit within the same structure.</p>
 
-<p>We're doing all of this so that we can lock a node at a time and manipulate it as needed, rather than using a single lock across the entire list.</p>
+<p>We're doing all of this so that we can lock a node at a time and manipulate it as needed, rather than using a single lock across the entire list. This isn't as simple as it might first seem (in fact, that I won't provide a working solution). The problem is that, if we aren't careful, we'll create dealocks. How? Imagine a list with 26 items, labeld A-Z:</p>
+
+<pre data-language=text>
+  A<->B<->C<->D<->E<->...X<->Y<->Z
+</pre>
+
+<p>What happens if we want to promote <code>Y</code> while also freeing up memory? Our promoter will lock <code>Y</code>, and our GC will lock <code>Z</code>. Our promoter will then try to lock <code>Z</code> while our GC will try to lock <code>Y</code>. This is a deadlock. To make this work, in pseudocode, we need to do something like:</p>
+
+<pre data-language=text>
+function lockFamily(node)
+  lock node
+  if try lock node.next
+    if try lock node.prev
+      //we can safely manipulate this chunk
+    else
+      unlock node.next
+      unlock node
+      lockFamily node  //try again
+    end
+  else
+    unlock node
+    lockFamily node
+  end
+end
+</pre>
+
+<p>Not impossible, but not fun either</p>
+
+<h2>Conclusion</h2>
+<p>Ultimately, our goal was to reduce lock contention against our list. We achieved in three ways. First, we can use a window to limit the frequency that an item can be promoted. Second, we can use a buffered channel to process promotions off the main thread. Finally, we can do promotion and GC on the same single thread.</p>
+
+<p>This is all preliminary work. The idea came to me while walking home, and has been quickly implemented as a prototype. If you're interested, and brave, you can <a href="https://github.com/karlseguin/ccache">check out the source code here</a>.</p>
