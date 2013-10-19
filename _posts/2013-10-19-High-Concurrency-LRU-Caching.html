@@ -7,7 +7,7 @@ description: "Exploring ways to reduce lock contention in an LRU cache"
 <h2>LRU Cache Introduction</h2>
 <p>The most common way of implementing an LRU cache is to use a hashtable for lookups and a linked list to track when items were used. You might want to read <a href=/Writing-An-LRU-Cache>this introduction</a> if you aren't familiar with the implementation.</p>
 
-<p>There are two <em>Aha!</em> moments most people have writing one. The first is the realization that you need to use two different data structures. The second is realizing how you link them together. You see, when you GET or SET an item, you do so from the hashtable. However, you need to promote it in the list. Conversely, when you free up space, you do so from the list, but you need to delete it from the hashtable. The result tends to be a wrapper object that looks like:</p>
+<p>There are two <em>Aha!</em> moments most people have writing one. The first is the realization that you need two different data structures. The second is realizing how you link them together. You see, when you GET or SET an item, you do so from the hashtable. However, you need to promote it in the list. Conversely, when you free up space, you do so from the list, but you need to delete it from the hashtable. The result tends to be a wrapper object that looks like:</p>
 
 <pre data-languge=go>
 type Item struct {
@@ -134,22 +134,26 @@ func (c *Cache) promoter() {
 <p>But wait, we're cheating. What about freeing up memory? Well, if we want to keep everything simple and lock free, we can do it all in the promoter (and maybe rename it along the way):</p>
 
 <pre data-language=go>
-func (c *Cache) promoter() {
+func (c *Cache) worker() {
   ms := new(runtime.MemStats)
   for {
     item := <- c.promotables
     c.list.MoveToFront(item.element)
     runtime.ReadMemStats(ms)
-    if ms.HeapAlloc < c.maxSize {
+    if ms.HeapAlloc > c.size {
       c.gc()
     }
   }
 }
 
 func (c *Cache) gc() {
-  //walk the tail of the list and start freeing memory
-  //without having to lock the list, since this is the
-  //only thread accessing it
+  for i := 0; i < c.itemsToPrune; i++ {
+    element := c.list.Back()
+    if element == nil { return }
+    item := element.Value.(*Item)
+    c.bucket(item.key).Remove(item.key)
+    c.list.Remove(element)
+  }
 }
 </pre>
 
@@ -183,7 +187,7 @@ func (c *Cache) promote(item *Item) {
 }
 </pre>
 
-<p>But this isn't risk free (what if other goroutines keep using up our freed slot?!)</p>
+<p>But this isn't risk free (another goroutines could keep using up our freed slot!)</p>
 
 <h4>Intrusive List</h4>
 <p>What if you aren't comfortable running the promoter and garbage collector in the same thread, for fear of dropping promote requests? Are you back to a coarse lock across the list?</p>
@@ -194,7 +198,7 @@ func (c *Cache) promote(item *Item) {
 
 <p>What we want to do is build a linked list with nodes that can be synchronized. Our <code>Item</code> structure already has a mutex (to synchronize access its <code>promoted</code> field). So the ideal solution is to build a linked list with <code>Item</code> as the element. This is called an intrusive linked list since the data and <code>next/prev</code> pointers sit within the same structure.</p>
 
-<p>We're doing all of this so that we can lock a node at a time and manipulate it as needed, rather than using a single lock across the entire list. This isn't as simple as it might first seem (in fact, that I won't provide a working solution). The problem is that, if we aren't careful, we'll create dealocks. How? Imagine a list with 26 items, labeld A-Z:</p>
+<p>We're doing all of this so that we can lock a node at a time and manipulate it as needed, rather than using a single lock across the entire list. This isn't as simple as it might first seem (in fact, I won't provide a working solution). The problem is that, if we aren't careful, we'll create dealocks. How? Imagine a list with 26 items, labeld A-Z:</p>
 
 <pre data-language=text>
   A<->B<->C<->D<->E<->...X<->Y<->Z
@@ -223,6 +227,6 @@ end
 <p>Not impossible, but not fun either</p>
 
 <h2>Conclusion</h2>
-<p>Ultimately, our goal was to reduce lock contention against our list. We achieved in three ways. First, we can use a window to limit the frequency that an item can be promoted. Second, we can use a buffered channel to process promotions off the main thread. Finally, we can do promotion and GC on the same single thread.</p>
+<p>Ultimately, our goal was to reduce lock contention against our list. We achieved this in three ways. First, we use a window to limit the frequency of promotion. Second, we use a buffered channel to process promotions in a separate thread. Finally, we can do promotion and GC within the same thread.</p>
 
-<p>This is all preliminary work. The idea came to me while walking home, and has been quickly implemented as a prototype. If you're interested, and brave, you can <a href="https://github.com/karlseguin/ccache">check out the source code here</a>.</p>
+<p>This is all preliminary work. The idea came to me while walking home last night, and has been quickly implemented as a prototype. If you're interested, and brave, you can <a href="https://github.com/karlseguin/ccache">check out the source code here</a>. It takes care of some of the edge cases that I overlooked (such as promoting a new vs existing item).</p>
