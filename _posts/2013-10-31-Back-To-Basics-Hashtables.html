@@ -7,7 +7,7 @@ description: "A basic introduction to building hashtables"
 <p>I wanted to write a post answering the question <em>Why Does Reading From A Hashtable Require Synchronization</em> when I realized that a distinct introduction to hashtables would prove useful. So, here's the first of a few post dedicated to my favorite data structure.</p>
 
 <h3>Introduction</h3>
-<p>I like to think of Hashtables as flexible arrays. Where arrays rigidly require continuous integer based indexes, hashtables allow non-integer, and therefore non-continuous, based indexes. What's amazing about hashtables is that, despite this extra flexibility, its typical performance characteristics is largely the same as arrays. Namely, getting and setting values is O(1). In other words, a hashtable with 5 items should perform the same as a hashtable with 5 billion items - just like an array.</p>
+<p>I like to think of Hashtables as flexible arrays. Where arrays rigidly require continuous integer based indexes, hashtables allow non-integer, and therefore non-continuous, based indexes. What's amazing about hashtables is that, despite this extra flexibility, typical performance characteristics is largely the same as arrays. Namely, getting and setting values is O(1). In other words, getting a value from a hashtable with 5 items should perform the same as a hashtable with 5 billion items - just like an array.</p>
 
 <p>This is possible because a hashtable <em>is</em> an array, with extra logic which converts the key into an integer. Consider this basic implementation:</p>
 
@@ -48,7 +48,7 @@ func (h *Hash) Get(key []byte) interface{} {
 </pre>
 
 <h3>Hash Algorithm</h3>
-<p>For now, all the magic of our hashtable is in the hashing algorithm. Above, we use the popular <a href="http://en.wikipedia.org/wiki/Fowler_Noll_Vo_hash">Fowler Noll Vo (FNV) algorithm</a>. When you think of hash algorithms, you might think of MD5 or SHA1. However, hashes exhibit a number of distinct properties; the properties you want for a hashtable aren't usually the same as the properties you want for cryptographic purposes. As a clear example, cryptographic hash algorithms benefit from being computationally expensive (to limit brute forcing), whereas hash algorithms for hashtable want to be as fast as possible.</p>
+<p>For now, all the magic of our hashtable is in the hashing algorithm. Above, we use the popular <a href="http://en.wikipedia.org/wiki/Fowler_Noll_Vo_hash">Fowler Noll Vo (FNV) algorithm</a>. When you think of hash algorithms, you might think of MD5 or SHA1. However, hash algorithms exhibit a number of distinct properties; the properties you want for a hashtable aren't usually the same as the properties you want for cryptographic purposes. As a clear example, cryptographic hash algorithms benefit from being computationally expensive (to limit brute forcing), whereas hash algorithms for hashtable want to be as fast as possible.</p>
 
 <p>An even more relevant example is that cryptographic hash algorithms should be collision free, whereas hashtable algorithms aren't. The reason for this should be obvious. In <code>getIndex</code> we took the result of our hash, which could be a very large number, and did a modulus operation. Consider the following:</p>
 
