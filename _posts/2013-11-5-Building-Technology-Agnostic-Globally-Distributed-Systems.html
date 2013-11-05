@@ -7,7 +7,7 @@ description: "A framework for building globally distributed systems without rely
 <h3>Introduction</h3>
 <p>Not long ago, building globally distributed systems was largely the domain of technology behemoths which controlled both their own infrastructure as well as considerable engineering resources. Everyone else, representing the vast majority of systems, deployed to a single location.</p>
 
-<p>Yet the world is getting increasingly connected. Populous developing countries continue to see an ever-improving quality of life. And, English strengthens its roots. The result isn't a shift away from North-America & Europe, but a larger audience for you to target.</p>
+<p>Yet the world is getting increasingly connected. Populous developing countries continue to see an ever-improving quality of life. And, English strengthens its roots. The result isn't a shift away from North-America & Europe, but rather a growing audience for you to target.</p>
 
 <p>Within this new climate, the single location approach continues to be viable. But it is not optimal. On a global scale, physics become noticeable. This is exasperated twofold: first, by developers who sit relatively close to the production location while using disproportionately powerful machines; second, by the far from ideal way traffic is routed.</p>
 
@@ -41,11 +41,13 @@ description: "A framework for building globally distributed systems without rely
 <p>There's no magic here.</p>
 
 <h4>Weak Consistency, Low Latency</h4>
-<p>For simple systems, Content Delivery Networks (CDN), fed from Central, can fulfill this important piece. However, CDNs are fairly limited and aren't well suited when large permutations, with varying cache keys and durations, are possible.</p>
+<p>For simple systems, Content Delivery Networks (CDN), fed from Central, can fulfill this important piece. However, CDNs are largely a simple key-value store which greatly limits our capabilities.</p>
 
 <p>Instead, edge locations should be asynchronously fed data from Central. One solution is to commit changes both to Central's database and a durable queue. A worker picks up the change, transforms the data as needed and sends it to each edge. Depending on the scale of transformation, edge locations can see changes within seconds. Large changes, such as updating a search index, can be done on schedule in a batch process.</p>
 
-<p>This queue-based asynchronous approach has a few advantages. First, it decouples the systems. Central knows nothing about edges, edges know nothing about central. Second, it allows for a distinct write-friendly data model in Central and read-friendly model at the edges (with the workers responsible for the necessary transformation). Our approach has been to pick up changes, make the necessary transformation (a lot of denormalization) and queue a new message onto an edge-specific queue for all edges. Each edge has its own lightweight worker which picks up the transformed messages and synchronizes them. This way, the expensive transformation only happens once, regardless of the number of edges. More importantly, the edges become isolated from each other. If one edge fails or falls behind, its queue will build up, without impacting the others. It's important to process messages in order. To accomplish this, you'll want to make the sync process idempotent.</p>
+<p>This queue-based asynchronous approach has a few advantages. First, it decouples the systems. Central knows nothing about edges, edges know nothing about central. It also decouples one edge from the other, increasing system resilience. Second, it allows for a distinct write-friendly data model in Central and read-friendly model at the edges (with the workers responsible for the necessary transformation).</p>
+
+<p>Our approach has been to pick up changes, make the necessary transformation (a lot of denormalization) and queue a new message onto an edge-specific queue for all edges. Each edge has its own lightweight worker which picks up the transformed messages and synchronizes them. This way, the expensive transformation only happens once, regardless of the number of edges. More importantly, the edges become isolated from each other. If one edge fails or falls behind, its queue will build up, without impacting the others. It's important to process messages in order. To accomplish this, you'll want to make the sync process idempotent.</p>
 
 <p>The critical piece is to properly identify and limit what data must be propagated. For example, given a properly designed and robust CMS, only public data need be synchronized.</p>
 
