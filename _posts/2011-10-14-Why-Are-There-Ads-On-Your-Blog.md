@@ -2,6 +2,7 @@
 permalink: "/2011/10/14/Why-Are-There-Ads-On-Your-Blog"
 layout: post
 title: "Why are there ads on your blog?"
+tags: [writing]
 ---
 
 If you need the money, and I mean *need* the way it's meant to be used, then all the power to you. Or, if you are able to drive significant income from it, again, I'm happy for you.

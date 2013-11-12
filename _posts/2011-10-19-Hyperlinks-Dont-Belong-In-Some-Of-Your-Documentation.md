@@ -2,6 +2,7 @@
 permalink: "/2011/10/19/Hyperlinks-Dont-Belong-In-Some-Of-Your-Documentation"
 layout: post
 title: "Hyperlinks don't belong in some of your documentation"
+tags: [writing]
 ---
 
 My current writing side-project is a series of essays on MongoDB, tentatively titled [The MongoDB Collection](http://mongly.com). I decided to approach it as something of a technical writing experiment. There's nothing exotic or particularly original, but I did try new-to-me techniques and approaches. So far, I'm happy with the result (though, I'm taking a break since I've run out of material, a tell-tell sign that I need to focus more on coding).

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Custom Redis Command: Performance of C vs Lua"
+tags: [lua, performance, redis]
 ---
 
 <p>Over the last <a href="/Writing-A-Custom-Redis-Command-In-C-Part-1">few</a> <a href="/Writing-A-Custom-Redis-Command-In-C-Part-2">days</a>, we've been writing a custom Redis command in C. The command, <code>xdiff</code>, is tailored to a specific use-case: diff'ing a set from a sorted set with an offset and count. A reasonable question is: why not just write it in Lua?</p>

@@ -3,6 +3,7 @@ permalink: "/2011/1/6/Foundations-of-Programming-2-Chapter-3-IoC-180"
 layout: post
 title: "Foundations of Programming 2 - Chapter 3 - IoC 180"
 disqus_id: 62
+tags: [ebook]
 ---
 <p><strong>The book is being made available <a href="https://github.com/karlseguin/Foundations-of-Programming-2">on github</a> at the same time as here (for your contributing convenience). Please view <a href="http://openmymind.net/2010/12/13/Foundations-of-Programming-2-Will-Need-Your-Help">for how you can help</a></strong></p>
 
@@ -188,21 +189,21 @@ $('#add_user').fancySubmit();
 
 <p>The core of our <code>fancySubmit</code> plugin will be something as simple as:</p>
 
-<pre data-language="javascript">(function($) 
+<pre data-language="javascript">(function($)
 {
   $.fn.fancySubmit = function(options)
   {
     return this.each(function()
     {
       var $form = $(this);
-      var self = 
-      {   
-        initialize: function() 
+      var self =
+      {
+        initialize: function()
         {
              $form.submit(function()
              {
                  $.post($form.attr('action'), $form.serialize(), self.handleResponse);
-                 return false;   
+                 return false;
              });
         },
         handleResponse: function(r)
@@ -211,7 +212,7 @@ $('#add_user').fancySubmit();
         }
       };
       this.fancySubmit = self;
-      self.initialize();      
+      self.initialize();
     });
   };
 })(jQuery);
@@ -249,17 +250,17 @@ $('#add_user').fancySubmit({
     expect(1); //ignore this for now
 
     //overwrite the $.post method to always execute the callback with a canned response
-    $.post = function(url, params, callback) 
-    { 
-        callback('the new row'); 
+    $.post = function(url, params, callback)
+    {
+        callback('the new row');
     }
 
     var $form = $('#a_test_form');
     $form.fancySubmit(
     {
-        onSubmit: function(r) 
-        { 
-            ok(r == 'the new row', 'callback with response was called'); 
+        onSubmit: function(r)
+        {
+            ok(r == 'the new row', 'callback with response was called');
         }
     });
 

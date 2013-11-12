@@ -2,6 +2,7 @@
 permalink: "/2011/10/17/Today-I-Played-With-RavenDB"
 layout: post
 title: "Today I Played With RavenDB"
+tags: [coding]
 ---
 
 Today I decided to spend some time and get familiar with [RavenDB](http://ravendb.net/). RavenDB is a document database for .NET. Now, I'm a MongoDB user and I've made contributions to the project, so it wouldn't be unreasonable to call me biased. However, it also means that I know a thing or two about document databases and what's available out there for developers.

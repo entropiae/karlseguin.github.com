@@ -3,6 +3,7 @@ permalink: "/2011/7/14/Error-Handling-In-Asynchronous-Code-With-Callbacks"
 layout: post
 title: "Error Handling In Asynchronous Code With Callbacks and Return Codes"
 disqus_id: 95
+tags: [c#]
 ---
 <p>Traditional error handling (exceptions) doesn't work well with asynchronous code. The problem is that any exception raised within an asynchronous callback happen on a separate thread. The solution is to fallback to old-school response codes. For example, you might do something like:</p>
 

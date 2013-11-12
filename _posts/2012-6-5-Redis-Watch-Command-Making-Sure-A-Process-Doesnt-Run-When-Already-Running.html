@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Redis' Watch Command: Making Sure A Process Doesn't Run When Already Running"
+tags: [redis]
 ---
 
 <p>I want to run a script only if it isn't already running. There are a lot of ways to solve this problem. Since the script already makes use of Redis, I figured I could use it to track if the process is running.</p>

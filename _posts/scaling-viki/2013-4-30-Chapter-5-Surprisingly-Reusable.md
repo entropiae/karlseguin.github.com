@@ -4,6 +4,7 @@ category: viki
 title: "Chapter 5 - Surprisingly Reusable"
 permalink: "/scaling-viki/Chapter-5-Surprisingly-Reusable"
 date: 2013-04-30 12:00:25
+tags: [ebook, design, soa]
 ---
 
 Up until now we've been looking at our design exclusively from the point of view of videos. In reality, we've always had two first-class citizens: videos and containers. The only difference between the two is that containers can have zero or more child videos. That might sound like a big difference, but it really isn't. For all intents and purposes, the two are similar: both can be filtered, both can have holdbacks applied, and both have similar detailed information.

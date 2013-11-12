@@ -4,6 +4,7 @@ category: viki
 title: "Chapter 3 - Holdbacks"
 permalink: "/scaling-viki/Chapter-3-Holdbacks"
 date: 2013-04-30 12:00:15
+tags: [ebook, design, redis, soa]
 ---
 
 The most complicated part of our system is the logic that decides whether a user can or cannot watch a video. We call this *holdbacks* and it integrates with almost every single possible query. We hate the idea of users following a link that we provided, say from the homepage or search results, and getting a *not available in your region* message. 

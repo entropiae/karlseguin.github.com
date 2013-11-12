@@ -4,6 +4,7 @@ category: viki
 title: "Appendix A - Why Node?"
 permalink: "/scaling-viki/Appendix-A-Why-Node"
 date: 2013-04-30 12:00:40
+tags: [ebook, learning, node.js]
 ---
 
 The core of Hyperion is driven by Node and Redis. We do use other technologies, both within Hyperion and other components. None though, as extensively as Node and Redis. Interestingly, no one ever asks *"Why C?"* or *Why Go?"*, but they always ask *"Why Node?"*

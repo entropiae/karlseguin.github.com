@@ -2,6 +2,7 @@
 permalink: "/2011/10/28/CouchDB-And-MongoDB-Performance"
 layout: post
 title: "CouchDB And MongoDB Performance"
+tags: [mongodb, performance]
 ---
 <p>I wanted to follow up <a href="http://openmymind.net/2011/10/27/A-MongoDB-Guy-Learns-CouchDB/">yesterday's detailed (and objective?) post</a> on CouchDB with some basic benchmarks. I know people hate these types of benchmarks. But I do think it's good to have some very high level idea about these things. Also, both CouchDB and MongoDB have a bulk-api, which is useful for some tasks, but I think most web apps are dealing with fairly small and independent pieces of information. The code is a very poor simulation of the two main queries <a href="http://mogade.com/">mogade.com</a> gets.</p>
 
@@ -11,7 +12,7 @@ title: "CouchDB And MongoDB Performance"
 <pre data-language="ruby">require 'mongo'
 require 'benchmark'
 
-db = Mongo::Connection.new.db("test") 
+db = Mongo::Connection.new.db("test")
 
 app_ids = Array.new(10){|i| BSON::ObjectId.new}
 scores = db.collection("scores")
@@ -54,7 +55,7 @@ Benchmark.bm do |x|
     10000.times do |i|
       if i % 2 == 0
         doc = CouchDB::Document.new database, :appid => app_ids.sample, :points => rand(100000), :dated => Time.now - rand(100000), :user => i.to_s
-        doc.save  
+        doc.save
       else
         app_id = app_ids.sample
         scores = view.collection(:startkey => [app_id], :endkey => [app_id,{}], :descending => false, :limit => 10, :include_docs => true)
@@ -62,7 +63,7 @@ Benchmark.bm do |x|
       end
     end
   end
-end  
+end
 
      user     system      total        real
 22.800000   6.040000  28.840000 (177.352028)</pre>

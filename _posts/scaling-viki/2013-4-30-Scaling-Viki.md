@@ -4,6 +4,7 @@ category: viki
 title: "Scaling Viki"
 permalink: "/scaling-viki/"
 date: 2013-04-30 12:00:00
+tags: [ebook, design, soa]
 ---
 It had been almost a year since I'd quit working for a large international bank. That job had been a good-paying disaster; explaining the lengthy rest period I took thereafter. Working for the bank had been like traveling back to the start of my career, at the end of the dot-com bubble. Not only because of the money being thrown around and lack of subsequent results; but also because of the tools and techniques in-use.
 

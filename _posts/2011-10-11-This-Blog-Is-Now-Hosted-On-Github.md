@@ -2,6 +2,7 @@
 permalink: "/2011/10/11/This-Blog-Is-Now-Hosted-On-Github"
 layout: post
 title: "This Blog Is Now Hosted On Github"
+tags: [writing]
 ---
 
 Over a year ago, I wrote my own crappy Rails blogging engine and started to use it to power my blog. Today, I moved everything to [github](http://github.com). I think it'll just be easier to write new posts and it'll make my content more accessible. It also better reflects my general attitude about blogs: less is more. 

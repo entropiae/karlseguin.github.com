@@ -3,6 +3,7 @@ permalink: "/2011/1/20/Understanding-Map-Reduce"
 layout: post
 title: "Understanding Map Reduce"
 disqus_id: 65
+tags: [coding]
 ---
 <p>I'm in the process of rolling out a feature which will let developers see some basic usage statistics on their games via <a href="http://mogade.com">mogade.com</a>. The first phase was to make it so data could be collected, the next phase is to build the reporting UI. Of course, there's a phase in the middle which is to transform our data from raw statistics to actual reportable information. Since we are using mongodb we are doing our transformation via map reduce. Though our reports are basic, I thought I'd share some of the code since I know the topic is still exotic to a lot of developers.</p>
 
@@ -42,10 +43,10 @@ game_id | year | month | day | count
 <p>It's possible for map to emit 0 or more times. We'll always make it emit once (which is a common). Imagine map as looping through each object in <code>hits</code> (we can apply a filter to only map-reduce over some objects, but thats besides the point). For each object we want to emit a key with <code>game_id</code>, <code>year</code>, <code>month</code> and <code>day</code>, and a simple value of 1:</p>
 
 <pre data-language="javascript">
-function() 
+function()
 {
 	var key = {game_id: this.game_id, year: this.date.getFullYear(), month: this.date.getMonth(), day: this.date.getDate()};
-	emit(key, {count: 1}); 
+	emit(key, {count: 1});
 }
 </pre>
 
@@ -64,18 +65,18 @@ function()
 <p>Let's change our map function in some contrived way:</p>
 
 <pre data-language="javascript">
-function() 
+function()
 {
 	var key = {game_id: this.game_id, year: this.date.getFullYear(), month: this.date.getMonth(), day: this.date.getDate()};
-	if (this.game_id == 1 && this.date.getHours() == 4) 
+	if (this.game_id == 1 && this.date.getHours() == 4)
 	{
 		emit(key, {count: 5});
 	}
-	else 
+	else
 	{
-		emit(key, {count: 1}); 
+		emit(key, {count: 1});
 	}
-	
+
 }
 </pre>
 
@@ -88,7 +89,7 @@ function()
 <p>Now, the reduce function takes each of these intermediary results and outputs a final result. Here's what ours looks like:</p>
 
 <pre data-language="javascript">
-function(key, values) 
+function(key, values)
 {
    var sum = 0;
    values.forEach(function(value)
@@ -155,7 +156,7 @@ end
 
 <pre data-language="ruby">
 limit = 5.minutes.ago
-db['hits'].map_reduce(map, reduce, {:query => {:date => {'$lte' => limit}, 'processed' => {'$exists' => false}}}).find.each do |row| 
+db['hits'].map_reduce(map, reduce, {:query => {:date => {'$lte' => limit}, 'processed' => {'$exists' => false}}}).find.each do |row|
   key = {:game_id => row['_id']['game_id'], :year => row['_id']['year'], :month => row['_id']['month'], :day => row['_id']['day']}
   daily_hits.update(key, {'$inc' => {:count => row['value']['count']}}, {:upsert => true})
 end

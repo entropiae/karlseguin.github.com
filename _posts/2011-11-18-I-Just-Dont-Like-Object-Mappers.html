@@ -2,6 +2,7 @@
 permalink: "/2011/11/18/I-Just-Dont-Like-Object-Mappers"
 layout: post
 title: "I Just Don't Like Object Mappers"
+tags: [design]
 ---
 <p>It seems like people are talking about ORMs again lately, so I wanted to share my thoughts. In fact, it's something I'm always interested in talking about since my take on this appears to be in the minority, and I've always been uncomfortable about that (on this topic).</p>
 
@@ -13,7 +14,7 @@ title: "I Just Don't Like Object Mappers"
   update answers set votes = votes + 1 where id = @id
 </pre>
 
-<p>than to load an answer by id, update its votes, and then save the object.</p> 
+<p>than to load an answer by id, update its votes, and then save the object.</p>
 
 <p>Yes, part of my problem is performance. At my last job we started troubleshooting why a list of 20 items was rendering so slowly, only to find the database being hit thousands of times to render that page (select n + 1 causing select n + 1 type thing). And this was written by senior and experienced Java developers (teehee)...and it isn't the first time that I've seen it.</p>
 

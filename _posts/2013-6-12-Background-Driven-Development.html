@@ -2,6 +2,7 @@
 layout: post
 title: "Background Driven Development"
 description: "Moving work to background processes, possibly using queues, is a great way to make things fast and stable."
+tags: [design]
 ---
 
 <p>Earlier this week 5 of nic.io's 7 name servers broke, resulting in a lot of failed dns lookups.This more or less brought down viki.com as well as our mobile apps since the platform team uses viki.io for all of its services. As luck would have it, a change made the day before to our own internal api router, kept us available if clients succeeded in doing the initial lookup (which wasn't many of them).</p>

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "An Interview Question Too Many Developers Get Wrong"
+tags: [data structures, learning]
 ---
 Since we do spend some of our time writing and tweaking data structures, I don't think it's too unbecoming of us to ask applicants some basic questions about them. There's one question that seems to throw almost everyone off, here's how we get to it.
 

@@ -2,6 +2,7 @@
 layout: post
 title: "How Good Is Amazon's Route 53 Latency Based Routing?"
 description: "A look at how well Amazon's Route 53 Latency Based Routing directs traffic to the best location"
+tags: [devops, performance]
 ---
 
 <p>At <a href="http://www.viki.com">Viki</a> we use Amazon's Route 53 to do Latency Based Routing (LBR) to one of 4 locations. We don't use EC2, but our 4 locations map well to AWS regions: Washington DC to US-East-1, Los Angeles to US-West-1, France to EU-West-1 and Singapore to AP-Southeast-1 (also in Singapore). We're quite curious to know how well the routing works. (Washington DC is hosted at Softlayer which peers with US-East-1, and latency within tiny Singapore tends to be ~ 5ms)</p>

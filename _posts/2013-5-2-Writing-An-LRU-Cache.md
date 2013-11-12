@@ -2,6 +2,7 @@
 layout: post
 title: "Writing an LRU Cache"
 description: "A skeleton least-recently used (LRU) cache implemented in Go"
+tags: [data structures, go, performance]
 ---
 
 When talking and thinking about data structures, we often limit our imagination to a single structure at a time. This is one reason I like talking about LRU caches, it's a simple example that helps breakdown that artificial barrier. (Something about it reminds me of Picard discovering the paradox). 

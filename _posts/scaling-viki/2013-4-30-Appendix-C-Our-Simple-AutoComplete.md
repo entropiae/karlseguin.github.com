@@ -4,6 +4,7 @@ category: viki
 title: "Appendix C - Our Simple AutoComplete"
 permalink: "/scaling-viki/Appendix-C-Our-Simple-AutoComplete"
 date: 2013-04-30 12:00:50
+tags: [data structures, ebook, node.js]
 ---
 
 Search was the first feature that we planned to tackle after our launch. Until then, we'd simply make do with our existing third-party-hosted provider. But it was the end of the year and I had spent the last few work days in a funk. I needed a challenge to fuel me up and the four-day long weekend provided the perfect opportunity to put headphones on and code. I knew I wouldn't be able to tackle search, but autocomplete seemed doable.

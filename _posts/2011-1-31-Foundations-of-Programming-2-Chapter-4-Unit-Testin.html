@@ -3,6 +3,7 @@ permalink: "/2011/1/31/Foundations-of-Programming-2-Chapter-4-Unit-Testin"
 layout: post
 title: "Foundations of Programming 2 - Chapter 4 - Unit Testing"
 disqus_id: 68
+tags: [testing]
 ---
 <p>So far we've framed the discussion around the idea of testability as a quality metric. Now it's time to look at writing actual tests. There are a number of benefits to writing tests. The most important in my opinion is the impact it has on code quality. I'd easily argue that writing tests is a design exercise since it helps flush out a bunch of anti patterns that make your code unsustainable. Beyond that though, writing tests obviously helps ensure that your code does what its supposed to do, and acts as an important safety neat when you make changes and refactor.</p>
 
@@ -19,7 +20,7 @@ class User
 
         return password.length &gt;= 8
     end
-end 
+end
 </pre>
 
 <p>(To follow general Ruby guidelines, the above method should probably be named <code>password_valid?</code>. However, the trailing question mark was omitted to make the following tests valid in C# and JavaScript - which don't look so kindly on question marks appearing in method names.)</p>
@@ -27,7 +28,7 @@ end
 <p>When I look at the above method, which validates that a password is 8 or more characters long and matches a confirmation, I see the opportunity for 4 tests:</p>
 
 <pre data-language="generic">[Test] //C#
-public void PasswordIsInvalidWhenBlank() 
+public void PasswordIsInvalidWhenBlank()
 {
     Assert.IsFalse(User.passwordIsValid(null, "confirmation"), "Password cannot be false");
 }
@@ -73,7 +74,7 @@ public void PasswordIsValidWhenItMatchesTheConfirmationAndMeetsTheMinimumLength(
         var user = _store.FindOneByNamedQuery("FindUserByUserName", new {username = username});
         if (user == null) { return null; }
         return _encryption.CheckPassword(user.Password, password) ? user : null;
-    }   
+    }
 }
 </pre>
 
@@ -103,7 +104,7 @@ public void PasswordIsValidWhenItMatchesTheConfirmationAndMeetsTheMinimumLength(
 <p>Which we could then use in a test, like:</p>
 
 <pre data-language="generic">[Test]
-public void ReturnsNullIfTheUserIsntFoundInTheStore() 
+public void ReturnsNullIfTheUserIsntFoundInTheStore()
 {
     var store = new FakeDataStore{OnNextCallReturn = null};
     var repository = new UserRepository(store, null);
@@ -118,7 +119,7 @@ public void ReturnsNullIfTheUserIsntFoundInTheStore()
 <p>Mocking frameworks are powerful tools in your testing arsenal. Admittedly, they can be a little tricky to  get used to so we'll try to go over them at a reasonable pace. The purpose behind mocking frameworks is to, in a manner of speaking, automate the creation of our <code>FakeDataStore</code> above as well as enhance how our tests interacts with it.  We'll look at an example and work backwards from there. Using a mocking framework, our above test could be rewritten, without the need for our <code>FakeDataStore</code>:</p>
 
 <pre data-language="generic">[Test] //using Moq in C#
-public void ReturnsNullIfTheUserIsntFoundInTheStore() 
+public void ReturnsNullIfTheUserIsntFoundInTheStore()
 {
     var store = A.Fake&lt;IDataStore&gt;();
     A.CallTo(() =&gt; store.FindOneByNamedQuery("FindUserByUserName", new {username = "theUserName"})).Returns(null);

@@ -3,6 +3,7 @@ permalink: "/2011/4/29/Automatically-Processing-Emails"
 layout: post
 title: "Automatically Processing Emails"
 disqus_id: 86
+tags: [ruby]
 ---
 <p>I recently had the need to automatically parse emails. Specifically, I wanted to associate email replies with an original document. The common case for this is a ticketing system where users can reply to an email in order to have the ticket updated.</p>
 
@@ -15,7 +16,7 @@ Mailman::Application.run do
 	to '%user%@blah.com' do
 		parts = params[:user].split('-', 2)
 		return unless parts.length == 2
-		
+
 		id = parts[1]
 		#todo update the document with an _id of id with message.body
 	end

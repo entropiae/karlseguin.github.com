@@ -11,20 +11,20 @@ disqus_id: 39
 <p>So, say I have a plugin that turns a list of old checkboxes into something fancier. We'll call this plugin niceChoice and code it up something like: </p>
 
 <pre data-language="javascript">
-(function($) 
+(function($)
 {
-  $.fn.niceChoice = function(options) 
-  {        
+  $.fn.niceChoice = function(options)
+  {
     var opts = $.extend({}, $.fn.niceChoice.defaults, options);
-    return this.each(function() 
+    return this.each(function()
     {
       if (this.niceChoice) { return false; }
       var $container = $(this);
       var self =
-      {   
+      {
         initialize: function()
         {
-          $container.find(':checkbox').hide();        
+          $container.find(':checkbox').hide();
           $container.find('label')
             .css('cursor', 'pointer')
             .click(self.toggle)
@@ -35,7 +35,7 @@ disqus_id: 39
         {
           var $label = $(this);
           $label.prepend($('&lt;div&gt;'));
-          self.setState($label, self.getCheckbox($label));     
+          self.setState($label, self.getCheckbox($label));
         },
         toggle: function()
         {
@@ -46,9 +46,9 @@ disqus_id: 39
           return false;
         },
         toggleCheckbox: function($checkbox)
-        {          
+        {
           if ($checkbox.is(':checked')) { $checkbox.removeAttr('checked'); }
-          else { $checkbox.attr('checked', 'checked'); }        
+          else { $checkbox.attr('checked', 'checked'); }
         },
         setState: function($label, $checkbox)
         {
@@ -61,12 +61,12 @@ disqus_id: 39
         }
       }
       this.niceChoice = self;
-      self.initialize();      
+      self.initialize();
     });
   }
 })(jQuery);
-  
-$.fn.niceChoice.defaults = 
+
+$.fn.niceChoice.defaults =
 {
 
 };
@@ -76,11 +76,11 @@ $.fn.niceChoice.defaults =
 
 <pre data-language="html">
 &lt;div id=&quot;template&quot;&gt;
-  &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check1&quot; /&gt; Label1&lt;/label&gt; 
-  &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check2&quot; checked=&quot;checked&quot; /&gt; Label2&lt;/label&gt; 
-  &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check3&quot; checked=&quot;checked&quot; /&gt; Label3&lt;/label&gt; 
-  &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check4&quot; /&gt; Label4&lt;/label&gt; 
-  &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check5&quot; /&gt; Label5&lt;/label&gt; 
+  &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check1&quot; /&gt; Label1&lt;/label&gt;
+  &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check2&quot; checked=&quot;checked&quot; /&gt; Label2&lt;/label&gt;
+  &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check3&quot; checked=&quot;checked&quot; /&gt; Label3&lt;/label&gt;
+  &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check4&quot; /&gt; Label4&lt;/label&gt;
+  &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check5&quot; /&gt; Label5&lt;/label&gt;
 &lt;/div&gt;
 </pre>
 
@@ -98,28 +98,28 @@ label.selected div{background:url('on.png');}
 <pre data-language="html">
 &lt;html&gt;
   &lt;head&gt;
-    &lt;script type=&quot;text/javascript&quot; src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js&quot;&gt;&lt;/script&gt;  
-    &lt;script type=&quot;text/javascript&quot; src=&quot;PATH_TO_OUR_NICECHOICE_PLUGIN.js&quot;&gt;&lt;/script&gt;      
+    &lt;script type=&quot;text/javascript&quot; src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;PATH_TO_OUR_NICECHOICE_PLUGIN.js&quot;&gt;&lt;/script&gt;
     &lt;script type=&quot;text/javascript&quot; src=&quot;../support/qunit.js&quot;&gt;&lt;/script&gt;
-    &lt;link href=&quot;../support/qunit.css&quot; media=&quot;screen&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;    
+    &lt;link href=&quot;../support/qunit.css&quot; media=&quot;screen&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
   &lt;/head&gt;
   &lt;body&gt;
-  
+
 &lt;h1 id=&quot;qunit-header&quot;&gt;Nice Choice Tests&lt;/h1&gt;
 &lt;h2 id=&quot;qunit-banner&quot;&gt;&lt;/h2&gt;
 &lt;h2 id=&quot;qunit-userAgent&quot;&gt;&lt;/h2&gt;
 &lt;ol id=&quot;qunit-tests&quot;&gt;&lt;/ol&gt;
 &lt;div id=&quot;qunit-fixture&quot;&gt;
-  
+
 &lt;/div&gt;
- 
+
 &lt;script type=&quot;text/javascript&quot;&gt;
 $(document).ready(function()
 {
- 
+
 
 });
-&lt;/script&gt;    
+&lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;
 </pre>
@@ -129,11 +129,11 @@ $(document).ready(function()
 <pre data-language="html">
 &lt;div id=&quot;qunit-fixture&quot;&gt;
   &lt;div id=&quot;template&quot;&gt;
-    &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check1&quot; /&gt; Label1&lt;/label&gt; 
-    &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check2&quot; checked=&quot;checked&quot; /&gt; Label2&lt;/label&gt; 
-    &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check3&quot; checked=&quot;checked&quot; /&gt; Label3&lt;/label&gt; 
-    &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check4&quot; /&gt; Label4&lt;/label&gt; 
-    &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check5&quot; /&gt; Label5&lt;/label&gt; 
+    &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check1&quot; /&gt; Label1&lt;/label&gt;
+    &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check2&quot; checked=&quot;checked&quot; /&gt; Label2&lt;/label&gt;
+    &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check3&quot; checked=&quot;checked&quot; /&gt; Label3&lt;/label&gt;
+    &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check4&quot; /&gt; Label4&lt;/label&gt;
+    &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;check5&quot; /&gt; Label5&lt;/label&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 </pre>
@@ -148,7 +148,7 @@ $(document).ready(function()
   test(&quot;initializes the labels and checkboxes&quot;, function()
   {
     var $container = create();
-    
+
     ok($container.find(':checkbox:visible').length == 0, &quot;checkboxes are invisible&quot;);
     $container.find('label').each(function()
     {
@@ -157,7 +157,7 @@ $(document).ready(function()
       ok($label.css('cursor') == 'pointer', 'label has a pointer cursor style');
     })
   });
-  
+
   var defaults = {}; //default settings for us plugin (which we don't have any of... (bad example!))
   function create(options)
   {
@@ -173,7 +173,7 @@ $(document).ready(function()
 <p>Let's add a couple more tests into the mix for the sake of completeness:</p>
 
 <pre data-language="javascript">
-test(&quot;initializes the state based on checkbox values&quot;, function()  
+test(&quot;initializes the state based on checkbox values&quot;, function()
 {
   var $container = create();
   assertState($container.children('label'), new Array(false, true, true, false, false, false));

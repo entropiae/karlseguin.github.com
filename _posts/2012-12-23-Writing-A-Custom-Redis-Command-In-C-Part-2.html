@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Writing a Custom Redis Command In C - Part 2"
+tags: [c, redis]
 ---
 
 <p><strong>update:</strong> By relying on <code>dictFind</code>, this implementation makes an assumption that you'll be storing strings in your set. This'll crash if the set is encoded as an <code>intSet</code>. Open up <code>t_set.c</code> and look at <code>setTypeIsMember</code>. You should either call this directly, or use it for inspiration.</p>

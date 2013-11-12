@@ -4,6 +4,7 @@ category: viki
 title: "Chapter 2 - The Core"
 permalink: "/scaling-viki/Chapter-2-The-Core"
 date: 2013-04-30 12:00:10
+tags: [ebook, design, redis, soa]
 ---
 
 Although there's nothing spectacularly difficult about the new platform, the core part of the system is built differently than most systems. The core is the part of our system that's responsible for finding lists of videos or retrieving details of a video. This includes getting the most popular, trending or other sorting options and getting videos by genre, available subtitles or other filters. It also involves other lists, like a user's subscription and curated content like featured videos.

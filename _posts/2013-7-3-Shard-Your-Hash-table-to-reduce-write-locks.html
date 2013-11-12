@@ -2,6 +2,7 @@
 layout: post
 title: "Shard Your Hash Table To Reduce Write Locks"
 description: "By sharding a hashtable we can reduce the scope of write locks for improved concurrency"
+tags: [concurrency, go, performance]
 ---
 
 <p>I always visualize write locks as a funnel where concurrent execution is forced into a serial mode. You can build an awesome system capable of sustaining tens of thousands of concurrent processes, yet have a badly thought out lock that brings the entire system to a grind. Think of a highway reduced to a single lane.</p>

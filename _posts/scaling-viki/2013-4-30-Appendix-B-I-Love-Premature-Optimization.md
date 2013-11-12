@@ -4,6 +4,7 @@ category: viki
 title: "Appendix B - I Love Premature Optimizations"
 permalink: "/scaling-viki/Appendix-B-I-Love-Premature-Optimizations"
 date: 2013-04-30 12:00:45
+tags: [ebook, learning, performance]
 ---
 
 I hate programming adages that give developers an excuse to avoid work. Developers shouldn't test their own code. Laziness is one of our great virtues. Premature optimization is the root of all evil.  I understand the spirit of these (well, except the testing one, that's just silly), but too often I see them wielded as an excuse for mediocrity.

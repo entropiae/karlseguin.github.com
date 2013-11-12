@@ -2,6 +2,7 @@
 layout: post
 title: "Back To Basics: Hashtables Part 2 (And A Peek Inside Redis)"
 description: "Continuing on from part 1 we look at hashtable rehashing, paying particular attention to Redis' implementation"
+tags: [data structures, go, redis]
 ---
 
 <p>In <a href=/Back-To-Basics-Hashtables/>Part 1</a> we looked at the basic implementation of a hashtable. What we saw was that collisions are a big part of what a hashtable must deal with. Improperly handled, collisions can have a significant negative impact on performance. There are two keys to managing this. First, our hashing algorithm must offer good distribution. Second, our fill factor, which assumes even distribution, must be kept low.</p>

@@ -3,6 +3,7 @@ permalink: "/2011/8/15/How-You-Should-Go-About-Learning-NoSQL"
 layout: post
 title: "How You Should Go About Learning NoSQL"
 disqus_id: 101
+tags: [learning]
 ---
 <p>Yesterday I tweeted three simple rules to learning NoSQL. Today I'd like to expand on that. The rules are: </p>
 
@@ -14,7 +15,7 @@ disqus_id: 101
 
 <h3>Secondary Indexes and Joins</h3>
 <p>First let's talk about <em>secondary indexes</em>. In the relational world, you can normally have as many indexes on a table as you want. Although a primary index (or primary key) always has to be unique, there really isn't any appreciable difference between a primary and secondary index (which is any other index which isn't your primary key). We're talking about this because some (though certainly not all!) NoSQL solutions don't offer secondary indexes. Your very first thought might be that this is insanity, but let's just see where it takes us.</p>
- 
+
 <p>Let's imagine that our relational databases didn't have secondary indexes, what would we do? It turns out that managing our own indexes isn't that difficult. Say we have a <code>Scores</code> table which had an <code>Id</code>, <code>LeaderboardId</code>, <code>UserId</code> and <code>Score</code> column. Our primary index will go on the <code>Id</code> column. However, we also want to be get scores based on their <code>LeaderboardId</code>. The solution? We create a 2nd table which has two columns: <code>LeaderboardId</code> and <code>ScoreIds</code>. In this case, we index the <code>LeaderboardIds</code> so that we can get all of the <code>ScoreIds</code> that belong to a given leaderboard. Whenever we add a new score, we push it onto the <code>ScoreIds</code> column. With this list, we can then fetch all the scores by their <code>Id</code>. Getting the scores which belong to a leaderboard would be 2 queries (both using an index). First getting all the <code>ScoreIds</code> by a given <code>LeaderboarId</code>, then getting all the matchin <code>Score</code> by <code>Id</code>. Storing a score would also be two queries.</p>
 
 <p>Obviously this doesn't work well with relational databases since we'd probably have to treat <code>ScoreIds</code> as a comma-delimited string. However, if the storage engine treated arrays as first class objects (so that we can push, remove and slice in constant time) it wouldn't be the most ridiculous approach in the world (although, there's no denying that a secondary index is better).</p>
@@ -56,4 +57,4 @@ disqus_id: 101
 
 <h3>Conclusion</h3>
 <p>There isn't much more to say other than you should just go ahead and have fun.  NoSQL is a big world, and solutions vary in complexity and differentness. That's why I think MongoDB, which isn't very different, and Redis, which is different but very simple, are a great place to start.</p>
- 
+

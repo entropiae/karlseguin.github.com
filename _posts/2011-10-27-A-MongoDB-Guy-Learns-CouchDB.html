@@ -2,6 +2,7 @@
 permalink: "/2011/10/27/A-MongoDB-Guy-Learns-CouchDB"
 layout: post
 title: "A MongoDB Guy Learns CouchDB"
+tags: [mongodb]
 ---
 
 <p>I <a href="http://mogade.com/">use</a> and <a href="http://mongly.com">contribute</a> to MongoDB a lot. But one thing that NoSQL has taught us is the importance and benefits of exploring and experimenting with different data storage (oftentimes within the same project). So I decided to build a sample application using CouchDB.</p>
@@ -43,7 +44,7 @@ title: "A MongoDB Guy Learns CouchDB"
 
 //you can also query on fields that aren't indexed
 &gt; db.posts.find({author: 'leto'})</pre>
-  
+
 <p>CouchDB takes a different approach. You can only query against views (and preferably predefined viewed), which are built using MapReduce. So, to get a page of posts containing the tag 'nosql', we first define a view:</p>
 
 <pre data-language="javascript"> //our simple view doesn't have a reduce phase, just a map phase
@@ -94,6 +95,6 @@ for doc in db.view('application/post_by_tags', startkey=["nosql"], endkey=["nosq
 
 <p>As I thought about it though, I considered a friend of mine who builds information system for a grocery chain. I don't know much about their architecture, but I believe each store is connected to a central warehouse. However each store must continue to be fully operational during any type of disconnect from the central warehouse, which could last for hours. For this type of system, of which there are countless I'm sure, CouchDB starts to make a lot of sense to me.</p>
 
-<p>I have to believe that, for most people building websites, or doing typical enterprise development, this type of network partitioning isn't a primary concern. Most of us are worried about individual boxes going down, and if we do use multiple data-centers, some form of automatic failover is probably what we want (I admit, that might only be true because that's what we're used to).</p> 
+<p>I have to believe that, for most people building websites, or doing typical enterprise development, this type of network partitioning isn't a primary concern. Most of us are worried about individual boxes going down, and if we do use multiple data-centers, some form of automatic failover is probably what we want (I admit, that might only be true because that's what we're used to).</p>
 
-<p>I guess what I'm trying to say is that you can use CouchDB to build almost any system, but I think systems that almost run in a partitioned environment by default, is where CouchDB shines. For everything else, MongoDB's straight-forwardness, raw performance and scalability, is probably a better choice.</p> 
+<p>I guess what I'm trying to say is that you can use CouchDB to build almost any system, but I think systems that almost run in a partitioned environment by default, is where CouchDB shines. For everything else, MongoDB's straight-forwardness, raw performance and scalability, is probably a better choice.</p>

@@ -2,6 +2,7 @@
 permalink: "/2012/4/4/You-Really-Should-Log-Client-Side-Error"
 layout: post
 title: "You Really Should Log Client-Side Errors"
+tags: [devops, logging]
 ---
 
 <p>Let's keep this short. Too few websites log JavaScript errors. Let's build a simple system to track client-side errors.</p>
@@ -15,7 +16,7 @@ function logError(details) {
     url: 'http://mydomain.com/api/1/errors',
     data: JSON.stringify({context: navigator.userAgent, details: details}),
     contentType: 'application/json; charset=utf-8'
-  }); 
+  });
 }
 </pre>
 

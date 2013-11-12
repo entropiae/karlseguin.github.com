@@ -2,6 +2,7 @@
 permalink: "/2012/1/17/Refactoring-Common-API-Functionaly-Into-A-Node-Proxy"
 layout: post
 title: "Refactoring Common API Functionality Into A Node.js Proxy"
+tags: [node.js]
 ---
 
 <p>The handful of web services that I maintain all share common functionality. For example, at the start of each request, they load an account based on some key (in the query string or the message body). They also ensure that a request is valid by validating the provided sha1 signature. They handle versioning and do logging. It's almost the exact same thing from project to project, but not all of these projects are written in the same language so traditional re-use (dll, gem, package) isn't the best solution.</p>

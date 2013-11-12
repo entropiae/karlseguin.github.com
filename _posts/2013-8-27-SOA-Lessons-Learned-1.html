@@ -2,6 +2,7 @@
 layout: post
 title: "SOA Lessons Learned"
 description: "While the move to a mostly service oriented architecture has paid off, it hasn't been without some pain points"
+tags: [design, soa]
 ---
 
 <p>A few days ago, I mentioned that <a href="/On-Sharing-Infrastructure/">the shared services we use between services is something of a pain to manage</a>. That's definetly the first lesson that we've learnt. Which isn't to say that I'd change it. Some of it <strong>has</strong> to be shared, like the queue and the routing. Pragmatically speaking our DB also needs to be shared (we aren't big enough for every team to manage their own DB). Sharing caching on the other hand, has clearly been a mistake.</p>

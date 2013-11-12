@@ -4,6 +4,7 @@ category: viki
 title: "Chapter 1 - Introduction"
 permalink: "/scaling-viki/Chapter-1-Introduction"
 date: 2013-04-30 12:00:05
+tags: [ebook, design, soa]
 ---
 
 <p>This book tells the story of how Cristobal Viedma and I created the platform that powers Viki: a video site focused on international content and community-driven subtitle translations. Our push to production proved to be an enlightening experience. I constantly found myself looking forward to the day's challenges while reflecting on the experiences and lessons I've accumulated in an otherwise unremarkable career. It was a strange but pleasant mix. A journey, I hope, which you'll find worth reading about.</p>

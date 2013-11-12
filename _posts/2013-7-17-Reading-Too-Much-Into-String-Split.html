@@ -2,6 +2,7 @@
 layout: post
 title: "Reading too much into String.Split"
 description: "The reliance of string libraries is making your code slow"
+tags: [performance]
 ---
 
 <p>It's no great revelation that abstraction tends to come at the cost of efficiency. However, if there's one class of abstraction that stands out as being particularly offensive, it has to be string manipulation libraries. Like most things, it isn't the libraries themselves which are inefficient, but rather the way developers use and abuse them.</p>
@@ -35,12 +36,12 @@ var end_indicator_start = -1
 for (var i = 0, length = buffer.length; i < length; ++i) {
   var c = buffer[i]
   if (c == '\r') {
-    if (first_line_len == -1 && buffer[i+1] == '\n') { 
+    if (first_line_len == -1 && buffer[i+1] == '\n') {
       first_line_len = i + 2
     }
   } else if (c == 'E' && buffer[i+1] == 'N' && buffer[i+2] == 'D' && end_indicator_start == -1) {
     end_indicator_start = i
-    ... 
+    ...
   }
 }
 </pre>

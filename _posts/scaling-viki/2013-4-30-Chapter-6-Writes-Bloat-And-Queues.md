@@ -4,6 +4,7 @@ category: viki
 title: "Chapter 6 - Writes, Bloat and Queues"
 permalink: "/scaling-viki/Chapter-6-Writes-Bloat-and-Queues"
 date: 2013-04-30 12:00:30
+tags: [ebook, design, soa]
 ---
 
 You wouldn't be able to tell from the way I've described the system so far, but we do have writes. From the beginning our vision for managing the distributed nature of Hyperion was vague. We envisioned having a centralized system which used queues to communicate changes in our data. We named this system Oceanus. Although centralized, a failure in Oceanus wouldn't ripple to our Hyperion clusters. At worse, write operations would fail, but users, mobile applications and other partners would still be able to use our system to browse and watch videos.

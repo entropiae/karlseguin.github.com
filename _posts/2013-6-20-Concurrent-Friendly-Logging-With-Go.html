@@ -2,6 +2,7 @@
 layout: post
 title: "Concurrent-Friendly Logging with Go"
 description: "Leveraging Go slices and channels to do logging under high concurrency."
+tags: [concurrency, devops, go, logging]
 ---
 
 <p>Although we managed to <a href=/scaling-viki/>launch Viki's new platform</a> relatively flawlessly, we completely failed to execute on our post-launch roadmap. Our goal had been to focus on polishing search and recommendation. Month's behind schedule, we've finally started doing some initial work on this. At a high level, the project can be split into three phases. First we need to collect data, next we need to analyze it, and finally we need to feed it back into the system.</p>

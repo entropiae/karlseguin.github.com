@@ -4,6 +4,7 @@ category: viki
 title: "Chapter 7 - Conclusion"
 permalink: "/scaling-viki/Chapter-7-Conclusion"
 date: 2013-04-30 12:00:35
+tags: [ebook, design, soa]
 ---
 
 It's hard to end this story when I feel that there's so much more to talk about. Initially I had hoped to intermix technical chapters with Peopleware-oriented ones. But, as I wrote, that just didn't happen. Still, I can't help but think that our real story, challenges and lessons were more about the people than the code. 

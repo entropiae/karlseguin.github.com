@@ -4,6 +4,7 @@ category: viki
 title: "Chapter 4 - Tweaks"
 permalink: "/scaling-viki/Chapter-4-Tweaks"
 date: 2013-04-30 12:00:20
+tags: [ebook, design, performance, soa]
 ---
 
 The core part of our system, including holdbacks, represented a disproportionately large amount of design and experimentation compared to the amount of code involved. The bulk of the code was yet to be written, but it would either be built on top of our foundation or use more traditional designs. Data that didn't need to be integrated with video data or holdbacks ended up either on the file system or in a Postgres database.

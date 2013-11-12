@@ -3,6 +3,7 @@ permalink: "/2010/10/20/My-Slow-Transition-Away-From-Mocks"
 layout: post
 title: "My Slow Transition Away From Mocks"
 disqus_id: 48
+tags: [testing]
 ---
 <p>It looks like I'm late to the party, but lately I've been finding myself leaning less on mocked objects and more on real implementations. This was <a href="http://martinfowler.com/articles/mocksArentStubs.html#ClassicalAndMockistTesting">talked</a> <a href="http://codebetter.com/blogs/ian_cooper/archive/2008/02/04/classicist-vs-mockist-test-driven-development.aspx">about</a> <a href="http://codebetter.com/blogs/gregyoung/archive/2008/02/13/mocks-are-a-code-smell.aspx">back</a> in early 2008 (and likely before then), but I kinda let the conversation pass over me. Suddenly I'm finding that, despite my early concerns, hitting real implementations not only makes my test easier to write but, shockingly (to me), makes them far less brittle.</p>
 
@@ -19,7 +20,7 @@ disqus_id: 48
    {
       _encryptor = encryptor;
    }
-   
+
    public string CalculateHash(Message message)
    {
       var hashKey = message.Body + message.Application.Id;
