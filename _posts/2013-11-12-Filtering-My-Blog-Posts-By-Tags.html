@@ -5,9 +5,9 @@ description: "Thanks to some minimalistic JavaScript, you can now filter my post
 tags: [ui]
 ---
 
-<p>I pushed a change to the homepage which allows posts to be filtered by tags. Given my <a href=/Minimalist-Markup/>desire to keep my homepage small</a>, and the <a href=/#performance>enjoyment I get from optimizing</a>, I faced some hurdles.</p>
+<p>I pushed a change to the index page which allows posts to be filtered by tags. Given my <a href=/Minimalist-Markup/>desire to keep the landing page small</a>, and the <a href=/#performance>enjoyment I get from optimizing</a>, I faced some hurdles.</p>
 
-<p>The changes have increased the homepage size by 32%, or 7Kb. The bulk of this comes from the necessary JavaScript, but there'll of course be extra data for each new post. I opted to forgo any framework, which probably means it doesn't work in older browsers (though I did test most of it out in IE8).</p>
+<p>The changes have increased the size by 32%, or 7Kb. The bulk of this comes from the JavaScript, but there'll of course be extra data for each new post. I opted to forgo any framework, which probably means it doesn't work in older browsers (though I did test most of it in IE8).</p>
 
 <p>The approach can be broken down into 2 parts. First, the data is collected. We store two indexes. The first is a map of tags to list items. The second is a map of tags to tag elements. With these two indexes, we can easily toggle the visibility of appropriate items as well as change the style of the selected tag.</p>
 
