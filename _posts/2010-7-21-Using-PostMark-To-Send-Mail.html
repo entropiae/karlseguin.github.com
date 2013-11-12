@@ -3,6 +3,7 @@ permalink: "/2010/7/21/Using-PostMark-To-Send-Mail"
 layout: post
 title: "Using PostMark To Send Mail"
 disqus_id: 22
+tags: [tech]
 ---
 <p>I think a lot of developers first reaction to having to send mail from an app would be to setup an stmp server and fire emails off (ok, well that might be the second reaction - the first reaction might be <em>ughhh</em>). That's certainly the approach I initially took to handle registration confirmation for our new <a href="http://www.noobgaming.com/">gaming website</a>.</p>
 
@@ -12,7 +13,7 @@ disqus_id: 22
 
 <p>This is where PostMark comes in. With their simple API we're able to send off email - so far so good. But their bounce API is where things get really interested. We chose to use their callback (or hook) capability. Essentially, whenever PostMark fails to deliver a message, they hit our server (address is specified by us in their web interface and uses basic authentication) and pass the relevant information. Here's what our rails code looks like to handle this callback:</p>
 
-<pre data-language="ruby"> 
+<pre data-language="ruby">
 def bounce
    user = User.find_by_field(:email, params[:Email])
    user.invalid_email unless user == nil

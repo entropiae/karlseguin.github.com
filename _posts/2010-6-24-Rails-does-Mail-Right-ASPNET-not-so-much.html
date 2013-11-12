@@ -3,8 +3,9 @@ permalink: "/2010/6/24/Rails-does-Mail-Right-ASPNET-not-so-much"
 layout: post
 title: "Rails does Mail Right. ASP.NET, not so much."
 disqus_id: 12
+tags: [ruby]
 ---
-<p>Yesterday I had to send a confirmation email from a Rails application. The experience felt so right that it made me wonder why the fuck ASP.NET hasn't implemented something similar. I've actually started 
+<p>Yesterday I had to send a confirmation email from a Rails application. The experience felt so right that it made me wonder why the fuck ASP.NET hasn't implemented something similar. I've actually started
 
 to doubt the way I've been sending emails in ASP.NET, because, in comparison, I can't believe how half-assed the implementation is.</p>
 
@@ -19,12 +20,12 @@ public interface IMailSender
 public sealed class MailSender : IMailSender
 {
   private static readonly IDictionary&lt;string, Message&gt; _templates = LoadTemplates();
-  
+
   public void SendConfirmation(string name, string email, string activationCode)
   {
       var message = GetContent(&quot;activation&quot;, new {Name = name, Activation= activationCode});
       var mail = new MailMessage(Configuration.AdminEmail, email, message.Subject, message.Body) { IsBodyHtml = true };
-      new SmtpClient().Send(mail);            
+      new SmtpClient().Send(mail);
   }
 
   private static Message GetContent(string name, object substitutions)
@@ -59,12 +60,12 @@ public sealed class MailSender : IMailSender
                              {
                                  Subject = lines[0],
                                  Body = string.Join(Environment.NewLine, lines, 1, lines.Length - 1)
-                             };                    
+                             };
          templates.Add(Path.GetFileNameWithoutExtension(file), message);
       }
       return templates;
   }
-  
+
   private class Message
   {
       public string Subject { get; set; }
@@ -88,14 +89,14 @@ Account Activation &lt;-- first line is hacked to the subject--&gt;
 
 <p>I essentially have email templates in a folder with placeholders like #NAME#  which this code then replaces with supplied parameters. It works, and its testable, but...</p>
 
-<p>In Rails, ActionMailer is built around MVC. Once you see it, its so obvious you wonder how the ASP.NET team couldn't see it. Essentially, the above boilerplate code is replaced by leveraging the existing 
+<p>In Rails, ActionMailer is built around MVC. Once you see it, its so obvious you wonder how the ASP.NET team couldn't see it. Essentially, the above boilerplate code is replaced by leveraging the existing
 
 MVC infrastructure. Here's an example:</p>
 
 <pre data-language="ruby">
 class Notifier &lt; ActionMailer::Base
   default :from =&gt; Configuration.email_from
-  
+
   def activate_account(user)
     @user = user
     @activation_link = link_to_activate(@user)

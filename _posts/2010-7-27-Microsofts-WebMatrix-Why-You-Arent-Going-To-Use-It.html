@@ -3,6 +3,7 @@ permalink: "/2010/7/27/Microsofts-WebMatrix-Why-You-Arent-Going-To-Use-It"
 layout: post
 title: "Microsoft's WebMatrix - Why You Aren't Going To Use It"
 disqus_id: 24
+tags: [tech]
 ---
 <p>Its hard to tell exactly who WebMatrix, Microsoft's new lightweight web programming framework, is for. Official documentation paints broad strokes, insisting its for <em>developers, students, or just about anyone who just wants a small and simple way to build Web sites.</em> While Microsoft employees are more conservative and seem to indicate that its targeted at amateurs - going so far as to suggest people like my <em>wife, nephew, dad</em> might be interested.</p>
 
@@ -18,27 +19,27 @@ disqus_id: 24
 
 <pre data-language="generic">
 $xml = simplexml_load_file('http://picasaweb.google.com/data/feed/base/user/114741487348646937381/albumid/5494564502704076449?kind=photo');
-foreach ($xml->entry as $entry) 
-{ 
+foreach ($xml->entry as $entry)
+{
   $media = $entry->children('http://search.yahoo.com/mrss/');
   $thumbnail = $media->group->thumbnail[1];
   echo '<img src="' . $thumbnail->attributes()->{'url'} . '" />';
 }
 </pre>
-   
+
 <p>And the WebMatrix vesion:</p>
 
 <pre data-language="generic">
 @using System.Xml
-@{        
+@{
  var xml = new XmlDocument();
- xml.Load("http://picasaweb.google.com/data/feed/base/user/114741487348646937381/albumid/5494564502704076449?kind=photo"); 
- var nsmgr = new XmlNamespaceManager(xml.NameTable); 
- nsmgr.AddNamespace("media", "http://search.yahoo.com/mrss/");    
+ xml.Load("http://picasaweb.google.com/data/feed/base/user/114741487348646937381/albumid/5494564502704076449?kind=photo");
+ var nsmgr = new XmlNamespaceManager(xml.NameTable);
+ nsmgr.AddNamespace("media", "http://search.yahoo.com/mrss/");
  foreach(XmlNode node in xml.SelectNodes("//media:thumbnail", nsmgr))
- {        
+ {
    Response.Write(string.Format("<img src=\"{0}\" />", node.Attributes["url"].Value));
- }    
+ }
 }
 </pre>
 
