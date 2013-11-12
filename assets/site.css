@@ -14,8 +14,10 @@ ul{margin-bottom:20px;}
 h3{margin-top:20px;}
 
 #title{margin:0 0 20px;padding:10px 0 10px 10px;background:#eee;border:solid #ddd;border-width:0 0 1px;position:relative;}
-#title h1, #a, #comments{width:720px;margin:0 auto;}
+#title h1, #a, #tags, #comments{width:720px;margin:0 auto;}
 #title h1{font-size:28px;color:#444;width:75%;text-align:center;}
 #title span{position:absolute;right:5%;bottom:9px;font-size:80%;}
+#tags{margin-top:20px;color:#777;font-size:80%;}
+#tags a{background:#f3f3f3;border:1px solid #e3e3e3;padding:4px;margin-right:15px;border-radius:4px;text-decoration:none;font-size:80%;}
 #comments{margin-top:40px;}
 #home{position:absolute;left:25px;top:15px;background:#e3e3e3;border:1px solid #ddd;padding:4px;border-radius:4px;text-decoration:none;font-size:80%;}
