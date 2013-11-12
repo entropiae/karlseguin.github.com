@@ -72,6 +72,7 @@ function show(tagName) {
   currentTagName = tagName;
   toggleTags('active');
   top.location.hash = tagName;
+  document.body.scrollTop = document.documentElement.scrollTop = 0;
 }
 
 function toggleItems(items, display) {
