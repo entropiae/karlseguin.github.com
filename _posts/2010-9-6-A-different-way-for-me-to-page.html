@@ -3,7 +3,7 @@ permalink: "/2010/9/6/A-different-way-for-me-to-page"
 layout: post
 title: "A different (for me) way to page"
 disqus_id: 35
-tags: [design, modeling, ui]
+tags: [modeling, performance, ui]
 ---
 <p>So, how do <em>you</em> present a list of paged results? For a long time I've followed a simple pattern: get the paged results from the database, get a count of total matches, and return some type of <code>PagedResult</code> object. Doesn't matter if you are using a stored procedure, nhibernate or activerecord. But I've always been bothered by one thing: constantly returning the record count (or page count) to the client.</p>
 
