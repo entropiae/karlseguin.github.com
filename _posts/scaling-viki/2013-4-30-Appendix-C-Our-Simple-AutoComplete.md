@@ -55,15 +55,15 @@ Next we load every id from this point down through all child nodes (in our case,
             o: {
               $: [2]
               r: {
-                $: [2, 3]
-                n: {$: 2}
+                $: [2]
+                n: {$: [2]}
               }
             },
             r: {
               $: [3]
               o: {
                 $: [3]
-                n: {$: 3}
+                n: {$: [3]}
               }
             }
           }
