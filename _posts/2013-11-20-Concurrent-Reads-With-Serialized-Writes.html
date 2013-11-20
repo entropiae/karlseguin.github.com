@@ -85,4 +85,4 @@ func Append(value string) {
 
 <p>The new lock ensures that writes are serialized, so that one won't stomp another. With this new guardian in place, we can safely use our main lock more finely, allowing concurrent reads even during the slow part (in this case <code>copy</code>) of our write.</p>
 
-<p>This won't always work. It depends what your write is doing. But I'm rather fond of the approach. (Thanks to <a href="http://www.twitter.com/pchapuis">@pchapuis</a> for further reducing the amount of locking required.)</p>
+<p>This won't always work. It depends what your write is doing. But I'm rather fond of the approach. (Thanks to <a href="http://www.twitter.com/pchapuis">@pchapuis</a> for further <a href="https://github.com/karlseguin/karlseguin.github.com/commit/7e667be825f4b99355a428dfd333b80e46dac0f2">reducing the amount of locking</a> required.)</p>
