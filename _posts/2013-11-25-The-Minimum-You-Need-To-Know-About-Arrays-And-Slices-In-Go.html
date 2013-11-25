@@ -7,7 +7,7 @@ tags: [go]
 
 <p>Most people who start to learn Go understand the concept of a slice. It's a lightweight wrapper around an array which can, but doesn't necessarily have to, represent a subset (or slice) of that underlying array. Despite this understanding, developers continue to get tripped up when putting that knowledge to practice. Why?</p>
 
-<p>The problem arises when you want to pass an array to a function. Go's documentation makes it clear that arrays are passed by copy. Useful perhaps, if you want the array to be immutable. In most cases though, its simply an inefficiency. Initially, you might be tempted to do something like:</p>
+<p>The problem arises when you want to pass an array to a function. Go's documentation makes it clear that arrays are passed by copy. Useful perhaps, if you want the array to be immutable. In most cases though, it's simply an inefficiency. Initially, you might be tempted to do something like:</p>
 
 <pre data-language=go>
 names := []string{"leto", "paul", "teg"}
@@ -18,7 +18,7 @@ func process(names *[]string) {
 }
 </pre>
 
-<p>That might set off your spidey sense. So you head of to the golang-nuts user group, read relevant posts, or maybe ask a question, and the answer you inevitably get back is: <em>don't pass arrays, pass slices</em>.</p>
+<p>That might set off your spidey sense. So you head off to the golang-nuts user group, read relevant posts, or maybe ask a question, and the answer you inevitably get back is: <em>don't pass arrays, pass slices</em>.</p>
 
 <p>That kinda fits with what you know, since slices are thin wrappers around arrays. But still, this only feels marginally better:</p>
 
