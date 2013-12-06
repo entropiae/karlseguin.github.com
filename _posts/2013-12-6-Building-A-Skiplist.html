@@ -115,12 +115,12 @@ func (s *Skiplist) Set(value string) {
   }
 </pre>
 
-<p>The important thing to realize here is that, although we search from the very top level of our skiplist, we don't necessarily insert at that level. It's entirely possible that our skiplist has 15 levels, but this particular node only goes on level 0. But it's important that we search from the very top so that we can quickly find the right position in log(N). This is why we have the <code>if i > level { continue }</code> code. Once we've hit that line, we know that this is the right location at this level (either because the next node is nil or because we've the next node is larger), but we might not actually need to insert at this level. The effort of reaching this spot wasn't wasted though, because its from this point that our next iteration goes down a level and continues its search.</p>
+<p>The important thing to realize here is that, although we search from the very top level of our skiplist, we don't necessarily insert at that level. It's entirely possible that our skiplist has 15 levels, but this particular node only goes on level 0. But it's important that we search from the very top so that we can quickly find the right position in log(N) time. This is why we have the <code>if i > level { continue }</code> code. Once we've hit that line, we know that this is the right location at this level (either because the next node is nil or because we've the next node is larger), but we might not actually need to insert at this level. The effort of reaching this spot wasn't wasted though, because its from this point that our next iteration goes down a level and continues its search.</p>
 
 <p>The last three lines are just about hooking up the linked list at a particular level. Nothing fancy there. But looking at skiplist operations as two distinct steps is helpful:</p>
 
 <ol>
-  <li>Find the level
+  <li>Find the position per-level
   <li>Do a normal linked list operation at that level (if appropriate)
 </ol>
 
@@ -128,6 +128,6 @@ func (s *Skiplist) Set(value string) {
 
 <p>What might be interesting is displacing a skiplist. For this, I'll send you over to the <a href="http://play.golang.org/p/-rBxaFfsec">above implementation on Go's playground</a>. Note that the output is fixed, but you can change the <code>rand.Seed(8)</code> near the bottom to see different outputs.</p>
 
-<p>A couple final words. First, for a small set, you'll probably get seemingly poor distribution. In such cases, linearly scanning an array is probably best anyways. Second, not only can you adjust the maximum height of the skiplist, but you can also adjust the rate of growth. Instead of <code>rand.Int31n(2) == 1</code> we could use <code>rand.Int31n(3) == 1</code> to make it grow much less, or, alternatively, change it so that it grows much faster. That said, 32 levels and 50% chance to level up, seems standard.</p>
+<p>A few final words. First, for a small set, you'll probably get seemingly poor distribution. In such cases, linearly scanning an array is probably best anyways. Second, not only can you adjust the maximum height of the skiplist, but you can also adjust the rate of growth. Instead of <code>rand.Int31n(2) == 1</code> we could use <code>rand.Int31n(3) == 1</code> to make it grow much less, or, alternatively, change it so that it grows much faster. That said, 32 levels and 50% chance to level up, seems standard.</p>
 
 <p>Hope that was fun.</p>
