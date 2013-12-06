@@ -89,7 +89,7 @@ func (s *Skiplist) Set(value string) {
 
 <p>At this point, inserting the value is a matter of walking through our structure (next and down) and inserting the value at the right position (both in terms of the vertical position and the horizontal one):</p>
 
-<pre data-structure=go>
+<pre data-language=go>
   // the node we'll be inserting
   node := &SkiplistNode {
     value: value,
