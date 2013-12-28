@@ -125,4 +125,3 @@ Depending on your specific needs, there are a lot of customizations you can make
 I'm aware of one production system that implements an LRU using a single data structure: Redis. Redis takes the mother of all shortcuts when it comes to evicting least recently used items. It randomly picks three values and evicts the oldest of the three. That means that, in the worst case, Redis' LRU policy will actually evict your third most popular item. The sample size can be tweaked. It's a neat approach.
 
 A year ago I would have told you a big part of programming is about trading CPU for memory. I've since realized there's a third dimension: accuracy. Playing with all three is fun. 
-
