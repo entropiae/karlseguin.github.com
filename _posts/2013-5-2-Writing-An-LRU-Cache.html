@@ -12,7 +12,7 @@ tags: [data structures, go, performance]
 <h2>Building It</h2>
 <p>How would you build one? First, let's be clear: <code>get</code> and <code>set</code> should be O(1).While building an LRU cache requires that you think in terms of 2 data structures, the reality is that these two data structures actually work more or less separately from each other.</p>
 
-<p>First, we'll need a hashtable. This'll be the structure we use to quickly get and set objects. Next, we'll need a doubly linked list. Whenever we get or set an item from the linked list, we'll put (or promote) that same object to the front of our list. When we need to free memory, we'll trim the tail of our list and remove it from our hashtable.</p>
+<p>First, we'll need a hashtable. This'll be the structure we use to quickly get and set objects. Next, we'll need a doubly linked list. Whenever we get or set an item from the cache, we'll put (or promote) that same object to the front of our list. When we need to free memory, we'll trim the tail of our list and remove it from our hashtable.</p>
 
 <p>As always, through code comes clarity:</p>
 
