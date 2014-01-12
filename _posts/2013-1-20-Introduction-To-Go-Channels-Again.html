@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Introduction To Go: Channels (Again)"
-tags: [concurrency, go]
+tags: [concurrency, golang]
 ---
 
 <p>It can take some time to wrap your head around channels. For this reason, I wanted to <a href="/Introduction-To-Go-Channels/">expand on the previous post</a> with another, more advanced, example. It's a bit complicated, but quite neat. The problem we are trying to solve is simple though. We have a reverse proxy, in Go, and we want to avoid having multiple threads fetch the same file at the same time. Instead, we'd like one of the threads to download it and block the other threads until the file is ready.</p>

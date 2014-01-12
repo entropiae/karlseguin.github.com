@@ -2,7 +2,7 @@
 layout: post
 title: "Fast Large Offsets With An Indexed Skiplist"
 description: "Offsets are often implemented by linear iteration. For sufficiently large offsets, this can be a performance killer."
-tags: [data structures, go, performance]
+tags: [data structures, golang, performance]
 ---
 
 <p>A few days ago we explored and <a href=/Building-A-Skiplist>built part of a skiplist</a>. The benefit of trees or skiplists is that most operations are Log(N). For something like a database index, which not only has to find values, or range of values, but also insert, update and remove items, btrees are the go-to solution.</p>

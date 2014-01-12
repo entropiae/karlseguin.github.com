@@ -2,7 +2,7 @@
 layout: post
 title: "Do More In-Process Caching"
 description: "Improving performance by caching data in-process"
-tags: [design, go, performance]
+tags: [design, golang, performance]
 ---
 
 <p>It seems opposite of what everyone's doing, but today I'd like to talk about caching data directly inside your process. The most obvious reason to do this is for performance. Data stored in-process obviously doesn't need to be fetched from another process which is possibly running on a different box. More importantly, it doesn't have to be serialized and deserialized. This means less objects being created, less memory fragmentation and less garbage collection.</p>
