@@ -5,7 +5,7 @@ description: "Yesterday I set out to try and improve go's string.IndexByte imple
 tags: [learning, golang]
 ---
 
-<p>Yesterday I set out to try and improve go's <code>strings.IndexByte</code> implementation when an offset could be provided. After a few hours, I was finally able to put my implementation to the test. Overall speed inprovement? None. Why do I consider this a success? Because the journey to nowhere was awesome.</p>
+<p>Yesterday I set out to try and improve go's <code>strings.IndexByte</code> implementation when an offset could be provided. After a few hours, I was finally able to put my implementation to the test. Overall speed improvement? None. Why do I consider this a success? Because the journey to nowhere was awesome.</p>
 
 <p>The <code>strings</code> package has an <code>IndexByte</code> function which returns the position of a byte within a string, or -1 if the byte isn't found. For example, the following will print <strong>4</strong>:</p>
 
@@ -68,7 +68,7 @@ Medium Slice   10000000        276 ns/op
 Short Slice    20000000        101 ns/op
 </pre>
 
-<p>Since <code>LongSlice</code> runs slowers (takes more time per iteration), I thought I was onto something: there's clearly overhead in creating a slice. Of course, that overhead is small and is quickly made up for by having a smaller string to scan. Still, why not have your cake and eat it to?!</p>
+<p>Since <code>LongSlice</code> runs slower (takes more time per iteration), I thought I was onto something: there's clearly overhead in creating a slice. Of course, that overhead is small and is quickly made up for by having a smaller string to scan. Still, why not have your cake and eat it to?!</p>
 
 <p>I opened up Go's <a href="http://golang.org/src/pkg/strings">strings package folder</a>, looked for <code>IndexByte</code>, and found:</p>
 
@@ -103,7 +103,7 @@ ADDQ n+24(FP), SI  //added
 <pre data-language=text>
 MOVQ s+0(FP), SI       //move the string pointer (offset 0), to the SI register
 MOVQ s_len+8(FP), BX   //move the string length (offset 8), to the BX register
-MOVB c+16(FP), AL      //move the byte that were's looking at (offset 24), to the AL register
+MOVB c+16(FP), AL      //move the byte that we're looking at (offset 24), to the AL register
 </pre>
 
 <p>The offset of a value is the sum of the size of all the values before it. If you look the <code>bytes.IndexByte</code> code, you'll see that <code>c</code> is at offset 24, not 16. Why? Because array slices have a 3rd 8 byte value, the capacity. In other words, the offset of a value after a string will always be equal to the offset of the string + 16. The offset of a value after an array slice will always be equal to the offset of the array + 24.</p>
@@ -156,7 +156,7 @@ No allocations required. Just two words on the stack.
 
 <li>Go source to assembly: <code>go tool 6g -S FILE.go</code>. That could come in handy.</li>
 
-<li>I'll probably never push my own assembly code into production. Still, I refuse to believe that playing around with it was a loss. Just seeing the impact of different instruction sets (SEE vs not) was obvious but neat. It's also neat to see the control flow through various CMP and JMP operations (which I remember pretty well from school, still, the aligned, sse, condition looping is awesome). I also can't figure out how you pick your regiters (something from school tells me some flags are tied to specific registers?). Why R11 vs R10 vs X0 vs BX? The documentation is pretty brutal.</li>
+<li>I'll probably never push my own assembly code into production. Still, I refuse to believe that playing around with it was a loss. Just seeing the impact of different instruction sets (SEE vs not) was obvious but neat. It's also neat to see the control flow through various CMP and JMP operations (which I remember pretty well from school, still, the aligned, sse, condition looping is awesome). I also can't figure out how you pick your registers (something from school tells me some flags are tied to specific registers?). Why R11 vs R10 vs X0 vs BX? The documentation is pretty brutal.</li>
 </ol>
 
 <p>Honestly, it doesn't matter why you're exploring stuff outside of what you already know. As long as you're doing it.</p>
