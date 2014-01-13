@@ -5,9 +5,9 @@ description: "Yesterday I set out to try and improve go's string.IndexByte imple
 tags: [learning, golang]
 ---
 
-<p>Yesterday I set out to try and improve go's <code>strings.IndexByte</code> implementation when an offset could be provided. After a few hours, I was finally able to put my implementation to the test. Overall speed inprovement? 0ns. Here's why I consider this a success.</p>
+<p>Yesterday I set out to try and improve go's <code>strings.IndexByte</code> implementation when an offset could be provided. After a few hours, I was finally able to put my implementation to the test. Overall speed inprovement? None. Why do I consider this a success? Because the journey to nowhere was awesome.</p>
 
-<p>For some background, the <code>strings</code> package has an <code>IndexByte</code> function which returns the position of a byte within a string, or -1 if the byte isn't found. For example, the following will print<strong>4</strong>:</p>
+<p>The <code>strings</code> package has an <code>IndexByte</code> function which returns the position of a byte within a string, or -1 if the byte isn't found. For example, the following will print <strong>4</strong>:</p>
 
 <pre data-language=go>
 haystack := "it's over 9000"
