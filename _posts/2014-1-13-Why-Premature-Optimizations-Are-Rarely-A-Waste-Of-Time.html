@@ -145,18 +145,18 @@ No allocations required. Just two words on the stack.
 
 <p>In other words, my assumption that a string slice would result in a heap allocation (and subsequent GC), was wrong. My 'tweaked' version and the slice version are effectively the same (a couple values pushed onto the stack).</p>
 
-<p>What I'm saying is that this is a pattern I've gone through many times before. The performance gains from optimizing tend to be small compared to what the process can teach you. In this case, what I learned (more or less in order of important):</p>
+<p>What I'm saying is that this is a pattern I've gone through many times before. The performance gains from optimizing tend to be small compared to what the process can teach you. In this case, what I learned (more or less in order of importance):</p>
 
 <ol>
 <li>I wrongly associate stack with primitives and the heap for everything else. I still think that's true for Java, and, structs aside, true for C#. But, if I'm honest, I have no idea how Ruby or Node approach this. Go's specs, I've since learned, never mention the heap or the stack, so it's implementation specific. I know how the current implementation behaves, in this case at least.</li>
 
 <li>Go has highly optimized <code>Index</code> functions for both strings and bytes. I'll never worry about that again.</li>
 
-<li>Calling assembly from Go. More importantly, I learned that it's easy (easier than my experience of calling C from Ruby, for example). It's probably safe to say that calling C from Go is equally easy. In the future, this knowledge will help me rank the appropriateness of various solutions.</li>
+<li>Calling assembly from Go is easier than I would have guessed. It's probably safe to say that calling C from Go is equally easy. In the future, this knowledge will help me quickly rank the appropriateness of various solutions.</li>
 
 <li>Go source to assembly: <code>go tool 6g -S FILE.go</code>. That could come in handy.</li>
 
-<li>Assembly. Ok, so I'll probably never push my own assembly code into production. Still, I refuse to believe that playing around with it was a loss. Just seeing the impact of different instruction sets (SEE vs not) was obvious but neat. It's also neat to see the control flow through various CMP and JMP operations (which I remember pretty well from school, still, the aligned, sse, condition looping is awesome). I also can't figure out how you pick your regiters (something from school tells me some flags are tied to specific registers?). Why R11 vs R10 vs X0 vs BX? The documentation is pretty brutal.</li>
+<li>I'll probably never push my own assembly code into production. Still, I refuse to believe that playing around with it was a loss. Just seeing the impact of different instruction sets (SEE vs not) was obvious but neat. It's also neat to see the control flow through various CMP and JMP operations (which I remember pretty well from school, still, the aligned, sse, condition looping is awesome). I also can't figure out how you pick your regiters (something from school tells me some flags are tied to specific registers?). Why R11 vs R10 vs X0 vs BX? The documentation is pretty brutal.</li>
 </ol>
 
-<p>Honestly, it doesn't matter why you're exploring stuff outside of what you already know. As longa as you're doing it.</p>
+<p>Honestly, it doesn't matter why you're exploring stuff outside of what you already know. As long as you're doing it.</p>
