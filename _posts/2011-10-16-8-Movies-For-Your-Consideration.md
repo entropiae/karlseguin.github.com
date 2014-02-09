@@ -2,9 +2,9 @@
 permalink: "/2011/10/16/8-Movies-For-Your-Consideration"
 layout: post
 title: "8 Movies For Your Consideration"
-tags: [misg]
+tags: [misc]
 ---
- 
+
 Here's a list of movies, I think, are worth watching. These aren't necessarily my favorite movies, but I tried to stay away from anything too mainstream.
 
 ### Ink
