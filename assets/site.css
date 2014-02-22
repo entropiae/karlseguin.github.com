@@ -15,7 +15,7 @@ h3{margin-top:20px;}
 
 #home{background:#444;color:#fff;padding:6px 10px;text-decoration:none;font-size:80%;position:absolute;top:0;left:0;}
 #byline{font-size:80%;margin:2px 0 10px;color:#666;position:relative;top:20px;}
-#title{margin:20px 0 6px;border:none;border-bottom:1px solid #ddd;position:relative;font-size:22px;color:#666;}
+#title{margin:20px 0 15px;border:none;border-bottom:1px solid #ddd;position:relative;font-size:22px;color:#666;}
 #tags{margin-top:20px;color:#777;font-size:80%;}
 #tags a{background:#f3f3f3;border:1px solid #e3e3e3;padding:4px;margin-right:15px;border-radius:4px;text-decoration:none;font-size:80%;}
 #comments{margin-top:40px;}
