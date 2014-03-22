@@ -55,7 +55,7 @@ func worker(size int) {
   position := 0
   for {
     entry := <- channel
-    length := len(event)
+    length := len(entry)
     if length > size {
       //todo handle a message that we can't fit in our buffer (log an error? save directly to disk?)
     }
