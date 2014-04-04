@@ -22,10 +22,10 @@ tags: [data structures, golang]
 <pre data-language=go>
   file, err := os.Open("itsover.9000")
   if err != nil { ..handle .. }
-  defer.file.Close()
-  stat, _ := f.Stat()
+  defer file.Close()
+  stat, _ := file.Stat()
   bytes := make([]byte, stat.Size())
-  f.Read(bytes)
+  file.Read(bytes)
 </pre>
 
 <p>If you don't know the exact size but have a vague idea, start there. Many buffer-based data structures let you specify an initial size, which is good because they tend to start small. Java's <code>StringBuilder</code> has a constructor which takes an initial <code>capacity</code>. Use it.</p>
