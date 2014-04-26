@@ -1,0 +1,168 @@
+---
+layout: post
+title: "Understanding Javascript Promises"
+description: "A little tutorial on Javascript promises"
+tags: [node.js]
+---
+
+<p>Learning promises is an interesting process. Like many tools, there are common pitfalls to get stuck on. What makes promises somewhat unique is that it tends to be obvious that you're doing it wrong. Why? Promises are designed to solve a clear and well-understood problem: nested callbacks. As you start to use them however, you're code isn't <em>that</em> different. Obviously there's something you don't grok, but what?</p>
+
+<p>The example that I'm going to walk through is a login. This involves:</p>
+<ol>
+  <li>Opening our connection
+  <li>Getting the user's row from the DB based on email
+  <li>Comparing the passwords
+  <li>Updating the DB with a `token`
+  <li>Releasing our connection
+  <li>Returning the user data and token
+</ol>
+
+<p>If you're familiar with callbacks, you should be able to visualize the flow of this code. (We're using the asynchronous <code>bcrypt.compare</code> method for our password check, so don't forget to visualize that nesting).</p>
+
+<p>Before we dive into code, I think much of the confusion around promises stems from understanding how chaining works. Without this understanding, you're likely to end up with nested promises and resolvers, which ends up being worse than callbacks.</p>
+
+<p>Getting past the confusion comes down to remembering what you already know: these two samples are different:</p>
+
+<pre data-language=coffeescript>
+p = new Promise (resolve, reject) ->
+   # do stuff here and resolve or reject
+p.then (value) -> #do something
+p.then (value) -> #do something
+return p
+
+# vs
+
+new Promise (resolve, reject) ->
+   # do stuff here and resolve or reject
+.then (value) -> #do something
+.then (value) -> #do something
+</pre>
+
+<p>In the first case the two handlers are attached to the same original promise. Furthermore ,that same original promise is what's returned to the caller. In the second case, the first handler is still attached to the original promise, but the second handler is attached to the the first handler. Furthermore, the return value is the second handler. This is really important to understand. <code>then</code> returns a <code>thenable</code>, which, for all intents and purposes, acts like a promise.</p>
+
+<p>What's confusing is that we forget what is and isn't asynchronous. The execution of the handlers themselves (the functions passed to <code>then</code>) happens at some point in the future. However, the chain itself is built synchronously. At first that might not be intuitive, we create the promise and think of everything else happening after; only the promise itself, as the entry point, exists and thus gets returned. But forget about synchronicity, this is just method chaining. The output of one is the input of the next and the tail is the final result. What a promise does is guarantee that the chain will be executed in order and that the last link, which the caller has, is going to get the final data, which is what the caller wants.</p>
+
+<p>Onto the code. First we start by opening our connection (I'm using <a href="https://github.com/petkaantonov/bluebird">bluebird</a> as my promise library). We'll start off by <code>promisifying</code> the <code>pg</code> library. This creates an <code>*Async</code> version of each function, giving us a promisable flow instead of a callback flow. We do this against both the main <code>pg</code> library as well all the instance methods of <code>pg.Client</code>:</p>
+
+<pre data-language=coffeescript>
+pg = Promise.promisifyAll(require('pg'))
+Promise.promisifyAll(pg.Client.prototype)
+
+# also promisify the bcrypt library
+bcrypt = Promise.promisifyAll(require('bcrypt'))
+</pre>
+
+<p>This means that we can now call <code>connectAsync</code> against <code>pg</code> and get a promise (rather than calling <code>connect</code> which expects a callback). Similarly, we can now call <code>queryAsync</code> against any instance of <code>pg.Client</code>. With this in place, we can open our connection and get the row:</p>
+
+<pre data-language=coffeescript>
+@find_by_credentials: (email, password) ->
+  pg.connectAsync(connection_string)
+  .then (conn) -> conn.queryAsync("select * from users where email = $1", [email])
+</pre>
+
+<p>This says "create a connection and pass it to me so that I can find the row". The next step says "pass me the row so I can verify the user":</p>
+
+<pre data-language=coffeescript>
+@find_by_credentials: (email, password) ->
+  pg.connectAsync(connection_string)
+  .then (conn) ->
+    conn.queryAsync("select * from users where email = $1", [email])
+  .then (result) ->
+    if result.rows.length == 0
+      false
+    else
+      data = result.rows[0]
+      bcrypt.compareAsync(password, data.password)
+</pre>
+
+<p>Notice that our 2nd handler isn't nested within the first, but rather is attached to it, which is why its input is the result of the of our query. In our next handler we'll run into a serious problem, can you spot why the following code won't work?</p>
+
+
+<pre data-language=coffeescript>
+@find_by_credentials: (email, password) ->
+  pg.connectAsync(connection_string)
+  .then (conn) ->
+    conn.queryAsync("select * from users where email = $1", [email])
+  .then (result) ->
+    return false if result.rows.length == 0
+    user = result.rows[0]
+    bcrypt.compareAsync(password, user.password)
+  .then (is_match) ->
+    return null unless is_match
+    user.token = crypto.createHash('sha256').update(Math.random().toString()).digest('hex')
+    # don't make this part of the main chain, but don't fire and forget it either; we need to log errors!
+    conn.queryAsync("update users set token = $1 where id = $2", [user.token, user.id]).catch (err) -> #todo log err
+    return user
+</pre>
+
+<p>The last handler has a major flaw: neither <code>user</code> nor <code>conn</code> are in scope. There are a couple ways to solve this. Then one that I'll use is <code>bind</code>. The <code>bind</code> function lets us define what <code>this</code> is within our chain. We can bind to anything. In our case, we'll bind to an empty hash and use it to attach state:</p>
+
+<pre data-language=coffeescript>
+@find_by_credentials: (email, password) ->
+  # Notice the extra call to bind here
+  pg.connectAsync(connection_string).bind({})
+  .then (conn) ->
+    # this (or @ in coffeescript), is what we bound to. In this case, an empty
+    # hash, which is all we need to pass some state around
+    @.conn = conn
+    conn.queryAsync("select * from users where email = $1", [email])
+  .then (result) ->
+    return false if result.rows.length == 0
+    @.user = result.rows[0]
+    bcrypt.compareAsync(password, @.user.password)
+  .then (is_match) ->
+    return null unless is_match
+    @.user.token = crypto.createHash('sha256').update(Math.random().toString()).digest('hex')
+    @.conn.queryAsync("update users set token = $1 where id = $2", [@.user.token, @.user.id]).catch (err) -> #todo log err
+    return @.user
+</pre>
+
+<p>There's one last thing we need to do. Despite what our above code claims, pg's <code>connect</code> function doesn't return a single <code>connection</code> object. It returns both a connection as well as a callback which should be used to release the connection back into the pool. The first <code>then</code> doesn't actually receive a connection. It receives an array, where the first item is a connection and the second one the release function. We could easily program against the array. Alternatively, we can use <code>spread</code> instead of <code>then</code> which flattens out the array into parameters:</p>
+
+<pre data-language=coffeescript>
+@find_by_credentials: (email, password) ->
+  pg.connectAsync(connection_string).bind({})
+  .spread (conn, release) ->
+    conn.queryAsync("select * from users where email = $1", [email])
+    ...
+</pre>
+
+<p>Next we'll want to call <code>release</code> when we're done with our with our code. Importantly, we want to do this whether or not an error happens. For this reason, we'll use <code>finally</code>:</p>
+
+<pre data-language=coffeescript>
+@find_by_credentials: (email, password) ->
+  pg.connectAsync(connection_string).bind({})
+  .spread (conn, release) ->
+    @.conn = conn
+    # keep track of this
+    @.release = release
+    conn.queryAsync("select * from users where email = $1", [email])
+  .then (result) ->
+    return false if result.rows.length == 0
+    @.user = result.rows[0]
+    bcrypt.compareAsync(password, @.user.password)
+  .then (is_match) ->
+    return null unless is_match
+    @.user.token = crypto.createHash('sha256').update(Math.random().toString()).digest('hex')
+    @.conn.queryAsync("update users set token = $1 where id = $2", [@.user.token, @.user.id]).catch (err) -> #todo log err
+    @.user
+  .finally -> @.release()
+</pre>
+
+<p>It's important to note the reason that <code>finally</code> is called last. It isn't some magic property of <code>finally</code> to execute itself at the end of the chain. The reason finally is called when it's called, is merely a function of where we attach it. If we attached <code>finally</code> after our first <code>then</code>, our last handler would end up with an invalid connection. The reason for <code>finally's</code> name is simply that it's called in both the normal and error flow. (if you <code>throw</code> in one of the <code>then's</code>, the following <code>thens</code> won't execute, whereas <code>finally</code> will.)</p>
+
+<p>Hopefully this example helped. You can see that the flattening isn't artificial. It really comes down to understanding that the chain is created now but executed in the future, in sequence. Also, while we focused on this single type of flow (which I think is where most developers get stuck), there are other useful patterns. In particular, there are times where you'll want to attach multiple handlers to the same promise, rather than create a chain. What's important though is that you now know what both of these will output, and why:</p>
+
+<pre data-language=coffeescript>
+Promise = require('bluebird')
+
+p = new Promise (resolve) -> resolve(1)
+p.then (value) -> value + 1
+p.then (value) -> value + 1
+p.then (value) -> console.log(value)
+#vs
+new Promise (resolve) -> resolve(1)
+.then (value) -> value + 1
+.then (value) -> value + 1
+.then (value) -> console.log(value)
+</pre>
