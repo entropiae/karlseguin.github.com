@@ -174,7 +174,7 @@ new Promise (resolve) -> resolve(1)
     pg.conn(cs).then(function(){...}).then(function(){...}).then(function(){...})
 </pre>
 
-<p>What does this function return? It doesn't return the connection. It doesn't return the asynchronouslsy executed functions. It returns whatever the return value of <code>then()</code> is (which is a <code>thenable</code).</p>
+<p>What does this function return? It doesn't return the connection. It doesn't return the asynchronouslsy executed functions. It returns whatever the return value of <code>then()</code> is (which is a <code>thenable</code>).</p>
 
 <p>Now expand it just a little:</p>
 <pre data-language=javascript>
