@@ -2,16 +2,16 @@
 layout: post
 title: "Understanding Pools"
 description: "Introducing some core concepts around pools (byte pools, connection pools,...)"
-tags: [golang learning]
+tags: [golang, learning]
 ---
 
 <p>My former colleagues <a href="http://engineering.viki.com/blog/2014/thread-safe-bytepool-for-go/">wrote a blog post last week</a> about the <a href="https://github.com/karlseguin/bytepool">Golang bytepool library</a> that I wrote. Three points are worth expanding on.</p>
 
-<p>The first is with respect to the performance you gain with pools. You can have a pool for anything, and certainly, in some cases such as database connections, the initialization cost is the main factor driving your decision to use/build a pool. However, and I have no proof of this, I have to think that the big win of a bytepool isn't reduced allocations but rather less garbage collection. This is particularly true in a stop-the-world mark-and-sweep world of Go's garbage collector. Assuming the system used to run the benchmark wasn't under viscous memory constraint, the numbers shown represent the worst-case scenario. I'd be at least as interested in seeing and exploring the results of <code>debug.GCStats</code>.</p>
+<p>The first is with respect to the performance you gain with pools. You can have a pool for anything, and certainly, in some cases such as database connections, the initialization cost is the main factor driving your decision to use/build a pool. However, and I have no proof of this, I have to think that the big win of a bytepool isn't reduced allocations but rather less garbage collection. This is particularly true in a stop-the-world mark-and-sweep world of Go's garbage collector. Assuming the system used to run the benchmark wasn't under any memory constraints, the numbers shown represent the worst-case scenario. I'd be at least as interested in seeing and exploring the results of <code>debug.GCStats</code>.</p>
 
 <p>Secondly, as-is, pools are simple to understand and implement. Where things can get tricky is when you try to dynamically change the size of the pool. Just creating a new array makes a lot of sense for a bytepool, but not for something which is limited on the other side (again, like database connections). Similarly, keeping the pool at a fixed size makes sense for a bytepool running on gigs of RAM, but not in other cases. Beyond that, I can't really say anything intelligent about the subject, but I do think this is a topic worth further exploration. (On a side note, the pool which is <a href="http://tip.golang.org/pkg/sync/#Pool">built into Go 1.3</a> seems to have some dynamic heuristics).</p>
 
-<p>Finally, and most importantly, we should be very clear about what a pool, and in particular a byte pool, represents. Fundamentally, it represents the developer taking over memory management from the runtime. I think too many developers rely too absolutely on their runtimes memory management, so I think this is a <em>good thing</em>, but only when accompanied with diligence. Here's an example of what I mean, can you spot the problem?</p>
+<p>Finally, and most importantly, we should be very clear about what a pool, and in particular a byte pool, represents. Fundamentally, it represents the developer taking over memory management from the runtime. I think too many developers rely too absolutely on their runtime's memory management, so I think this is a <em>good thing</em>, but only when accompanied with diligence. Here's an example of what I mean, can you spot the problem?</p>
 
 <pre data-language=go>
 pool := pool.New(10, 100)
