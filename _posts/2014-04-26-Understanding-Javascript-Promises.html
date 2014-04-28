@@ -165,3 +165,28 @@ new Promise (resolve) -> resolve(1)
 .then (value) -> value + 1
 .then (value) -> console.log(value)
 </pre>
+
+<h4>update</h4>
+<p>As a last-ditch effort to make up for my failure in explaining this, I suggest you strip out all the noise and look at the bare code:</p>
+
+<pre data-language=javascript>
+  @find_by_credentials: (email, password) ->
+    pg.conn(cs).then(function(){...}).then(function(){...}).then(function(){...})
+</pre>
+
+<p>What does this function return? It doesn't return the connection. It doesn't return the asynchronouslsy executed functions. It returns whatever the return value of <code>then()</code> is (which is a <code>thenable</code).</p>
+
+<p>Now expand it just a little:</p>
+<pre data-language=javascript>
+  @find_by_credentials: (email, password) ->
+    pg.conn(cs).then(function(CONN){return "A"}).then(function(A){return "B"}).then(function(B){...})
+
+  #vs
+  @find_by_credentials: (email, password) ->
+    p = pg.conn(cs)
+    p.then(function(CONN){return "A"})
+    p.then(function(CONN){return "B"})
+    p.then(function(CONN){...})
+</pre>
+
+<p>This should help you see how everythign relates to each other</p>
