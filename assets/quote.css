@@ -2,10 +2,11 @@
 body{font-family:Raleway,helvetica;}
 a{text-decoration:none;color:#444;}
 p{margin:20px 0;}
-#home{position:absolute;top:0;left:0;background:#eee;padding:5px 10px;}
+table{width:100%;}
+#home{position:absolute;top:0;right:0;background:#eee;padding:5px 10px;}
 #home:hover{background:#ddd;}
 
-#quote{width:960px;margin:0 auto;line-height:46px;font-size:26px;padding:50px;}
+#quote{width:800px;margin:0 auto;line-height:35px;font-size:22px;padding:10px 60px;vertical-align:top;}
 #quote:first-letter{font-size:45px;}
 #attribution{font-style:italic;color:#888;text-align:right;}
 #attribution:before{content:'-';}
@@ -16,7 +17,6 @@ p{margin:20px 0;}
 #dark #quote{border-color:#444;}
 #dark p{text-shadow:1px 1px 1px #000;}
 
-#creative {padding:15px;width:150px;height:100%;position:fixed;top:0;right:0;background:#111;border-left:1px solid #333;}
-#creative li{float:left;list-style:none;}
-#creative a{display:inline-block;padding:10px;color:#999;}
+#creative {padding:15px;width:150px;height:100%;vertical-align:top;background:#111;border-left:1px solid #333;}
+#creative a{display:block;padding:10px;color:#999;}
 #creative a:hover{color:#ccc;}
