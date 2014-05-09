@@ -36,7 +36,7 @@ func Run() {
 
 <p>Before we block, we do three things. First, we define a channel which can pass an <code>os.Signal</code> around. Next we use the signal's <code>Notify</code> method to intecept a singal. When SIGINT is received, our channel will be activated. Finally, we run a goroutine (notice the <code>()</code> at the end of our <code>func</code>, which is actually executing the code - familiar to any javascript coder). Within our function, we block waiting for message to be received. When it is, our goroutine continues to execute (going to sleep before exiting).</p>
 
-<p>With channels, the -> and &lt;- operators are used to send and receive messages respectively. In the above code, <code>signal.Notify</code> is taking care of sending the message. Also, our goroutine is blocking and simply discarding the received messaged. A more illustrative and useless version would be:</p>
+<p>With channels, the &lt;- operator is used to send and receive messages respectively. In the above code, <code>signal.Notify</code> is taking care of sending the message. Also, our goroutine is blocking and simply discarding the received messaged. A more illustrative and useless version would be:</p>
 
 <pre data-language=go>
 func main() {
