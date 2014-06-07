@@ -39,6 +39,6 @@ func hit(time int) {
   }
 </pre>
 
-<p>The more number of hits we have, the less likely a point is going to get sampled, yet the earlier a point is sampled, the more change it has to get replaced.</p>
+<p>The more number of hits we have, the less likely a point is going to get sampled, yet the earlier a point is sampled, the more chance it has to get replaced.</p>
 
 <p>With sampling you potentially end up throwing out outliers. However, unlike an average, I <strong>think</strong> that over the long run, you aren't going to be consistently smoothing out your curve. Nevertheless, if outliers is of interest (and why wouldn't it be?!), the simplest and most scalable solution is still to keep a simple counter of outliers.</p>
