@@ -90,7 +90,7 @@ root -> pool -> results[user3, user2]
 
 <p>The very goal of avoiding the destruction and creation of arrays means that references held by those fixed array exist until we overwrite them. Unless you have smooth usage, you'll end up with spikes which result in pinned objects.</p>
 
-<p>Is there a solution? <a href=https://twitter.com/cviedma>Cristobal</a> suggests zero-ing out the array on <code>Close</code>:</p>
+<p>Is there a solution? <a href=https://twitter.com/viedma>Cristobal</a> suggests zero-ing out the array on <code>Close</code>:</p>
 
 <pre data-language=go>
 func (r *Result) Close() error {
