@@ -103,7 +103,7 @@ func (r *Result) Close() error {
 }
 </pre>
 
-<p>Compared to re-creating the array, a simplistic benchmark shows that the efficiency of this approach is tied to how big <code>position</code> is. At some point, re-creating the array might be better (hard to measure, as it depends on memory pressure, fragmentation and so on).</p>
+<p>Compared to re-creating the array, a simplistic benchmark shows that the efficiency of this approach is tied to how big <code>position</code> is (obviously). At some point, re-creating the array might be better, but this is hard to measure, as it depends on memory pressure, fragmentation and so on (my simple test showed the magic number to be 130).</p>
 
 <p>For us, we're using objects already pinned in memory by other parts of the system (an in-memory database). So it isn't an issue - those objects will exist for the life of the the application anyways</p>
 
