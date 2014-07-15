@@ -41,9 +41,9 @@ p = a().then (value) ->
   c()
 .then (value) ->
   console.log(value)
+.cancellable()
 .catch Promise.CancellationError, ->
   console.log('cancelled')
-.cancellable()
 </pre>
 
 <p>With the above code, when <code>a()</code> returns <code>null</code>, our output will be <code>null</code> followed by <code>cancelled</code>. It's possible to <code>cancel</code> with an explicit reason, or we can <code>cancel</code> without a reason and catch the <code>Promise.CancellationError</code> type.</p>
