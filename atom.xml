@@ -11,7 +11,6 @@ layout: nil
  <id>http://openmymind.net/</id>
  <author>
    <name>Karl Seguin</name>
-   <email>karl@openmymind.io</email>
  </author>
 
  {% for post in site.posts limit:20 %}
