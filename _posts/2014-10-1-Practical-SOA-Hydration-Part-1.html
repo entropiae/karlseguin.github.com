@@ -5,10 +5,10 @@ tags: [performance, design, soa, scalability]
 description: "Leveraging a service oriented architecture presents a number of design and performance challenges. A hydration layer that sits at the top of your services can help."
 ---
 <h3>The Problem</h3>
-<p>One of the main problems we ran into building a system around a service oriented architecture was having multiple services returning the same type of data. The example that we'll use throughout this post is a shopping site. Within a shopping site, we can conceive of multiple services that return list of products:</p>
+<p>One of the problems we ran into building a system around a service oriented architecture was having multiple services returning the same type of data. The example that we'll use is a shopping site. Within a shopping site, we can conceive of multiple services that return list of products:</p>
 
 <ul>
-  <li>From a search
+  <li>Search
   <li>Recommendations
   <li>User's favorites
   <li>Line items in an basket or invoice
@@ -18,7 +18,7 @@ description: "Leveraging a service oriented architecture presents a number of de
 
 <p>You can argue that some of these should be inside single service. If you think they should <strong>all</strong> be one service, well, I hope you'll find this post interesting nonetheless.</p>
 
-<p>We want a product to look the same regardless of which service it comes from, without duplicating the display logic / view model. For example, a simple product response should look like this regardless of whether it comes from a search, recommendation, or user favorites:</p>
+<p>We want a product to look the same regardless of which service it comes from, without duplicating the display logic / view model. For example, a simple product response always look like this:</p>
 
 <pre data-language=json>{
   "id": "9001p",
@@ -78,16 +78,16 @@ description: "Leveraging a service oriented architecture presents a number of de
 <h3>Caching</h3>
 <p>When you bring caching and hydration together, you can see a massive positive impact on your cache hit ratio. For most systems, I'm a big believer in long cache TTLs with proactive purges. Again, using our queue, when product X gets updated, one of the queue workers sends out a purge request. Without hydration though, what do you purge?</p>
 
-<p>You can <code>PURGE /products/X</code>, but what about the countless lists of results, either from searching, filtering, paging, curated lists, recommendation, and so on? How do you purge all of the pages that product X belongs to?</p>
+<p>You can <code>PURGE /products/X</code>, but what about all those lists of products, either from searching, filtering, paging, curated lists, recommendation, and so on? How do you purge all of the pages that product X belongs to?</p>
 
 <p>With hydration, that isn't a problem. You cache the unhydrated list (preferably in a parsed format) separately from the product data. So you can have a hundred lists which reference product X, but they'll always hydrate on-demand with the most up-to-date data.</p>
 
-<p>The impact on caching is more than just being able to set a long TTL. It can also reduces the size of your cache. Your lists become a fraction of their original size by only containing a reference to the object.</p>
+<p>The impact on caching is more than just being able to set a long TTL. It can also reduces the size of your cache. Your lists become a fraction of their original size by only containing references rather than full blown objects.</p>
 
 <h3>Response Variations</h3>
 <p>Some services might want to return a slightly different product structure. For example, your full text search service might want to add a <code>weight</code> field.</p>
 
-<p>There are two solutions to this. First, it makes it a little more complex to parse, but the hydration target can be nested:</p>
+<p>There are two solutions to this. We can either nest the reference:</p>
 
 <pre data-language=json>
 {
@@ -127,7 +127,7 @@ description: "Leveraging a service oriented architecture presents a number of de
 }
 </pre>
 
-<p>Or, as a simpler solution, you could return two different objects:</p>
+<p>Or return two different objects:</p>
 
 <pre data-language=json>
 {
@@ -147,8 +147,8 @@ description: "Leveraging a service oriented architecture presents a number of de
 </pre>
 
 <h3>Conclusion</h3>
-<p>Ultimately the goal is to make it possible to build any number of services without having to either repeat code or couple them. It's also very much about performance. Giving the hydradtor it's own key-value store of data, and updating it asynchronously eliminates much of the SOA overhead you'll have. By leveraging that same update channel to proactively purge caches, we can set very long TTLs in our internal caches and not have to worry about stale results.</p>
+<p>Ultimately the goal is to make it possible to build any number of services without having to either repeat code or couple them. It's also very much about performance. Giving the hydrator it's own key-value store of data, and updating it asynchronously eliminates much of the SOA overhead you'll have. By leveraging that same update channel to proactively purge caches, we can set very long TTLs in our internal caches and not have to worry about stale results.</p>
 
 <p>Part 2 will have actual code :)</p>
 
-<p>Finally, if you're building something using SOA, the hydrator layer is going to be responsible for a lot of thing. I've called it ApiProxy and ApiRouter in the past, and they are literally the most fun things I've ever worked on. It's going to do <a href="https://news.ycombinator.com/item?id=4382542">early SSL termination</a>, routing, <a href="/Space-Efficient-Percentile-Calculations/">logging</a>, some authentication, hydration and <a href="/High-Concurrency-LRU-Caching/">caching</a>.</p>
+<p>Finally, if you're building something using SOA, the hydrator is just a small part in a infrastructure layer you'll likely have sitting at the top of your request pipeline. This system is going to do a lot of things: <a href="https://news.ycombinator.com/item?id=4382542">early SSL termination</a>, routing, <a href="/Space-Efficient-Percentile-Calculations/">logging</a>, some authentication, hydration and <a href="/High-Concurrency-LRU-Caching/">caching</a>.</p>
