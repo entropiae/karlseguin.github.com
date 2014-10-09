@@ -8,7 +8,7 @@ description: "What gains can we get by switching to a lightweight TCP message be
 
 <p>It was pointed out to me that this isn't a new idea. To some extent, the above describes FastCGI. Just like we have <code>proxy_pass</code>, so too do we have <code>fastcgi_pass</code>. Still, I couldn't find any performance comparison between http vs FastCGI. And, FastCGI is fairly old and generic. I was wondering what something modern and specialized might look like.</p>
 
-<p>What I did was convert incoming requests to the reverse proxy into length-prefixed messages serialized via protocol buffers and sent via TCP. Similarly, on the way out, the upstream sends a length-prefixed serialized message back, which the reserve proxy transforms into the final. HTTP response. Keeping things simple for the purpose of this post, the definitions look like:</p>
+<p>What I did was convert incoming requests to the reverse proxy into length-prefixed messages serialized via protocol buffers and sent via TCP. Similarly, on the way out, the upstream sends a length-prefixed serialized message back, which the reserve proxy transforms into the final HTTP response. Keeping things simple for the purpose of this post, the definitions look like:</p>
 
 <pre data-language=c>
 message Request {
@@ -24,7 +24,7 @@ message Response {
 
 <p>When you have a top-level layer to handle things like caching, routing, logging as well as some authentication and authorization, you often end up with information that would be useful for your services. Here, I've added a <code>version</code>, which might come from the URL.</p>
 
-<p>In reality, the code is just a typical request-response TCP flow <a href="/2012/1/12/Reading-From-TCP-Streams/">where payloads are length-prefixed:</a>.
+<p>In reality, the code follows a standard request-response TCP flow <a href="/2012/1/12/Reading-From-TCP-Streams/">where payloads are length-prefixed:</a>.
 
 <pre data-language=go>
 var bytePool = &amp;sync.Pool{
@@ -109,9 +109,9 @@ func read(conn net.Conn) ([]byte, error) {
 }
 </pre>
 
-<p>The response object that our upstream returns is bareboned - a status and the body. Maybe you'll want to add more data, but in my world, this routing layer knows a lot about the requests and it'll know about how long the data should be cached and what the content type is. But, you could make it more complex.</p>
+<p>The response object that our upstream returns is bareboned - a status and the body. Maybe you'll want to add more data, but in my world, this routing layer knows a lot about the requests and it'll know if and how long the response can be cached, as well as it's content type. But, you could make it more complex.</p>
 
-<p>What's the performance implication? The load was achieved via <code>ab -n 40000 -c 20 http://127.0.0.1:4000/</code>. The HTTP proxy used Go's builtin <code>httputil.NewSingleHostReverseProxy</code>, which <strong>does</strong> do keepalive. The upstream was a simple node.js server (I wanted to isolate the test to the protocol, not burden it with other stuff). This is the HTTP handler:</p>
+<p>What's the performance implication? The load was achieved via <code>ab -n 40000 -c 20 http://127.0.0.1:4000/(tcp|http)</code>. The HTTP proxy used Go's builtin <code>httputil.NewSingleHostReverseProxy</code>, which <strong>does</strong> do keepalive. The upstream was a simple node.js server (I wanted to isolate the test to the protocol, not burden it with other stuff). This is the HTTP handler:</p>
 
 <pre data-language=coffee>
 httpResponse = new Buffer("hello http")
@@ -159,4 +159,4 @@ TCP  : 11765 req/sec</pre>
 
 <p>In addition to the speed improvement, we've also managed to move away from the generic data bag of HTTP headers. Admitedly, our router probably won't know the inner details of every request, so you'll still end up having a generic query lookup. But there'll also be common fields that you'll be able to add to the request. Those fields can be typed, and can be arrays or objects.</p>
 
-<p>I'm not 100% sure how I feel about it all. Something about it feels right. When I talk to a DB, I like the idea of a tweaked protocol hidden by a clean interface (I know some newer databases only expose HTTP, but that's never felt right to me). This, to me, is similar. I don't see what HTTP between a reserve proxy and the server really buys.</p>
+<p>I'm not 100% sure how I feel about it all. Something about it feels right. When I talk to a DB, I like the idea of a tweaked protocol hidden by a clean interface (I know some newer databases only expose HTTP, but that's never felt right to me). This, to me, is similar. I don't see what value HTTP between the reverse proxy and the upstream adds.</p>
