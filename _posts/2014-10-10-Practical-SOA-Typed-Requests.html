@@ -6,9 +6,9 @@ description: "What gains can we get by switching to a lightweight TCP message be
 ---
 <p>It's common these days to front web applications with a reverse proxy, gluing the two with HTTP. Nginx's <code>proxy_pass</code> directive is an example of such a setup. This approach results in having to parse two HTTP messages and relying on HTTP headers or querystrings to add any additional information. Furthermore, HTTP isn't particularly efficient. What would happen if we replaced the glue with a custom serialized message over TCP?</p>
 
-<p>It was pointed out to me that this isn't a new idea. To some extent, the above describes FastCGI. Just like we have <code>proxy_pass</code>, so too do we have <code>fastcgi_pass</code>. Still, I couldn't find any performance comparison of the http vs FastCGI. And, FastCGI is fairly old and generic. I was wondering what something modern and specialized might look like.</p>
+<p>It was pointed out to me that this isn't a new idea. To some extent, the above describes FastCGI. Just like we have <code>proxy_pass</code>, so too do we have <code>fastcgi_pass</code>. Still, I couldn't find any performance comparison between http vs FastCGI. And, FastCGI is fairly old and generic. I was wondering what something modern and specialized might look like.</p>
 
-<p>When a request comes into the reserve proxy, I serialize it using protocol buffers. Here's a basic message:</p>
+<p>What I did was convert incoming requests to the reverse proxy into length-prefixed messages serialized via protocol buffers and sent via TCP. Similarly, on the way out, the upstream sends a length-prefixed serialized message back, which the reserve proxy transforms into the final. HTTP response. Keeping things simple for the purpose of this post, the definitions look like:</p>
 
 <pre data-language=c>
 message Request {
