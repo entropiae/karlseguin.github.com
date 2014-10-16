@@ -99,10 +99,10 @@ th{background:#f6f6f6;font-weight:bold;width:100px;}
   </tr>
 </table>
 
-<p>Nothing obvious there. Did the packet loss happen around the same time? Unfortunately, I didn't keep timestamps (why?!), but I did keep a per counter per pair. If you look at the 43 packets that failed to make it from LA to NJ2, 29 were lost during 2 ~1 minute periods. Similarly, those lost to NJ1 were also largely grouped into 2 chunks.</p>
+<p>Nothing obvious there. Did the packet loss happen around the same time? Unfortunately, I didn't keep timestamps (why?!), but I did keep a counter per pair. If you look at the 43 packets that failed to make it from LA to NJ2, 29 were lost during 2 ~1 minute periods. The NJ1 packet loss also largely happened during 2 short periods.</p>
 
 <h3>Ordering</h3>
-<p>The other thing I was interested about was the ordering of the packets. How badly out of order would they be?</p>
+<p>The other thing I was interested int was ordering.</p>
 
 <p>The first way I looked at this was to measure the <a href="http://en.wikipedia.org/wiki/Inversion_(discrete_mathematics)">inversion</a> of the array. Essentially, that's the number of pairs that are out of order. If you have an array with the values <code>10, 8, 3, 7, 4</code>, you end up having to do 8 swaps ((10, 8), (10, 3), (10, 7), (10, 4), (8, 3), (8, 7), (8, 4), (7, 4)).</p>
 
@@ -269,9 +269,9 @@ th{background:#f6f6f6;font-weight:bold;width:100px;}
 </table>
 
 <h3>Conclusion</h3>
-<p>It's hard to draw any serious conclusions without running this for longer and with more data. Still, it seems that UDP reliability is pretty good. Distance usually involves more hops and each hop increases the risk or something going bad, but if things are normally ok, then distance doesn't seem to be an issue.</p>
+<p>It's hard to draw any conclusions without running this for longer and with more data. Still, it seems that UDP reliability is pretty good. Distance usually involves more hops and each hop increases the risk or something going bad, but if things are normally ok, then distance doesn't seem to be an issue.</p>
 
-<p>What <em>is</em> an issue is ordering. Here, distance does appear to play a bigger factor. By grouping the packets we see a substantial improvement and expected improvement. In a lot of cases, ordering might not matter. If you're storing the data and your payload includes a timestamp, the order won't matter. Or, if you keep a pair counter, as I did, it requires very little state to be able to discard old packets.</p>
+<p>What <em>is</em> an issue is ordering. Here, distance does appear to play a bigger factor. By grouping the packets we see a substantial and expected improvement. In a lot of cases, ordering might not matter. Unless you're streaming, it's possible that simply keeping a timestamp and re-ordering on the receiving side would work.</p>
 
 <p>I'd like to test more things. More data for a longer period of time and more locations. I'd also like to compare the performance to TCP. But, overall, I feel that the better-than-I-expected reliability makes UDP something I should keep in my toolbox.
 
