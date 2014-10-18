@@ -73,7 +73,7 @@ description: "Leveraging a service oriented architecture presents a number of de
 
 <p>Whenever a product is created, updated or deleted, the hydrator's local key-value storage is updated. This is based on <a href="/Grow-Up-Use-Queues/">the idea that every DB write should be put into a queue</a>. The result is that once we've received a response with an <code>X-Hydrate</code> header, we can parse out the ids and types and issue something like a redis <code>mget</code> to build the real response (or we could use LevelDB, or an RDBMS, or...).</p>
 
-<p>Part 2 will have some real code, but hopefully you can get a sense for it.</p>
+<p><a href="/Practical-SOA-Hydration-Part-2/">Part 2 has some actual code</a></p>
 
 <h3>Caching</h3>
 <p>When you bring caching and hydration together, you can see a massive positive impact on your cache hit ratio. For most systems, I'm a big believer in long cache TTLs with proactive purges. Again, using our queue, when product X gets updated, one of the queue workers sends out a purge request. Without hydration though, what do you purge?</p>
