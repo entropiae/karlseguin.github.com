@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Practical SOA / microservices - Typed Requests"
-tags: [performance, design, soa]
+tags: [design, performance, soa]
 description: "What gains can we get by switching to a lightweight TCP message between a reverse proxy and the application server?"
 ---
 <p>It's common these days to front web applications with a reverse proxy, gluing the two with HTTP. Nginx's <code>proxy_pass</code> directive is an example of such a setup. This approach results in having to parse two HTTP messages and relying on HTTP headers or querystrings to add any additional information. Furthermore, HTTP isn't particularly efficient. What would happen if we replaced the glue with a custom serialized message over TCP?</p>
