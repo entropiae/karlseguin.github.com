@@ -5,7 +5,7 @@ tags: [concurrency, golang, performance]
 description: "A simple trick to achieve higher concurrency at the cost of memory"
 ---
 
-<p>A while ago, I <a href="/Space-Efficient-Percentile-Calculations/">wrote about a way to efficiently calculate percentiles.</a> Whether you take that sampling approach or not, what you'd end up with is an array of values that you want to process. Consider this naive implmentation:</p>
+<p>A while ago, I <a href="/Space-Efficient-Percentile-Calculations/">wrote about a way to efficiently calculate percentiles.</a> Whether you take that sampling approach or not, what you'd end up with is an array of values that you want to process. Consider this naive implementation:</p>
 
 
 <pre data-language=go>
@@ -46,7 +46,7 @@ func (s *Stats) calculate() {
 
 <p>This works so long as copying the values is quicker than the processing we need to do. In the above example, we also have to consider the allocation and subsequent garbage the code will generate.</p>
 
-<p>The approach I decided to take, which is nothing novel, is to keep two arrays and to swap them out:</p>
+<p>The approach I decided to take, which is nothing novel, is to keep two arrays and to swap them:</p>
 
 <pre data-language=go>
 type Stats struct {
@@ -73,6 +73,6 @@ func (s *Stats) calculate() {
 }
 </pre>
 
-<p>We've reduced our length of our lock by a lot. We no longer allocate or copy or operate within our lock. We merely assign a vew variables. This also avoids unecessary allocations and GC.</p>
+<p>We've reduced the length of our lock by a lot. We no longer allocate, copy or operate within our lock. We merely assign a few variables. This also avoids unnecessary allocations and GC.</p>
 
 <p>Nothing ground breaking new, but still neat.</p>
