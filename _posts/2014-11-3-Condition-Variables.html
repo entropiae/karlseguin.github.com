@@ -117,9 +117,7 @@ func (s *Server) disconnected() {
 }
 </pre>
 
-<p>There are a couple interesting things in the above code. First of all, notice the locking and unlocking around the call to <code>Wait</code>. It might seem like we're locking for a very long time. But <code>Wait</code> unlocks <code>L</code> on entry and relocks <code>L</code> on exit. This results in much cleaner code -- you lock and unlock normally, and the fact that you might be blocked for a long time doesn't affect those locks.</p>
+<p>There are a couple interesting things in the above code. First of all, notice the locking and unlocking around the call to <code>Wait</code>. It might seem like we're locking for a very long time. But <code>Wait</code> unlocks <code>L</code> on entry and relocks <code>L</code> on exit. This results in much cleaner code -- you lock and unlock normally, without being locked while you wait.</p>
 
 <p>Also, notice that we're still checking our condition inside of a loop. This is because the state of <code>s.clients</code> could be changed by a different goroutine between the time that the signal is sent and our code exiting <code>Wait</code>. (In this specific example, when the blocked goroutine is also the only one that can increment <code>s.clients</code>, the for loop is unecessary. But I wanted to show the for loop example anyways because it's more complete and more common).</p>
 
-
-<p>You can achieve the same thing with channels, but condition variables are simpler because they're specifially made for cases like.</p>
