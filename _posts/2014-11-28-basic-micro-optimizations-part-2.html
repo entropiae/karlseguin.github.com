@@ -11,10 +11,10 @@ description: "How pre-allocated pools of objects can impact performance"
 var body = []byte("hello world!")
 func fatHandler(writer http.ResponseWriter, req *http.Request) {
   header := writer.Header()
-  header.Set("Content-Length", "12")
-  header.Set("Cache-Control", "public,max-age=30")
-  header.Set("Content-Type", "text/plain")
-  writer.WriterHeader(200)
+  header["Content-Length"] = []string{"12"}
+  header["Cache-Control"] = []string{"public,max-age=30"}
+  header["Content-Type"] = []string{"text/plain"}
+  writer.WriteHeader(200)
   writer.Write(body)
 }
 </pre>
