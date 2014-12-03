@@ -19,7 +19,7 @@ func fatHandler(writer http.ResponseWriter, req *http.Request) {
 }
 </pre>
 
-<p>Calling the above 1 million times takes 432ms and allocates 48MB of memory. On my machine, it required 753 garbage collections which took 175ms - a significat percentage of the total time.</p>
+<p>Calling the above 1 million times takes 432ms and allocates 48MB of memory. On my machine, it required 753 garbage collections which took 175ms - a significant percentage of the total time.</p>
 
 <p>What's the above code doing? Go's <code>http.Header</code> structure is a <code>map[string][]string</code>. In other words, it's a dictionary where the key is a string and the values are an array of strings. Why an array of strings? Because HTTP allows a key to have multiple values. Knowing this, think about what the above code is doing. First, it's allocating a map. From an API point of view, a map makes sense, but given that that 99% of all cases will require very few keys (&lt;20), it's far from the most efficient solution. Next, for each key, it's allocating a dynamic array. I don't know what the starting size of the array is, but if it's anything other than 1, in most cases, that's a lot of wasted space.</p>
 
