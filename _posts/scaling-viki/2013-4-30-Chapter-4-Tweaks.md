@@ -19,7 +19,8 @@ While our implementation was fast, it wasn't as fast as we had promised, at leas
 In our `find` function, we use Redis' `sort` command and supply a `BY` argument:
 
 <pre data-language="lua">
-redis.call('sort', intersect, 'BY', 'v:*->created_at', 'desc', 'LIMIT', ARGV[1], ARGV[2], 'GET', 'v:*->details')
+redis.call('sort', intersect, 'BY', 'v:*->created_at',
+           'desc', 'LIMIT', ARGV[1], ARGV[2], 'GET', 'v:*->details')
 </pre>
 
 We could sort by views or whatever value we had available simply by switching `v:*->created_at` for another field. However, even if you just want the first ten records out of a hundred thousand, you still need to sort the entire list.
@@ -28,7 +29,7 @@ We decided to store pre-sorted values in sorted sets. In theory, we'd be able to
 
 There were a few problems with this plan. First, we were using `sdiffstore` to implement holdbacks. Unfortunately, Redis doesn't have an equivalent `zdiffstore` command. Secondly, we have enough sort options that memory was a concern.
 
-The first problem was solved by writing a specialized Redis command in C: `vfind`. Like our Lua-based `find`, `vfind` did intersections, holdbacks, sorting and detail retrieval. But it did it all much faster and did it against our sorted sets. 
+The first problem was solved by writing a specialized Redis command in C: `vfind`. Like our Lua-based `find`, `vfind` did intersections, holdbacks, sorting and detail retrieval. But it did it all much faster and did it against our sorted sets.
 
 The second problem was solved in two parts. First, rather than creating sorted sets that held all videos, we created a sorted set that only stored the top videos for that order. For example, instead of having a sorted set containing all videos ranked by updated date, we'd have a sorted set with the 5000 most recently updated. Essentially, this approach optimized our code for retrieving the first X pages. Requests for pages 1, 2, 3, 4 ... could be satisfied by `vfind`. If `vfind` failed to return a full page, we'd fall back to `find`.
 

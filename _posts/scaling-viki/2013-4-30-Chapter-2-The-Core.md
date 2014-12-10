@@ -14,7 +14,7 @@ One thing that hasn't been mentioned yet is that our data easily fits in memory 
 
 The origins of Hyperion can be traced back to a handful of concepts used to explore such data structures and algorithms for searching and sorting data. This was weekend-based experimentation at its finest. At best, I thought it might lead to an interesting blog post or two. Rather than storing data in a table and indexing it, what would happen if we stored the data directly in the application's memory? What if we used bitmap indexes? Sharded using hashes? Tried putting everything in sets and doing intersections and unions? What if we used Ruby, or Go, or Node? *What if*, *what if*, *what if*.
 
-All of this happened during my first couple weekends at Viki, before anyone was thinking about building a new platform. Mostly, I was just messing around, exploring our data and features. 
+All of this happened during my first couple weekends at Viki, before anyone was thinking about building a new platform. Mostly, I was just messing around, exploring our data and features.
 
 ### Bitmaps, A First Attempt
 Initially, the most promising approach was using bitwise logical operations against bitmap indexes. Bitmap indexes are great when dealing with data with few unique values, like gender on a user's table. A lot of our searches are done against such values. For hundreds of thousands of videos, there are only a few genres and types. Modern databases will make use of bitmap indexes, but my initial focus was in storing these directly in the app's memory.
@@ -104,7 +104,8 @@ The easy part was storing our data. For this, we used Redis hashes. They key wou
 <pre data-language="lua">
 local data = cjson.decode(ARGV[1])
 local id = data.id
-redis.call('hmset', 'v:' .. id, 'details', ARGV[1], 'type', data.type, 'created_at', data.created_at, ...)
+redis.call('hmset', 'v:' .. id, 'details', ARGV[1], 'type', data.type,
+           'created_at', data.created_at, ...)
 </pre>
 
 When creating a video, we'd add its id to the appropriate index. All our indexes would be stored in sets following a simple naming convention `r:x:NAME:VALUE`:
@@ -173,7 +174,8 @@ else
   redis.call('sinterstore', intersect, unpack(KEYS))
 end
 
-data = redis.call('sort', intersect, 'BY', 'v:*->created_at', 'desc', 'LIMIT', ARGV[1], ARGV[2], 'GET', 'v:*->details')
+data = redis.call('sort', intersect, 'BY', 'v:*->created_at',
+        'desc', 'LIMIT', ARGV[1], ARGV[2], 'GET', 'v:*->details')
 
 table.insert(result, redis.call('scard', intersect))
 table.insert(result, data)

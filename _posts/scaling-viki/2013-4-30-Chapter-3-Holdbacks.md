@@ -7,7 +7,7 @@ date: 2013-04-30 12:00:15
 tags: [ebook, design, redis, soa]
 ---
 
-The most complicated part of our system is the logic that decides whether a user can or cannot watch a video. We call this *holdbacks* and it integrates with almost every single possible query. We hate the idea of users following a link that we provided, say from the homepage or search results, and getting a *not available in your region* message. 
+The most complicated part of our system is the logic that decides whether a user can or cannot watch a video. We call this *holdbacks* and it integrates with almost every single possible query. We hate the idea of users following a link that we provided, say from the homepage or search results, and getting a *not available in your region* message.
 
 The number of conversations we have which end with *"Ya, but what about holdbacks?"* followed by sad faces all around was considerable. Which isn't to say that we dislike holdbacks; it's a fun technical challenge and our content providers are as important as our users. Nor am I trying to imply that it limits what we can do. But it can, without question, make a simple feature much more complicated.
 
@@ -69,7 +69,7 @@ I can never remember who came up with the idea, but one of us suggested that we 
 ## Integration
 We had an efficient representation of holdbacks, but we still had to integrate it with our core system. This was probably around the time that our set-based filters started to resonate with us. By storing holdbacks as sets in Redis, it became nothing more than another intersection of sets. We debated whether holdbacks should be stored as a whitelist or a blacklist. A whitelist would take more space, but might be more efficient. It would also more neatly fit into our existing code as it would just be another set intersection. A blacklist would be more memory efficient, probably a bit slower, require some small tweaks to our code, but would be a more accurate representation of what holdbacks were all about.
 
-Ultimately, we settled for a blacklist - it felt more natural. Besides, our everything-in-memory attitude made us frugal. We've always seen memory as an important but limited resource. 
+Ultimately, we settled for a blacklist - it felt more natural. Besides, our everything-in-memory attitude made us frugal. We've always seen memory as an important but limited resource.
 
 Therefore, for a given CAP permutation, a holdback key could be one of two things. The first would be a list of denied video ids:
 
@@ -96,7 +96,8 @@ end
 
 redis.call('sdiffstore', diffed, intersect, KEYS[1])
 
-data = redis.call('sort', diffed, 'BY', 'v:*->created_at', 'desc', 'LIMIT', ARGV[1], ARGV[2], 'GET', 'v:*->details')
+data = redis.call('sort', diffed, 'BY', 'v:*->created_at',
+        'desc', 'LIMIT', ARGV[1], ARGV[2], 'GET', 'v:*->details')
 
 table.insert(result, redis.call('scard', diffed))
 table.insert(result, data)
