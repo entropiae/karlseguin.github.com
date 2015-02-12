@@ -1,0 +1,20 @@
+---
+layout: post
+title: "I'm Not Sold On High Availability"
+description: "Build systems that tolerate failures, not systems that avoid them"
+tags: [design]
+---
+
+<p>It sounds absurd, even to me, but I'm not sold on <em>high availability</em>. To be clear, I see two distinct layers of high availability. The one that your CxO talks about, users being able to use the system, I think is a reasonable goal and something that presents a lot of fun and interesting engineering challenges.</p>
+
+<p>It's the lower layer of high availability that I've become skeptical about: components, like databases and queues, which are highly available. We use these components to achieve the high-level goal of availability, but it's much simpler and safer to make systems tolerant of failures rather than trying to prevent them.</p>
+
+<p>There are many legitimate cases where master-master replication, elections, automated failover, and the rest of these complex protocols and algorithms are both necessary and make sense. But there are a lot more systems that should be designed tolerate (but certainly not embrace) failure.</p>
+
+<p>Importantly, the difference between the two isn't about scale or size. This isn't an issue of you not being Facebook and thus not having the same challenge of capacity to face the challenge. Rather, it's about understanding how your data is being used, and who's using it.</p>
+
+<p>Perhaps I'm being embarrassingly ignorant, but consider Wikipedia or Google. Both are examples that have different availability requirement depending on the part of the system we're talking about. It's more important that people be able to read wiki or search google, than it is for people to be able to update an article or a bot to update the index. The availability requirement for reads is much higher than for writes (which is still being highly available, but focused towards what matters most).</p>
+
+<p>Read vs write workloads are the obvious example, but they don't represent the full extent. If we look at Amazon, I would identify the core anything that lets people shop, from browsing through to order placement. That core should continue to be usable, even if recommendations fail to load. The recommendation service itself ought to be tolerant of failures, able to serve potentially stale or less accurate data in the face of failed jobs or syncs or whatever.</p>
+
+<p>Writing this out, I see that my point is: granularly identifying availability requirements can save you a bunch of time and hassle. Your internal-facing CMS can probably tolerant downtime better than your user-facing website. Knowing this, you can pick the right solution which might be simpler than trying to cover everything.</p>
