@@ -5,7 +5,7 @@ description: "Build systems that tolerate failures, not systems that avoid them"
 tags: [design]
 ---
 
-<p>It sounds absurd, but I'm not sold on <em>high availability</em>. To be clear, I see two distinct layers of high availability. The one that your CXO talks about, users being able to use the system, is both reasonable goal and a fun challenge.</p>
+<p>It sounds absurd, but I'm not sold on <em>high availability</em>. To be clear, I see two distinct layers of high availability. The one that your CXO talks about, users being able to use the system, is both reasonable and a fun challenge.</p>
 
 <p>It's the lower layer of high availability that I've become skeptical about: components, like databases and queues, which are highly available. We use these components to achieve the high-level goal of availability, but it's much simpler and safer to make systems tolerant of failures rather than trying to prevent them.</p>
 
