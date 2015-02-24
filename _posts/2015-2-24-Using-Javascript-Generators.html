@@ -5,7 +5,7 @@ description: "Introduction to using Javascript Generators (as well as other ES6)
 tags: [node.js]
 ---
 
-<p>If you've checked other posts about ES6, you've probably seen Generators described using trivial examples. Most examples seem to be some version of:</p>
+<p>If you've checked other posts about ES6, you've probably seen Generators explained with the help of code that looks something like:</p>
 
 <pre data-language=javascript>
 function task() {
@@ -56,7 +56,7 @@ function connect() {
 }
 </pre>
 
-<p>We can use the above to almost reach our goal::</p>
+<p>Using the above, we end up with:</p>
 
 <pre data-language=coffeescript>
 query = (sql, params) ->
@@ -66,7 +66,7 @@ query = (sql, params) ->
     return result
 </pre>
 
-<p>The next step is turning the above function into a generator. In coffeescript, a function that yields is a generator. In JavaScript the function would need to be declared with <code>*</code>: <code>function* query(sql, params) {...}</code>.</p>
+<p>The next step is turning the above function into a generator. In CoffeeScript, a function that yields is a generator. In JavaScript the function would need to be declared with <code>*</code>: <code>function* query(sql, params) {...}</code>.</p>
 
 <pre data-language=coffeescript>
 # cs
@@ -87,7 +87,7 @@ function* query(sql, params) {
 }
 </pre>
 
-<p>Again, the <em>aha momenet</em> is understanding that <code>yield</code> waits for our promise to be resolved. Furthermore, while our resolve gets assigned, the reject gets raised:</p>
+<p>Again, the <em>aha momenet</em> is understanding that <code>yield</code> waits for our promise to be resolved. Furthermore, while resolve gets assigned, reject gets raised:</p>
 
 <pre data-language=coffeescript>
 connect = ->
@@ -124,7 +124,7 @@ query: (sql, params) ->
 <p>The first lines generates an <code>*Async</code> version of every method exposed directly by <code>pg</code> (Async methods return promises). The second line does the same thing for all instance methods of the <code>Client</code> object.</p>
 
 
-<p>That's kind of all there is to it. You do end up using <code>yield</code> in a lot of places, but it does wipe out all nesting (something we couldn't quite get done with Promises alone). It also brings back more conventional exception handling, which again, never felt 100% even with promises.</p>
+<p>That's kind of all there is to it. You do end up using <code>yield</code> in a lot of places, but it does wipe out all nesting (something we couldn't quite get done with Promises alone). It also brings back more conventional exception handling, which again, never felt 100% right with promises.</p>
 
 <p>To get a better feel for things, here's some code you can play with. It's a bit more standalone.</p>
 
