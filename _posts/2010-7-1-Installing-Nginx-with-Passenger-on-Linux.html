@@ -82,7 +82,7 @@ tags: [devops]
 <p>also, you specify <code>passenger_enabled on</code> within the appropriate nginx locations</p>
 
 <h3>Step 9 - Final touches</h3>
-<p>You'll want a start/stop script for nginx, you can <a href="http://openmymind.net/nginx_start_stop.txt">grab mine</a>, place it in <code>/etc/init.d</code>, give it execute permission <code>chmod +x /etc/init.d/nginx</code> and use <code>/etc/init.d/nginx start|stop|restart|reload</code> (if it fails because of missing directories, go ahead and create them and try again). Finally, we can make nginx auto start by executing <code>/usr/sbin/update-rc.d -f nginx defaults</code>.</p>
+<p>You'll want a start/stop script for nginx, you can <a href="/assets/forposts/nginx_start_stop.txt">grab mine</a>, place it in <code>/etc/init.d</code>, give it execute permission <code>chmod +x /etc/init.d/nginx</code> and use <code>/etc/init.d/nginx start|stop|restart|reload</code> (if it fails because of missing directories, go ahead and create them and try again). Finally, we can make nginx auto start by executing <code>/usr/sbin/update-rc.d -f nginx defaults</code>.</p>
 
 <h3>Conclusion</h3>
 <p>Hopefully you have everything up and running. All you need to do is read up on nginx configuration to set up your sites. A long time ago I remember configuring/making and not really getting it. Now it all seems pretty trivial. Hopefully you think so too, and remember, if you screw anything up or want to change something (like include another module), you can just start the process over (remember to stop relevant running processes (like nginx) and to make/make install after configuring.)</p>

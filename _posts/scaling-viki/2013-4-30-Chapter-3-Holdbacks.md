@@ -48,8 +48,8 @@ function allowed(context, video_id) {
 `isMatch` would take the context and compare them to the 8 dimensions of the rule to see if they all match. Something like:
 
 <pre data-language="javascript">
-function isMatch(context, rule) {
-  return context.country == rule.country &amp;&amp; context.platform == rule.platform &amp;&amp; ...;
+function isMatch(ctx, rule) {
+  return ctx.country == rule.country &amp;&amp; ctx.platform == rule.platform &amp;&amp; ...;
 }
 </pre>
 
