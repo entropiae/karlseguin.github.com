@@ -7,7 +7,7 @@ tags: [data structures, learning]
 
 <p>In <a href=/Building-A-Queue-Part-2>Part 2</a>, we saw the code used to write messages into our queue, including the code to make sure it's properly persisted. Our approach relies on appending data to memory mapped file and switching to a new file once we reach a specific size. To accomplish this, we keep a reference to the current file and the position within that file for the next write (as an offset from the start).</p>
 
-<p>If ever our queue restarts, we'll be in big trouble unless we persist this positional information. Since segments are linked, all we need to find the end of our queue is the name of any segment (we could even just scan the file system). Once we have 1 segment, we can walk through the queue, first by finding the newest segment, then by finding the end of the messages:</p>
+<p>If ever our queue restarts, we'll be in big trouble unless we persist this positional information. Since segments are linked, all we need is the name of any segment (we could even just scan the file system). Once we have 1 segment, we can walk through the queue, first by finding the newest segment, then by finding the end of the messages (as suggested by <a href="http://ayende.com/blog">ayende</a> I switched the marker byte to a crc32 checksum):</p>
 
 
 <pre data-language=go>
@@ -43,7 +43,7 @@ func (t *Topic) findWritePosition(segment *Segment) {
 
 <p>This is where our other type of file, the state file, comes into play. The state file is basically a name, a segment id and a position. The topic's state is the same, but the name happens to be blank and it's always the first entry in the file.</p>
 
-<p>What's really cool about this is that, like the segments, we're using a memory mapped file. But where it made sense to think of the segment file as just an <code>[]byte</code> that we write into, things are a bit more indirect with our state file. Really, what we want, is a structure that we can update the position and segment fields:</p>
+<p>What's really cool about this is that, like the segments, we're using a memory mapped file. But where it made sense to think of the segment file as just a <code>[]byte</code> that we write into, things are a bit more indirect with our state file. Really, what we want, is a structure that we can update the position and segment fields:</p>
 
 <pre data-language=go>
 type State struct {
@@ -53,7 +53,7 @@ type State struct {
 }
 </pre>
 
-<p>Once approach would be to serialize and deserialize states to the state file. The problem with that is that we plan on updating the data hundreds of times per second. Therefore, we'll map the byte array directly to our structure. Consider:</p>
+<p>One approach would be to serialize and deserialize states to the state file. The problem with that is that we plan on updating the data hundreds of times per second. Therefore, we'll map the byte array directly to our structure. Consider:</p>
 
 <pre data-language=go>
 package main
