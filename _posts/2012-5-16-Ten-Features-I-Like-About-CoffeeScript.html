@@ -56,9 +56,9 @@ tags: [node.js]
   </div>
   <div class="js">
     <pre data-language="javascript">$('#data').on('click, 'tr', function(e) {
-    id = $(this).data('id')
-    ...
-  });</pre>
+  id = $(this).data('id')
+  ...
+});</pre>
   </div>
 </div>
 
@@ -181,12 +181,10 @@ User.findById = function() {};</pre>
 
 <p>Neither <code>@</code> nor the fat arrow mean that you don't have to worry about the current meaning of <code>this</code> (or its alias <code>@</code>). They aren't silver bullets, which isn't to say that they don't add value.</p>
 
-
 <h3>Scoping</h3>
 <p>CoffeeScript takes care of properly scoping your variables. This means that you don't use the <code>var</code> keyword and don't have to worry about having an inner variable shadow an outer one. One top of that, all CoffeeScript output is wrapped inside an anonymous functions, which means you won't leak any global objects.</p>
 
 <p>If you do want to expose something globally, say like our User class above, you need to attach it to a global object, like <code>window</code>. Of course, on the node.js side, you can simply export it.</p>
-
 
 <h3>Clean JavaScript Output</h3>
 <p>One of the nicest things about CoffeeScript is that it generates clean and readable JavaScript. This makes it both easy to learn and debug. In fact, one of the best ways to learn CoffeeScript is to go to the <a href="http://coffeescript.org/">official website</a>, click the "Try CoffeeScript" button at the top, and type away. Seeing the instant translation to JavaScript is pretty useful.</p>
