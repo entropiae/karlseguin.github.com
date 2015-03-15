@@ -2,7 +2,7 @@
 layout: post
 title: "Building A Queue - Part 3"
 description: "The third part in a series implementing a [naive] persisted queue"
-tags: [data structures, learning]
+tags: [data structures, golang, learning]
 ---
 
 <p>In <a href=/Building-A-Queue-Part-2>Part 2</a>, we saw the code used to write messages into our queue, including the code to make sure it's properly persisted. Our approach relies on appending data to memory mapped file and switching to a new file once we reach a specific size. To accomplish this, we keep a reference to the current file and the position within that file for the next write (as an offset from the start).</p>
