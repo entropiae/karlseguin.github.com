@@ -74,3 +74,30 @@ func (w *Writer) process() {
 }</pre>
 
 <p>Of course, the burden is still on the caller to <code>Stop</code> the worker.</p>
+
+<h3>update</h3>
+<p><a href=https://twitter.com/dqminh>@dqminh</a> pointed out that instead of introducing the new <code>stop</code> channel, we could simply have called <code>close</code> on the existing <code>queue</code>. For the above, this is definitely a more elegant solution. However, it's possible that the your worker code won't be channel-bound, say:</p>
+
+<pre data-language=go>
+func (s *Storage) compact() {
+  for {
+    time.Sleep(time.Minute)
+    //do compaction
+  }
+}
+</pre>
+
+<p>In such cases, you're back to a <code>stop</code> channel in conjunction with the lovely <code>time.After</code>:</p>
+
+<pre data-language=go>
+func (s *Storage) compact() {
+  for {
+    select {
+    case <-time.After(time.Minute):
+      // do compaction
+    case <-w.stop:
+      return
+    }
+  }
+}
+</pre>
