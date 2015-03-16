@@ -9,7 +9,7 @@ tags: [golang]
 
 <p>I recently wrote code that used the useful <a href="http://golang.org/pkg/sync/atomic/#Value"><code>atomic.Value</code></a> type to support hot reloading a configuration. In doing so, I introduced a goroutine (and memory) leak.</p>
 
-<p>The bug was 100% my fault, and didn't have anything to do with <code>atomic.Value</code> other than the fact that it's the type of issue you'll most likely run into when swapping out values like that. Essentially, consider this code:</p>
+<p>The bug was 100% my fault, and didn't have anything to do with <code>atomic.Value</code> other than the fact that it's the type of issue you'll most likely run into when swapping out values like that. Consider this code:</p>
 
 <pre data-language=go>
 type Writer struct {
@@ -71,6 +71,6 @@ func (w *Writer) process() {
       return
     }
   }
-}
+}</pre>
 
 <p>Of course, the burden is still on the caller to <code>Stop</code> the worker.</p>
