@@ -5,11 +5,11 @@ description: "A reminder of something obivious: goroutines hold strong reference
 tags: [golang]
 ---
 
-<p>Admittedly this should be classified in your <em>duhhh</eh> category of knowledge, but...</p>
+<p>Admittedly this should be classified in a <em>duhhh</em> category of knowledge, but...</p>
 
 <p>I recently wrote code that used the useful <a href="http://golang.org/pkg/sync/atomic/#Value"><code>atomic.Value</code></a> type to support hot reloading a configuration. In doing so, I introduced a goroutine (and memory) leak.</p>
 
-<p>The bug was 100% my fault, and didn't have anything to do with <code>atomic.Value</code> other than the fact that it's the type of issue you'd most likely run into when swapping out values like that. Essentially, consider this code:</p
+<p>The bug was 100% my fault, and didn't have anything to do with <code>atomic.Value</code> other than the fact that it's the type of issue you'll most likely run into when swapping out values like that. Essentially, consider this code:</p>
 
 <pre data-language=go>
 type Writer struct {
