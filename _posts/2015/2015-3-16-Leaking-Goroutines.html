@@ -95,7 +95,7 @@ func (s *Storage) compact() {
     select {
     case <-time.After(time.Minute):
       // do compaction
-    case <-w.stop:
+    case <-s.stop:
       return
     }
   }
