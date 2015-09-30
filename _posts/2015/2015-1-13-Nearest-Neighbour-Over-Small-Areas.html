@@ -98,8 +98,8 @@ var grid = new Array();
 
 //fires when a cell (or anywhere else on the map) is clicked
 function clicked(event) {
-  var lat = event.latLng.k;
-  var lng = event.latLng.D;
+  var lat = event.latLng.H;
+  var lng = event.latLng.L;
 
   // if outside the bounding box, just return
   if (lat > A[0] || lat < Z[0] || lng < A[1] || lng > Z[1]) {
