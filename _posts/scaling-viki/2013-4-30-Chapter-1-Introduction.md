@@ -2,7 +2,7 @@
 layout: viki
 category: viki
 title: "Chapter 1 - Introduction"
-permalink: "/scaling-viki/Chapter-1-Introduction"
+permalink: "/scaling-viki/Chapter-1-Introduction/"
 date: 2013-04-30 12:00:05
 tags: [ebook, design, soa]
 ---

@@ -2,7 +2,7 @@
 layout: viki
 category: viki
 title: "Appendix A - Why Node?"
-permalink: "/scaling-viki/Appendix-A-Why-Node"
+permalink: "/scaling-viki/Appendix-A-Why-Node/"
 date: 2013-04-30 12:00:40
 tags: [ebook, learning, node.js]
 ---

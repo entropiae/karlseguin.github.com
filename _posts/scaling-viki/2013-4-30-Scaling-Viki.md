@@ -2,7 +2,7 @@
 layout: viki
 category: viki
 title: "Scaling Viki"
-permalink: "/scaling-viki/"
+permalink: "/scaling-viki//"
 date: 2013-04-30 12:00:00
 tags: [ebook, design, soa]
 ---

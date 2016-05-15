@@ -2,7 +2,7 @@
 layout: viki
 category: viki
 title: "Chapter 4 - Tweaks"
-permalink: "/scaling-viki/Chapter-4-Tweaks"
+permalink: "/scaling-viki/Chapter-4-Tweaks/"
 date: 2013-04-30 12:00:20
 tags: [ebook, design, performance, soa]
 ---

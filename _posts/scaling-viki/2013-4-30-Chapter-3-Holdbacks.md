@@ -2,7 +2,7 @@
 layout: viki
 category: viki
 title: "Chapter 3 - Holdbacks"
-permalink: "/scaling-viki/Chapter-3-Holdbacks"
+permalink: "/scaling-viki/Chapter-3-Holdbacks/"
 date: 2013-04-30 12:00:15
 tags: [ebook, design, redis, soa]
 ---

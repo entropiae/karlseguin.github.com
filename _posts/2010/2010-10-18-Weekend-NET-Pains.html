@@ -1,5 +1,5 @@
 ---
-permalink: "/2010/10/18/Weekend-NET-Pains"
+permalink: "/2010/10/18/Weekend-NET-Pains/"
 layout: post
 title: "Weekend .NET Pains - Why I Prefer Ruby"
 disqus_id: 47
@@ -17,7 +17,7 @@ disqus_id: 47
    {
       &quot;Url&quot;: &quot;LDAP://someserver&quot;,
       &quot;UserName&quot;: &quot;some user&quot;,
-      &quot;Password&quot;: &quot;some password&quot;  
+      &quot;Password&quot;: &quot;some password&quot;
    },
 
    &quot;DataStoreConfiguration&quot;:
@@ -56,16 +56,16 @@ disqus_id: 47
 
 <pre data-language="generic">public interface ILdapConfiguration
 {
-   string Url { get; }      
+   string Url { get; }
    string UserName { get; }
-   string Password { get; }      
+   string Password { get; }
 }
 
 public class LdapConfiguration : ILdapConfiguration
 {
    public string Url { get; internal set; }
    public string UserName { get; internal set; }
-   public string Password { get; internal set; }      
+   public string Password { get; internal set; }
 }</pre>
 
 
@@ -86,7 +86,7 @@ public class LdapConfiguration : ILdapConfiguration
 
 public T FromJson&lt;T&gt;(string json)
 {
-   return JsonConvert.DeserializeObject&lt;T&gt;(json);         
+   return JsonConvert.DeserializeObject&lt;T&gt;(json);
 }</pre>
 
 <p>The first problem? JSON.NET doesn't like my private constructor. I can't say I agree with that decision, but the JSON.NET library has to make a decision and one way or another people won't be happy with the choice. Thankfully its pretty easy to override the default behavior:</p>
@@ -97,7 +97,7 @@ public T FromJson&lt;T&gt;(string json)
    {
       ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
    };
-   return JsonConvert.DeserializeObject&lt;T&gt;(json, settings)        
+   return JsonConvert.DeserializeObject&lt;T&gt;(json, settings)
 }</pre>
 
 <p>Next? It doesn't like the internal settings on my properties. Another setting:</p>
@@ -122,7 +122,7 @@ public T FromJson&lt;T&gt;(string json)
    };
    settings.Converters.Add(new InterfaceConverter&lt;ILdapConfiguration, LdapConfiguration&gt;());
    settings.Converters.Add(new InterfaceConverter&lt;IDataStoreConfiguration, DataStoreConfiguration&gt;());
-   return JsonConvert.DeserializeObject&lt;T&gt;(json, settings)  
+   return JsonConvert.DeserializeObject&lt;T&gt;(json, settings)
 }
 
 internal class InterfaceConverter&lt;To, From&gt; : Newtonsoft.Json.JsonConverter
@@ -148,15 +148,15 @@ internal class InterfaceConverter&lt;To, From&gt; : Newtonsoft.Json.JsonConverte
 
 <pre data-language="ruby">class Settings
   @@settings = YAML::load_file(Rails.root + 'config/config.yml')[Rails.env]
-    
+
   class MissingSettingOptionError &lt; StandardError;
   end
-    
+
   def self.method_missing(key)
     raise MissingSettingOptionError, &quot;#{key.to_s} is not in the config file&quot; unless @@settings.include?(key.to_s)
     @@settings[key.to_s]
-  end 
-    
+  end
+
 end</pre>
 
 <p>That's it. Sure I'm leaning a little heavily on method_missing, but there's nothing stopping you from creating a more explicit interface:</p>
@@ -165,7 +165,7 @@ end</pre>
   ...
   def self.LdapUrl
     @@settings['ldap']['url']
-  end    
+  end
 end</pre>
 
 <p>And you know what? Its just as easy to test, if not more so, than the C# version. Its also completely reusable from project to project. And it uses YAML which is such a nicer configuration format (which I didn't use in .NET 'cuz I didn't want yet another serialization library referenced).</p>

@@ -2,7 +2,7 @@
 layout: viki
 category: viki
 title: "Chapter 5 - Surprisingly Reusable"
-permalink: "/scaling-viki/Chapter-5-Surprisingly-Reusable"
+permalink: "/scaling-viki/Chapter-5-Surprisingly-Reusable/"
 date: 2013-04-30 12:00:25
 tags: [ebook, design, soa]
 ---

@@ -2,7 +2,7 @@
 layout: viki
 category: viki
 title: "Chapter 7 - Conclusion"
-permalink: "/scaling-viki/Chapter-7-Conclusion"
+permalink: "/scaling-viki/Chapter-7-Conclusion/"
 date: 2013-04-30 12:00:35
 tags: [ebook, design, soa]
 ---

@@ -2,7 +2,7 @@
 layout: viki
 category: viki
 title: "Chapter 6 - Writes, Bloat and Queues"
-permalink: "/scaling-viki/Chapter-6-Writes-Bloat-and-Queues"
+permalink: "/scaling-viki/Chapter-6-Writes-Bloat-and-Queues/"
 date: 2013-04-30 12:00:30
 tags: [ebook, design, scalability, soa]
 ---

@@ -2,7 +2,7 @@
 layout: viki
 category: viki
 title: "Appendix B - I Love Premature Optimizations"
-permalink: "/scaling-viki/Appendix-B-I-Love-Premature-Optimizations"
+permalink: "/scaling-viki/Appendix-B-I-Love-Premature-Optimizations/"
 date: 2013-04-30 12:00:45
 tags: [ebook, learning, performance]
 ---

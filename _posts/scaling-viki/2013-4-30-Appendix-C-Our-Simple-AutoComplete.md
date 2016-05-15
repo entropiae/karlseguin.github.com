@@ -2,7 +2,7 @@
 layout: viki
 category: viki
 title: "Appendix C - Our Simple AutoComplete"
-permalink: "/scaling-viki/Appendix-C-Our-Simple-AutoComplete"
+permalink: "/scaling-viki/Appendix-C-Our-Simple-AutoComplete/"
 date: 2013-04-30 12:00:50
 tags: [data structures, ebook, node.js]
 ---

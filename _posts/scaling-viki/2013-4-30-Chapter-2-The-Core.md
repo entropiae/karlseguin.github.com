@@ -2,7 +2,7 @@
 layout: viki
 category: viki
 title: "Chapter 2 - The Core"
-permalink: "/scaling-viki/Chapter-2-The-Core"
+permalink: "/scaling-viki/Chapter-2-The-Core/"
 date: 2013-04-30 12:00:10
 tags: [ebook, design, redis, soa]
 ---

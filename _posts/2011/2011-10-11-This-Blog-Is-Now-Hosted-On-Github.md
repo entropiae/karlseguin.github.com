@@ -1,5 +1,5 @@
 ---
-permalink: "/2011/10/11/This-Blog-Is-Now-Hosted-On-Github"
+permalink: "/2011/10/11/This-Blog-Is-Now-Hosted-On-Github/"
 layout: post
 title: "This Blog Is Now Hosted On Github"
 tags: [writing]
