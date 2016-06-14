@@ -85,7 +85,7 @@ end
 <p>To be absolutely clear, the module is loaded once per worker process. Not once per location.</p>
 
 <h2>How Does It Compare To Go / Java / etc.</h2>
-<p>Personally, I think there's much less overlap between OpenResty and Go than most people seem to think. Part of the reason is because I'm a firm believer than dynamic languages are considerably more productive. I find this especially true for most web applications and APIs which are dealing with user input, databases and outputting html or json. There's such a high degree short-lived fluid data, that I need a compelling reason to get pay the price of using a static language. This is especially true for Go, which has a weak type system and poor reflection capabilities.</p>
+<p>Personally, I think there's much less overlap between OpenResty and Go than most people seem to think. Part of the reason is because I'm a firm believer than dynamic languages are considerably more productive. I find this especially true for most web applications and APIs which are dealing with user input, databases and outputting html or json. There's such a high degree short-lived fluid data, that I need a compelling reason to pay the price of using a static language. This is especially true for Go, which has a weak type system and poor reflection capabilities.</p>
 
 <p>Where I love Go is when I either have to do a lot of byte manipulations (such as socket programming) or when I want to share memory across multiple cores. Duplicating memory per process isn't only expensive (10GB of memory on a 24 core machine requires 240GB) but it leads to synchronization issues. For example, if I wanted to hold a large trie in memory and have it scale across as many cores as possible, I'd pick Go.</p>
 
