@@ -48,7 +48,7 @@ description: "Getting OpenResty compiled, running, setting up project structure 
 
 <p>On OSX, you'll probably need to install PCRE. The simplest approach is via <code>brew install pcre</code>.</p>
 
-<p>Finally, it doesn't appear to be a common problem, but I ran into problems building luaJIT (which ./configure does). I don't remember the exact steps I took, but it had to do with intall GCC 4.2.1 and, I think, forcing it as my compiler by exporting <code>CC</code> to point to it.</p>
+<p>Finally, it doesn't appear to be a common problem, but I ran into problems building luaJIT (which ./configure does). I don't remember the exact steps I took, but it had to do with installing GCC 4.2.1 and, I think, forcing it as my compiler by exporting <code>CC</code> to point to it.</p>
 
 <p>After you run <code>make install</code> you can go into <code>/opt/resty/</code> and find a few folders, and a bunch of files. I usually delete all the files except for <code>nginx.conf</code> and <code>mime.types</code>, but leave the folders.</p>
 
