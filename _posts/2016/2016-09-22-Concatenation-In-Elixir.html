@@ -52,9 +52,9 @@ y = [0 | x]
 
  <p>Prepending is handy, but what if you want to append? One common solution is to keep prepending and reverse (<code>Enum.reverse</code>) the final result. We still incur an O(N) traversal, but we avoid all the extra allocations + copying of appending.</p>
 
- <p>There's another, more efficient, option: an io list. An io list is just a list of nested lists. If I wanted to concatenate <code>5</code> to <code>[1, 2, 3, 4]</code>, I could either append (thus having to allocate a new line with 5 spots, and copying the values over), or I could create a new list to wrap the two values: <code>[[1, 2, 3, 4], 5]</code>. Right away we can see how more efficient this is. And, it's something we can continue to nest: <code>[[[1, 2, 3, 4], 5], 6]</code>.</p>
+ <p>There's another, more efficient, option: an io list. An io list is just a list of nested lists. If I wanted to concatenate <code>5</code> to <code>[1, 2, 3, 4]</code>, I could either append (thus having to allocate a new list with 5 spots, and copying the values over), or I could create a new list to wrap the two values: <code>[[1, 2, 3, 4], 5]</code>. We don't have to create a new list and copy over N values. Instead, we create a new line which points to our existing list and add the new value. We can also nest deeply: <code>[[[1, 2, 3, 4], 5], 6]</code>.</p>
 
- <p>Of course, we probably want to do something with this data. At the worst case, we can use <code>List.flatten</code>code> to get a "normal" list back. From a performance standpoint, this is a lot like prepending + reversing. However, it's also possible to flatten it as we're processing it, which is how a lot of functions behave. For example, the following code:</p>
+ <p>Of course, we probably want to do something with this data. At the worst case, we can use <code>List.flatten</code> to get a "normal" list back. From a performance standpoint, this is a lot like prepending + reversing. However, it's also possible to flatten it as we're processing it, which is how a lot of functions behave. For example, the following code:</p>
 
  <pre data-language=ruby>
  File.write("data", [[[1, 2, 3, 4], 5], 6])
