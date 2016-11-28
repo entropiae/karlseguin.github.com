@@ -21,7 +21,7 @@ for {
 }
 </pre>
 
-<p>It's a silly example, but the point is that a bytepool tells the garbage collector to take a hike. And when you tell the garbage collector to take a hike, you become response for the consequences. When you're dynamically creating detached buffers, the above isn't the end of the world (though the bytepool ends up just adding meaningless overhead and defeating its own purpose). If you were to attach overgrown buffers back to the pool, the above would represent a serious memory leak.</p>
+<p>It's a silly example, but the point is that a bytepool tells the garbage collector to take a hike. And when you tell the garbage collector to take a hike, you become responsible for the consequences. When you're dynamically creating detached buffers, the above isn't the end of the world (though the bytepool ends up just adding meaningless overhead and defeating its own purpose). If you were to attach overgrown buffers back to the pool, the above would represent a serious memory leak.</p>
 
 <p>The solution to this problem is to log statistics. The single most important statistic is the number of times you try to get a value from an empty pool:</p>
 
@@ -77,4 +77,3 @@ func (pool *Pool) Release(item *Item) {
 <p>Without the first one, you're playing with fire. Without the second, you're just being wasteful.</p>
 
 <p>Hopefully that sheds some light into the practicalities of using pools. Take back your heap!</p>
-
