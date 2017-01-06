@@ -41,7 +41,7 @@ end
 defmodule MyApp.Mailer do
   @mailer Application.get_env(:myapp, :mailer)
 
-  # not necessary, but it ensures that any "implementation" will satisfy the interface
+  # not required, but it ensures that any "implementation" will satisfy the interface
   @callback send(from :: String.t, recipient :: String.t, template :: String.t, params :: map) :: {:ok, String.t} | :error
 
   def send(from, recipient, template, params) do
@@ -86,7 +86,9 @@ config :manage, :mailer, MyApp.Tests.Mailer
 defmodule MyApp.Tests.Mailer do
   @behaviour MyApp.Mailer
 
-  def send(from, recipient, template, params), do: send(self(), {:email, from, recipient, template, params})
+  def send(from, recipient, template, params) do
+    send(self(), {:email, from, recipient, template, params})
+  end
 end
 </pre>
 
