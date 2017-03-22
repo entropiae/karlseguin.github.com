@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<title>{{ page.title }}</title>
+<meta charset="utf-8">
+<meta name=viewport content="width=device-width,initial-scale=1">
+{% if page.description %}<meta name="description" content="{{page.description}}" />{% else %}<meta name="description" content="Karl Seguin's Blog - A mix of coding and creative writing" />{% endif %}
+<style>
+body{background:#fff;font-family:verdana;max-width:700px;margin:25px auto;}
+pre{padding:5px;color:#000;position:relative;left:calc((100vw - 700px) / 2 * -1);padding-left:calc((100vw - 700px) / 2);width:calc(100vw - (100vw - 690px)/2);border: 0 solid #f0f0f0; border-width: 1px 0}
+pre, code{font-family:menlo,"Lucida Console",monospace;background:#fafafa;}
+code{padding:2px;border:1px solid #f0f0f0}
+pre > code{padding:0; border:none;background:#fafafa !important}
+pre .comment{color:#7e7e7e;font-style:italic}pre .constant,pre .integer{color:#18838a;font-weight:bold}pre .storage{color:#0000a1}pre .string{color:#8e0022}pre .keyword,pre .selector{color:#0000a1;font-weight:bold}pre .parent{font-style:italic}pre .entity,pre .meta{color:#3e853f}pre .support{color:#192140}pre .variable.global,pre .variable.class,pre .variable.instance{color:#3e853f}
+p, pre, li{line-height:170%;}
+p, pre, ul {margin-bottom:20px;}
+ul{margin-left:20px}
+#home{background:#444;color:#fff;padding:6px 10px;text-decoration:none;position:absolute;top:0;left:0;}
+h1{margin:0}
+#byline{color:#666;margin-bottom:20px;padding:5px 0 10px;margin:0}
+#comments{margin-top:40px;}
+@media screen and (max-width: 700px) {
+  pre{left:auto;padding-left:5px;width:100%}
+  #a p{padding:0 5px}
+}
+</style>
+<link href="/atom.xml" rel="alternate" type="application/atom+xml">
+
+<a href=/ id=home>home</a>
+<h1>{{ page.title  | xml_escape }}</h1>
+<div id=byline>{{ page.date | date_to_string }}</div>
+<div id="a">{{ content }}</div>
+<div id="comments" class="section">
+  <div id="disqus_thread"></div>
+  <a href="http://disqus.com" class="dsq-brlink attribution">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+<link rel="stylesheet" href="/assets/highlight.css">
+<script src="/assets/highlight.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+/*! highlight.js v9.10.0 | BSD3 License | git.io/hljslicense */
+setTimeout(function() {
+  {% if page.disqus_id %}var disqus_identifier = {{ page.disqus_id }};{% else %}var disqus_identifier = '{{ page.url }}';{% endif %}
+  (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = 'http://karlseguin.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+}, 100);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=karlseguin">comments powered by Disqus.</a></noscript>
