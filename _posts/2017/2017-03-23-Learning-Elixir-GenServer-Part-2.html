@@ -23,7 +23,7 @@ tags: [concurrency, elixir]
 
   defp schedule_refresh() do
     # 60 seconds
-    Process.send_after(self(), :refresh, 1000 * 60) 
+    Process.send_after(self(), :refresh, 1000 * 60)
   end
 
   defp load() do
@@ -37,7 +37,7 @@ end
 <p>Much like we used <code>hande_call</code> to respond to <code>GenServer.call</code> requests, we use <code>handle_info</code> to handle messages sent in the above fasion:</p>
 
 <pre><code>def handle_info(:refresh, _currnet_state) do
-  schedule_refresh() 
+  schedule_refresh()
   new_state = load()
   {:noreply, new_state}
 end
@@ -50,7 +50,7 @@ end
 <p>What if we spawned a process specifically to load the new state? That would get us half way there, but that process wouldn't be able to update our GenServer's state (nothing can touch the data, for reading or writing, except the GenServer process itself). But is that really a problem? We've already seen that we can easily communicate with a GenServer. So, consider:</p>
 
 <pre><code>def handle_info(:refresh, state) do
-  schedule_refresh() 
+  schedule_refresh()
   spawn fn -> GenServer.cast(@name, {:refreshed, load()}) end
   # doesn't wait for the above to finish
   # so doesn't block the GenServer process from servicing other requests
@@ -74,4 +74,3 @@ end
 <p>Recapping, there are 4 functions that run in a GenServer process: <code>init</code>, <code>handle_call</code>, <code>handle_cast</code> and <code>handle_info</code>. <code>init</code> is the only that's required (to set the initial state), but you'll have at least one of the other ones (else, your GenServer can do nothing) and will often have a mix of them (we're using all three here). You'll also often have multiple version of the <code>handle_*</code> functions (pattern matching the first argument).</p>
 
 <p>And that's how GenServer's are used and a bit of how they work. At the risk of sounding like a broken record, I think there are two important things to understand. First, at first glance, it can seem more daunting than it is. Second, the strict ownership of data by the GenServer process is different than many other concurrent programming paradigms. It's easier to reason about, and thus harder to screw up, because there are no moving parts (more accurately, moving data) and never any shared access.</p>
-
