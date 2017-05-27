@@ -16,7 +16,6 @@ ul{margin-left:20px}
 #home{background:#444;color:#fff;padding:6px 10px;text-decoration:none;position:absolute;top:0;left:0;}
 h1{margin:0}
 #byline{color:#666;margin-bottom:20px;padding:5px 0 10px;margin:0}
-#comments{margin-top:40px;}
 @media screen and (max-width: 700px) {
   pre{left:auto;padding-left:5px;width:100%}
   #a p{padding:0 5px}
@@ -28,22 +27,8 @@ h1{margin:0}
 <h1>{{ page.title  | xml_escape }}</h1>
 <div id=byline>{{ page.date | date_to_string }}</div>
 <div id="a">{{ content }}</div>
-<div id="comments" class="section">
-  <div id="disqus_thread"></div>
-  <a href="http://disqus.com" class="dsq-brlink attribution">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-</div>
 <link rel="stylesheet" href="/assets/highlight.css">
 <script src="/assets/highlight.js"></script>
 <script>
 hljs.initHighlightingOnLoad();
-/*! highlight.js v9.10.0 | BSD3 License | git.io/hljslicense */
-setTimeout(function() {
-  {% if page.disqus_id %}var disqus_identifier = {{ page.disqus_id }};{% else %}var disqus_identifier = '{{ page.url }}';{% endif %}
-  (function() {
-   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-   dsq.src = 'http://karlseguin.disqus.com/embed.js';
-   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
-}, 100);
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=karlseguin">comments powered by Disqus.</a></noscript>
