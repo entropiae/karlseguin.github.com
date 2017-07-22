@@ -1,4 +1,3 @@
-
 ---
 layout: post2
 title: "Learning Elixir's ETS - Part 1"
@@ -35,8 +34,8 @@ out => [{2, "paul", 28.1, 44.4}]</code></pre>
     {:ok, pid}
   end
 
-  # It's important that we do this in a GenServer.call, 
-  # since start_link executes under the calling processes, 
+  # It's important that we do this in a GenServer.call,
+  # since start_link executes under the calling processes,
   # not the GenServer process.
   def handle_call(:create_tables, _from, _) do
     :ets.new(:players, [:set, :public, :named_table])
@@ -49,13 +48,13 @@ end</code></pre>
 
 <p>The last option that we passed was <code>set</code>. Other options include <code>sorted_set</code>, <code>bag</code> and <code>duplicate_bag</code>. To understand the difference between these, first know that ETS deals with tuples. By default, the first element of our tuple is the key. This can be changed by passing <code>keypos: index</code> as another option to <code>:ets.new</code>. A <code>set</code> only allows one value with a given key. An <code>ordered_set</code> has the same restriction, but also keeps all your data in order. The order is done by comparing the entire tuple. Therefore, if the key is the first value, and since this is a set and the key must be unique, it would order by the key.</p>
 
-<p>A <code>bag</code> allows multiple values for a given key, as long as those values are unique. If we had a table that gave us the family members of a person, we could use a bag:</p> 
+<p>A <code>bag</code> allows multiple values for a given key, as long as those values are unique. If we had a table that gave us the family members of a person, we could use a bag:</p>
 
 <pre><code>:ets.new(:family, [:bag, :public, :named_table])
 :ets.insert(:family, {"leto", "ghanima"})
 :ets.insert(:family, {"leto", "paul"})
 :ets.insert(:family, {"leto", "chani"})
-:ets.lookup(:family, "leto")  
+:ets.lookup(:family, "leto")
 out => [{"leto", "ghanima"}, {"leto", "paul"}, {"leto", "chani"}]</code></pre>
 
 <p>Inserting <code>{"leto", "chani"}</code> again would not cause a duplicate entry. That is, unless we use the last type: <code>duplicate_bag</code>. It's worth noting that insert into a <code>duplicate_code</code> bag is faster than inserting into a <code>bag</code> so, if your application already makes it impossible to get duplicates, you might want to use a <code>duplicate_bag</code>.</p>
@@ -105,10 +104,10 @@ out => [[32.4, "leto"]]</code></pre>
 
 <p>Beyond <code>match</code> there are a number of <code>select</code> function which accepts an even more powerful structure (called a MatchSpec) to query the table. We can use the <code>:ets.fun2ms</code> to convert an elixir function into a match spec. It's really cool. Look:</p>
 
-<pre><code>ms = :ets.fun2ms fn {_, name, x, y} when name == "leto" -> {x, y} end 
+<pre><code>ms = :ets.fun2ms fn {_, name, x, y} when name == "leto" -> {x, y} end
 {% raw %}out => [{{:_, :"$1", :"$2", :"$3"}, [{:==, :"$1", "leto"}], [{{:"$2", :"$3"}}]}]{% endraw %}
 
-ets.select(:players, ms)                                             
+ets.select(:players, ms)
 out => [{32.4, 29.5}]</code></pre>
 
 <p>The above is the same as matching on <code>{:_, "leto", "$1", $2}</code>, but hopefully you can see how much more powerful a MatchSpec is. Of course, this is also going to be a linear scan through the table.</p>
