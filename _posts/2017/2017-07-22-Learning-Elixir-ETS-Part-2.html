@@ -14,11 +14,11 @@ tags: [concurrency, elixir]
 
 <p>The documentation isn't specific about what these do, aside from improving write and read concurrency respectively.</p>
 
-<p>It took a while to figure out, but the <code>write_concurrency</code> flag enables buckecting. This means that rather than having a single read-write lock covering the entire table, the table is broken up into 16 (from what I can tell) sub-tables, each with its own lock. Therefore, assuming random distribution (based on a hash of the keys), should allow for up to 16 concurrent ETS operations.</p>
+<p>It took a while to figure out, but the <code>write_concurrency</code> flag enables bucketing. This means that rather than having a single read-write lock covering the entire table, the table is broken up into 16 (from what I can tell) sub-tables, each with its own lock. Therefore, assuming good distribution of values (based on a hash of the item key), it should allow for up to 16 concurrent ETS operations.</p>
 
 <p>The <code>read_concurrency</code> flag switches the type of lock from a write-preferring to a read-preferring mutex. That is to say that reads are prioritized over writes.</p>
 
-<p>Enabling both flags means means that 16 read-preferring mutexes are used.</p>
+<p>Enabling both flags means that 16 read-preferring mutexes are used.</p>
 
 <p>I'm not going to show any benchmarks because it's going to be very workload dependent, but, it feels like for most cases, you'll want both on. (They both default to off/false, which I can only see making sense if you have an absurd number of reads vs writes such as static configuration).</p>
 
@@ -28,4 +28,4 @@ tags: [concurrency, elixir]
 
 <p>involves copying the value from the ETS process into the calling process. For this reason, there will be cases where using a GenServer might be faster. Specifically, if the data owned by the GenServer will only be used by said process (and not fetched and thus copied to another process). You'll have to pick between the cost of copying vs the bottleneck of having a single process use the data.</p>
 
-<p>All of this is getting pretty advanced. And, we haven't even mentioned that some data <em>can</em> be shared between processes without a copy (I know of binaries larger than 64K and constants). Therefore, my advice from part 1 hasn't changed: use processes (GenServer, Agent, ...) unless you know they aren't the right solution. But do explore and play with ETS because they're pretty convenient!</p>
+<p>All of this is getting pretty advanced. And, we haven't even mentioned that some data <em>can</em> be shared between processes without a copy (I know of binaries larger than 64K and constants). Therefore, my advice from part 1 hasn't changed: use processes (GenServer, Agent, ...) unless you know they aren't the right solution. But do explore and play with ETS because it's pretty convenient!</p>
