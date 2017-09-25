@@ -110,8 +110,7 @@ end</code></pre>
   end
 end</code></pre>
 
-
-<p>Both of these new processes need to be started when our tests our run. We can do this by changing <code>test_helper.exs</code>:</p>
+<p>We need to start both of these before our tests starts. We can do this by changing <code>test_helper.exs</code>:</p>
 
 <pre><code class=elixir>{:ok, _pid} = MyApp.Tests.Forwarder.start_link()
 {:ok, _pid} = MyApp.Tests.Fake.Log.start_link()
@@ -127,9 +126,9 @@ ExUnit.start()</code></pre>
   # this to the configurations, be my guest).
 
   if Mix.env == :test do
-    @name  MyApp.Tests.Fake.Log
+    @name MyApp.Tests.Fake.Log
   else
-    @name  MyApp.Log
+    @name MyApp.Log
   end
   
   def start_link() do
@@ -146,7 +145,7 @@ ExUnit.start()</code></pre>
   end
 end</code></pre>
 
-<p>To recap. The first part, which we looked at last, is making our real implementation cast to a different process when running our tests. The test implementation uses the Forwarder to send a message to our test.</p>
+<p>To recap. Our approach relies on switching the process we cast to while testing. The fake implementation uses <code>send(pid, msg)</code> to send messages to our test. This is achieved by going through a Forwarder which is told the pid of the current running test.</p>
 
 <p>All of this is similar to <a href="/Dependency-Injection-In-Elixir/">how we can do dependency injection in Elixir</a>, but with less ceremony and some reusable pieces that can be used by any GenServer.</p>
 
