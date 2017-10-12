@@ -27,13 +27,13 @@ end
   end
 
   defp parse_dob(user, nil), do: {:error, "dob is required"}
-  defp parse_dob(user, dob) when is_integer(dob), do: %{q | dob: dob}
+  defp parse_dob(user, dob) when is_integer(dob), do: %{user | dob: dob}
   defp parse_dob(_user, _invalid), do: {:error "dob must be an integer"}
 
   defp parse_name(_user, {:error, _} = err), do: err
   defp parse_name(user, nil), do: {:error, "name is required"}
   defp parse_name(user, ""), do: parse_name(user, nil)
-  defp parse_name(user, name), do: %{q | name: name}
+  defp parse_name(user, name), do: %{user | name: name}
 </code></pre>
 
 <p>The problem with this approach is that every function in the chain needs to handle the case where any function before it returned an error. It's clumsy, both because it isn't pretty and because it isn't flexible. Any new return type that we introduced has to be handled by all functions in the chain.</p>
@@ -54,11 +54,11 @@ end
   end
 
   defp parse_dob(nil), do: {:error, "dob is required"}
-  defp parse_dob(dob) when is_integer(dob), do: {:ok, %{q | dob: dob}}
+  defp parse_dob(dob) when is_integer(dob), do: {:ok, dob}
   defp parse_dob(_invalid), do: {:error "dob must be an integer"}
 
   defp parse_name(nil), do: {:error, "name is required"}
-  defp parse_name(""), do: parse_name(user, nil)
+  defp parse_name(""), do: parse_name(nil)
   defp parse_name(name), do: {:ok, name}
 </code></pre>
 
