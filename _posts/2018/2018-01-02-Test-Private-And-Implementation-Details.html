@@ -30,7 +30,7 @@ tags: [testing]
 <pre><code class=elixir>test "gets a user by id" do
   Factory.insert(:user, id: 39, name: "Goku", power: 9001)
   actual = User.by_id(39)
-  assert actual == %User{id: 32, name: "Goku", power: 9001}
+  assert actual == %User{id: 39, name: "Goku", power: 9001}
 
   Factory.truncate(:user) # delete from source so we know the next call comes from the cache
   assert User.by_id(39) == actual
